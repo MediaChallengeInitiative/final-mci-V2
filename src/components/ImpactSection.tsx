@@ -69,7 +69,7 @@ const ImpactCard: React.FC<ImpactCardProps> = ({
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5, delay }}
     viewport={{ once: true }}
-    className={`relative group p-6 bg-white rounded-xl border-2 border-transparent hover:border-sky-500 transition-all duration-500 overflow-hidden ${
+    className={`relative group p-6 bg-transparent rounded-xl hover:border-2 shadow-lg hover:border-sky-500 transition-all duration-3000 overflow-hidden ${
       expanded ? "md:col-span-2" : ""
     }`}
   >
@@ -105,7 +105,7 @@ const ImpactCard: React.FC<ImpactCardProps> = ({
 
 export const ImpactSection: React.FC = () => {
   return (
-    <section className="relative bg-gradient-to-br from-sky-50 to-orange-50 py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative bg-white py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="relative max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}

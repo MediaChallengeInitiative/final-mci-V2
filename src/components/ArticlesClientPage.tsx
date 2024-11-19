@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -47,7 +47,10 @@ const ArticleCard = ({
               {month}
             </span>
           </div>
-          <div className="h-8 w-8 rounded-full bg-sky-100 group-hover:bg-sky-600 transition-colors duration-300 flex items-center justify-center">
+          <Link
+            href={`/articles/${article.slug}`}
+            className="h-8 w-8 rounded-full bg-sky-100 group-hover:bg-sky-600 transition-colors duration-300 flex items-center justify-center"
+          >
             <svg
               className="w-4 h-4 text-sky-600 group-hover:text-white transition-colors duration-300"
               fill="none"
@@ -61,14 +64,17 @@ const ArticleCard = ({
                 d="M9 5l7 7-7 7"
               />
             </svg>
-          </div>
+          </Link>
         </div>
 
-        <h3 className="text-xl font-semibold mb-3 text-gray-800 group-hover:text-sky-600 transition-colors duration-300 line-clamp-2">
+        <Link
+          href={`/articles/${article.slug}`}
+          className="text-xl font-semibold mb-3 text-gray-800 group-hover:text-sky-600 transition-colors duration-300 line-clamp-2"
+        >
           {article.title}
-        </h3>
+        </Link>
 
-        <Link href={`/articles/${article.slug}`} passHref>
+        <Link href={`/articles/${article.slug}`}>
           <span className="inline-flex items-center text-sm font-medium text-sky-600 group-hover:text-sky-700 transition-colors duration-300">
             Read Article
             <svg

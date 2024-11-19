@@ -4,6 +4,7 @@ type Reference<T> = {
 };
 
 type Slug = {
+  current: any;
   currentSlug: string;
 };
 
@@ -153,4 +154,117 @@ export interface ArticleData {
   publishedAt: string | Date;
   link: string;
   description?: any;
+}
+
+export interface ComingSoonItem {
+  title: string;
+  businessCase?: string;
+  solution?: string;
+}
+
+export interface Solution {
+  _id?: string;
+  _type: "solution";
+  title: string;
+  slug: Slug;
+  leadingAssumption?: string;
+  challengeStatement: any[]; // Array of blocks for rich text
+  solution: any[]; // Array of blocks for explaining the solution
+  description: any[]; // Array of blocks for the solution description
+  callToAction: any[]; // Array of blocks for the call to action
+  icon?: Image; // Optional image for the solution icon
+  coverImage?: Image; // Optional image for the solution icon
+  order?: number; // Optional order for display
+  comingSoon?: ComingSoonItem[]; // Array of coming soon items
+}
+
+export interface Program {
+  _id?: string;
+  _type: "program";
+  name: string;
+  slug: Slug;
+  description: any[]; // Array of blocks for rich text, Sanity uses `block` type for descriptions
+  programType: "fellowship" | "training" | "innovation"; // Enum for program types
+  status: "active" | "upcoming" | "completed"; // Enum for the status
+  coverImage: Image; // The main cover image for the program
+  solution?: Reference<Solution>; // Optional reference to the related solution
+  gallery: Image[]; // Array of images for the gallery
+}
+
+export interface Fellowship {
+  _id?: string;
+  _type: "fellowship";
+  name: string;
+  program: Reference<Program>; // Reference to the Program schema
+  durationMonths: number;
+  batchNumber: number;
+  startDate: string; // Stored as a string in the format 'YYYY-MM-DD'
+  endDate: string; // Stored as a string in the format 'YYYY-MM-DD'
+  fellowshipType: "media" | "communications"; // Enums for fellowship type
+}
+
+export interface Fellow {
+  _id?: string;
+  _type: "fellow";
+  firstName: string;
+  lastName: string;
+  email: string;
+  fellowship: Reference<Fellowship>; // Reference to another document (Fellowship)
+  batchYear?: number;
+  currentStatus?: "active" | "graduated" | "placed";
+  skills?: string[];
+  profileImage?: Image;
+}
+
+export interface Story {
+  _id: string;
+  _type: "story";
+  title: string;
+  slug: {
+    current: string;
+  };
+  content: Array<{
+    _type: "block" | "image";
+    children?: Array<{ _type: "span"; text: string }>;
+  }>;
+  author: {
+    _ref: string;
+    _type: "reference";
+  };
+  storyType: "solution" | "narrative-change" | "development";
+  publishedAt: string; // ISO date string
+  tags: string[];
+  problemStatement: string;
+  solutionApproach: string;
+  impact: string;
+}
+
+export interface Impact {
+  _id: string;
+  _type: "impact";
+  solution: {
+    _ref: string;
+    _type: "reference";
+  };
+  metricName: string;
+  value: number;
+  measurementDate: string; // ISO date string
+  measurementMethod: string;
+  description: Array<{
+    _type: "block";
+    children: Array<{ _type: "span"; text: string }>;
+  }>;
+}
+
+export interface FellowProfile {
+  _type: "fellowProfile";
+  _id?: string;
+  firstName: string;
+  lastName: string;
+  email?: string;
+  fellowship?: Reference<Fellowship>;
+  batchYear?: number;
+  currentStatus: "active" | "graduated" | "placed";
+  skills?: string[];
+  profileImage?: Image;
 }

@@ -13,6 +13,13 @@ import founder from './founder'
 import article from './article'
 import whereAlumniWorkLogos from './whereAlumniWorkLogos'
 import alumniProfile from './alumniProfile'
+import program from './program'
+import {solution, comingSoonItem} from './solution'
+import fellowship from './fellowship'
+import fellowProfile from './fellowProfile'
+import story from './story'
+import impact from './impact'
+import mediaVan from './mediaVan'
 
 export const schemaTypes = [
   post,
@@ -30,4 +37,12 @@ export const schemaTypes = [
   partner,
   whereAlumniWorkLogos,
   thematicAreas,
+  program,
+  solution,
+  fellowship,
+  fellowProfile,
+  story,
+  comingSoonItem,
+  impact,
+  mediaVan,
 ]

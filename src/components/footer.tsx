@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="max-w-[1570px] mx-auto px-3">
           <div className="border-t border-[#f6931d] border-opacity-10">
             <div className="flex md:justify-between flex-wrap text-dark-5 lg:text-base text-sm gap-2 py-6 text-center lg:text-start justify-center">
-              <p className="order-2 lg:order-1">
+              <p className="order-2 lg:order-1 text-white">
                 © 2023, All Right Reserved - MCI IT Department.
               </p>
               <div className="flex flex-wrap items-center order-1 lg:order-2">

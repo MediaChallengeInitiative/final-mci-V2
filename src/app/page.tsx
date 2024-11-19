@@ -19,6 +19,7 @@ import MCIAlumniSpotlight from "@/components/MCIAlumniSpotlight";
 import { getAlumniData } from "@/utils/get-all-alumni";
 import { ImpactSection } from "@/components/ImpactSection";
 import TimelineSection from "@/components/EvolutionTimeline";
+import DonateComponent from "@/components/Donate/DonateComponent";
 
 export default async function Home() {
   const alumniLogos = await getAllAlumniWorkLogos();
@@ -36,6 +37,7 @@ export default async function Home() {
         <PartnerLogos logos={alumniLogos} />
         <MediaCrisisComponent />
         <OurModel />
+        <DonateComponent />
         <FeaturedInVideo />
         <div className="w-full">
           <Image

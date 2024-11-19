@@ -68,14 +68,14 @@ export const Header: React.FC = () => {
         className={`fixed top-0 -mt-3 left-0 right-0 z-50 transition-all duration-500
                    ${
                      isScrolled
-                       ? "bg-white text-gray-900 dark:bg-gray-900/90 backdrop-blur-md shadow-lg"
-                       : "bg-gray-900 text-white"
+                       ? "bg-slate-950/90 backdrop-blur-md shadow-lg border-b border-sky-500/10"
+                       : "bg-gray-900"
                    }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo - Left */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 -mt-2">
               <Link href="/" className="relative flex items-center">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
@@ -94,7 +94,7 @@ export const Header: React.FC = () => {
             </div>
 
             {/* Navigation Links - Center */}
-            <div className="hidden lg:flex flex-1 justify-center items-center space-x-1">
+            <div className="hidden sm:flex flex-1 -mt-3 justify-center items-center space-x-1">
               {navItems.map((item) => (
                 <div
                   key={item.path}
@@ -108,8 +108,8 @@ export const Header: React.FC = () => {
                               rounded-lg transition-all duration-300 ease-in-out
                               ${
                                 pathname === item.path
-                                  ? "text-sky-400 bg-sky-900/20"
-                                  : "hover:text-sky-400 hover:bg-gray-800/50"
+                                  ? "text-white hover:text-sky-400"
+                                  : "text-[#f6931d] hover:text-sky-400"
                               }`}
                   >
                     <span className="relative">
@@ -136,46 +136,78 @@ export const Header: React.FC = () => {
               ))}
             </div>
 
-            {/* Social Icons - Right */}
-            <div className="hidden lg:flex items-center space-x-6">
-              {socialLinks.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <motion.a
-                    key={social.label}
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.9 }}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`hover:text-sky-400 transition-colors duration-all ${
-                      isScrolled
-                        ? "bg-white text-gray-900 dark:bg-gray-900/90"
-                        : "bg-gray-900 text-white"
-                    }`}
-                  >
-                    <Icon className="w-5 h-5" />
-                  </motion.a>
-                );
-              })}
+            {/* Right Section: Social Icons + Donate Button */}
+            <div className="hidden sm:flex -mt-3 items-center space-x-6">
+              {/* Social Icons */}
+              <div className="flex items-center space-x-4 mr-4">
+                {socialLinks.map((social) => {
+                  const Icon = social.icon;
+                  return (
+                    <motion.a
+                      key={social.label}
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.9 }}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`hover:text-sky-400 transition-colors duration-300 ${
+                        isScrolled ? "text-[#f6931d]" : "text-[#f6931d]"
+                      }`}
+                    >
+                      <Icon className="w-5 h-5" />
+                    </motion.a>
+                  );
+                })}
+              </div>
+
+              {/* Desktop Donate Button */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`block mt-3 px-6 py-2.5 rounded-xl font-medium text-sm
+                         text-[#f6931d] 
+                         bg-transparent border border-[#f6931d] shadow-lg shadow-sky-500/25 
+                         hover:shadow-orange-500/25 transition-all duration-300
+                         `}
+              >
+                Donate Now
+              </motion.button>
             </div>
 
-            {/* Mobile Menu Button */}
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setIsMenuOpen(true)}
-              className={`lg:hidden p-2 rounded-lg
-                       transition-all duration-300 ${
-                         isScrolled
-                           ? "bg-white text-gray-900 dark:bg-gray-900/90"
-                           : "bg-gray-900 text-white"
-                       }`}
-              aria-label="Open menu"
-            >
-              <RiMenu4Fill className="w-6 h-6" />
-            </motion.button>
+            {/* Mobile Right Section */}
+            <div className="lg:hidden flex items-center space-x-3">
+              {/* Mobile Donate Button */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`px-4 py-2 rounded-lg text-sm font-medium
+                         bg-gradient-to-r from-sky-500 to-orange-500 
+                         text-white transition-all duration-300`}
+              >
+                Donate
+              </motion.button>
+
+              {/* Mobile Menu Button */}
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setIsMenuOpen(true)}
+                className={`p-2 rounded-lg transition-all duration-300 
+                         ${isScrolled ? "bg-white/10" : "bg-gray-800"}`}
+                aria-label="Open menu"
+              >
+                <RiMenu4Fill className="w-6 h-6 text-white" />
+              </motion.button>
+            </div>
           </div>
         </div>
+
+        {/* Scroll Progress Indicator */}
+        <motion.div
+          className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-sky-500 to-orange-500"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: isScrolled ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+        />
       </motion.nav>
 
       {/* Mobile Menu */}
@@ -194,7 +226,7 @@ export const Header: React.FC = () => {
               exit={{ x: "100%" }}
               transition={{ duration: 0.3, ease: "easeOut" }}
               className="absolute right-0 top-0 bottom-0 w-full max-w-sm 
-                       bg-gradient-to-br from-sky-600 to-sky-700 dark:from-gray-800 dark:to-gray-900"
+                     bg-gradient-to-br from-slate-900 to-sky-900"
             >
               <div className="flex items-center justify-end p-4">
                 <motion.button
@@ -247,6 +279,19 @@ export const Header: React.FC = () => {
                     </motion.a>
                   );
                 })}
+              </div>
+              {/* Donate Button  */}
+              <div className="px-6 pb-6 pt-2">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full py-3 rounded-xl font-medium text-white
+                           bg-gradient-to-r from-sky-500 to-orange-500 
+                           shadow-lg shadow-sky-500/25 hover:shadow-orange-500/25 
+                           transition-all duration-300"
+                >
+                  Donate Now
+                </motion.button>
               </div>
             </motion.div>
           </motion.div>

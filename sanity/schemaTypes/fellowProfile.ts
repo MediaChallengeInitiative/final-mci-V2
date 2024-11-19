@@ -1,7 +1,7 @@
 import {defineField, defineType} from 'sanity'
 
 export default defineType({
-  name: 'fellow',
+  name: 'fellowProfile', // Changed from 'fellow' to 'fellowProfile'
   title: 'Fellows',
   type: 'document',
   fields: [

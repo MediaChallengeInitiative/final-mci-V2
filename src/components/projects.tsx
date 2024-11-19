@@ -47,7 +47,7 @@ export default function Projects() {
           >
             {textSlides.map((slide, index) => (
               <SwiperSlide key={index} className="flex items-center justify-center">
-              <div className="text-center px-4">
+              <div className="flex items-center justify-center text-center px-4 bg-transparent h-full">
                 <p
                   className={cn(
                     "text-white font-bold text-4xl md:text-6xl lg:text-6xl",

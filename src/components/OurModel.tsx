@@ -80,7 +80,7 @@ const ModelCard: React.FC<ModelProps & { index: number }> = ({
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       viewport={{ once: true }}
-      className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-500"
+      className="group relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500"
     >
       <div
         className={`absolute inset-0 bg-gradient-to-br ${bgColor} opacity-90 group-hover:opacity-95 transition-opacity duration-500`}
@@ -128,13 +128,11 @@ const SectionTitle: React.FC<{ title: string; subtitle: string }> = ({
     className="text-center mb-16"
   >
     <h2 className="text-4xl md:text-5xl font-bold mb-4">
-      <span className="text-sky-500">
-        {title}
-      </span>
+      <span className="text-sky-500">{title}</span>
     </h2>
-    <p className="text-lg text-gray-600 mt-4">{subtitle}</p>
+    <p className="text-lg text-gray-400 mt-4">{subtitle}</p>
     <motion.div
-      className="h-1 w-32 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mt-6 rounded-full"
+      className="h-1 w-32 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mt-6"
       initial={{ scaleX: 0 }}
       whileInView={{ scaleX: 1 }}
       transition={{ duration: 0.5, delay: 0.2 }}
@@ -144,43 +142,18 @@ const SectionTitle: React.FC<{ title: string; subtitle: string }> = ({
 
 const OurModel: React.FC = () => {
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-gray-50 to-white py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <svg className="absolute w-full h-full opacity-5">
-          <pattern
-            id="grid"
-            x="0"
-            y="0"
-            width="40"
-            height="40"
-            patternUnits="userSpaceOnUse"
-          >
-            <path d="M0 20h40M20 0v40" stroke="currentColor" strokeWidth="1" />
-          </pattern>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
-      </div>
-
-      <div className="relative max-w-7xl mx-auto z-10 space-y-24">
-        {/* Model Section */}
-        <div>
-          <SectionTitle
-            title="Our 6.S Model"
-            subtitle="A holistic approach addressing systemic media crises"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {modelsData.map((model, index) => (
-              <ModelCard key={index} {...model} index={index} />
-            ))}
-          </div>
+    <section className="relative bg-gray-900 pt-20 overflow-hidden">
+      <div className="w-full z-10">
+        <SectionTitle
+          title="Our 6.S Model"
+          subtitle="A holistic approach addressing systemic media crises"
+        />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {modelsData.map((model, index) => (
+            <ModelCard key={index} {...model} index={index} />
+          ))}
         </div>
       </div>
-
-      {/* Decorative elements */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-sky-500/5 to-orange-600/5 rounded-full blur-3xl -z-10" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-br from-orange-600/5 to-sky-500/5 rounded-full blur-3xl -z-10" />
     </section>
   );
 };

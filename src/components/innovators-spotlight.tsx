@@ -138,7 +138,7 @@ const InnovatorsSpotlight: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Innovators Spotlight
             <motion.div
-              className="h-1 w-32 bg-gradient-to-r from-orange-500 to-orange-400 mx-auto mt-6 rounded-full"
+              className="h-1 w-32 bg-gradient-to-r from-[#f6931d] to-orange-400 mx-auto mt-6 rounded-full"
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -396,7 +396,7 @@ export default InnovatorsSpotlight;
 //                   <div className="lg:flex hidden items-center justify-center">
 //                     <Link
 //                       href="#"
-//                       className="inline-flex items-center text-white hover:text-white border border-white hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2 dark:border-orange-500 dark:text-orange-500 dark:hover:text-white dark:hover:bg-orange-500 dark:focus:ring-white"
+//                       className="inline-flex items-center text-white hover:text-white border border-white hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2 dark:border-[#f6931d] dark:text-[#f6931d] dark:hover:text-white dark:hover:bg-[#f6931d] dark:focus:ring-white"
 //                     >
 //                       Watch Video
 //                       <IoPlayCircleOutline className="px-2 text-xl w-4 h-4" />
@@ -414,7 +414,7 @@ export default InnovatorsSpotlight;
 //                 <div className="flex lg:hidden items-center justify-center">
 //                   <Link
 //                     href="#"
-//                     className="inline-flex items-center text-white hover:text-white border border-white hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2 dark:border-orange-500 dark:text-orange-500 dark:hover:text-white dark:hover:bg-orange-500 dark:focus:ring-orange-800"
+//                     className="inline-flex items-center text-white hover:text-white border border-white hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2 dark:border-[#f6931d] dark:text-[#f6931d] dark:hover:text-white dark:hover:bg-[#f6931d] dark:focus:ring-orange-800"
 //                   >
 //                     Watch Video
 //                     <IoPlayCircleOutline className="px-2 text-xl w-4 h-4" />
@@ -461,7 +461,7 @@ export default InnovatorsSpotlight;
 //                   <div className="lg:flex hidden items-center justify-center">
 //                     <Link
 //                       href="#"
-//                       className="inline-flex items-center text-white hover:text-white border border-white hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2 dark:border-orange-500 dark:text-orange-500 dark:hover:text-white dark:hover:bg-orange-500 dark:focus:ring-white"
+//                       className="inline-flex items-center text-white hover:text-white border border-white hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2 dark:border-[#f6931d] dark:text-[#f6931d] dark:hover:text-white dark:hover:bg-[#f6931d] dark:focus:ring-white"
 //                     >
 //                       Watch Video
 //                       <IoPlayCircleOutline className="px-2 text-xl w-4 h-4" />
@@ -479,7 +479,7 @@ export default InnovatorsSpotlight;
 //                 <div className="flex lg:hidden items-center justify-center">
 //                   <Link
 //                     href="#"
-//                     className="inline-flex items-center text-white hover:text-white border border-white hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2 dark:border-orange-500 dark:text-orange-500 dark:hover:text-white dark:hover:bg-orange-500 dark:focus:ring-orange-800"
+//                     className="inline-flex items-center text-white hover:text-white border border-white hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center me-2 mb-2 dark:border-[#f6931d] dark:text-[#f6931d] dark:hover:text-white dark:hover:bg-[#f6931d] dark:focus:ring-orange-800"
 //                   >
 //                     Watch Video
 //                     <IoPlayCircleOutline className="px-2 text-xl w-4 h-4" />

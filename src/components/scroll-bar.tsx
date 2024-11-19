@@ -13,20 +13,16 @@ interface NewsItem {
 
 const newsItems: NewsItem[] = [
   {
-    text: "At Media Challenge Initiative",
+    text: "BUILDING THE NEXT GENERATION OF JOURNALISTS,",
     category: "SPOTLIGHT"
   },
   {
-    text: "We believe that journalism can make the world a better place",
+    text: "CONTENT CREATORS,",
     category: "MISSION"
   },
   {
-    text: "A humane media that shapes the future",
+    text: "AND STORY LEADERS TO FIX THE MULTI-LAYERED MEDIA CRISIS IN AFRICA.",
     category: "VISION"
-  },
-  {
-    text: "Transforming societies through advancing journalism and amplifying innovations",
-    category: "IMPACT"
   }
 ];
 
@@ -53,7 +49,7 @@ const ScrollBanner = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative py-2 px-1 bg-gradient-to-r from-orange-500 to-orange-600 lg:w-[280px] xl:w-[320px] flex items-center justify-start lg:justify-start"
+          className="relative py-2 px-1 bg-gradient-to-r from-[#f6931d] to-orange-600 lg:w-[280px] xl:w-[320px] flex items-center justify-start lg:justify-start"
         >
           <h2 className="text-2md lg:text-lg font-bold text-white uppercase tracking-wider whitespace-nowrap">
             We Do This Through
@@ -70,7 +66,7 @@ const ScrollBanner = () => {
               modules={[Autoplay]}
               slidesPerView="auto"
               loop={true}
-              speed={35000}
+              speed={15000}
               autoplay={{
                 delay: 0,
                 disableOnInteraction: false,
@@ -82,11 +78,11 @@ const ScrollBanner = () => {
                 <SwiperSlide key={index} className="!w-auto">
                   <div className="group relative flex items-center px-6 lg:px-8">
                     {/* Category Badge */}
-                    <div className="hidden md:flex h-7 items-center px-4 mr-4 rounded-full bg-sky-500/10 border border-sky-500/20 transition-colors duration-300 group-hover:border-sky-500/40 group-hover:bg-sky-500/15">
+                    {/* <div className="hidden md:flex h-7 items-center px-4 mr-4 rounded-full bg-sky-500/10 border border-sky-500/20 transition-colors duration-300 group-hover:border-sky-500/40 group-hover:bg-sky-500/15">
                       <span className="text-sm font-semibold text-sky-400 whitespace-nowrap">
                         {item.category}
                       </span>
-                    </div>
+                    </div> */}
 
                     {/* News Text */}
                     <span className="text-base md:text-lg lg:text-xl text-gray-300 whitespace-nowrap transition-colors duration-300 group-hover:text-white font-medium">

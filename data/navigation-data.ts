@@ -101,28 +101,6 @@ export const navItems: NavItem[] = [
     ]
   },
   {
-    title: "Resources",
-    path: "/resources",
-    description: "Access our materials",
-    subMenu: [
-      {
-        title: "Publications",
-        path: "/resources/publications",
-        description: "Read our research"
-      },
-      {
-        title: "Case Studies",
-        path: "/resources/case-studies",
-        description: "Learn from our experiences"
-      },
-      {
-        title: "Toolkits",
-        path: "/resources/toolkits",
-        description: "Access our resources"
-      }
-    ]
-  },
-  {
     title: "Press",
     path: "/press",
     description: "News and updates",

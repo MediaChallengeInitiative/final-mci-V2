@@ -33,7 +33,7 @@ const SocialIcon: React.FC<{
     <span className="absolute opacity-0 group-hover:opacity-40 w-8 h-8 rounded-full transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></span>
     <span className="absolute opacity-0 group-hover:opacity-60 w-8 h-8 rounded-full transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"></span>
     <a href={href} target="_blank" rel="noopener noreferrer" className="block">
-      <Icon className="svg w-8 h-8 p-1.5 rounded-full text-white fill-current transition-all duration-300 shadow-inner shadow-white/30 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:translate-x-1 group-hover:-translate-y-1" />
+      <Icon className="svg w-8 h-8 p-1.5 rounded-full text-white fill-current transition-all duration-300 shadow-inner shadow-white/30 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
     </a>
     <div className="text opacity-0 absolute z-50 rounded px-2 py-1 transition-all duration-300 text-white bg-white/30 shadow-md shadow-gray-400/20 group-hover:opacity-100 group-hover:translate-x-3 group-hover:-translate-y-0.5 group-hover:skew-x-[-5deg]">
       {text}

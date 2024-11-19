@@ -1,8 +1,6 @@
 import React from "react";
-import { client, urlFor } from "@/lib/sanity";
-import Image from "next/image";
+import { client } from "@/lib/sanity";
 import Link from "next/link";
-import { HiOutlineExternalLink } from "react-icons/hi";
 
 async function getBlogs() {
   const query = `
@@ -20,16 +18,6 @@ async function getBlogs() {
 }
 
 export default async function Blog() {
-
-  function getFormattedDate(publishedAt: string | Date): string {
-    const date = new Date(publishedAt as string);
-    const options: Intl.DateTimeFormatOptions = {
-      month: "short",
-      year: "numeric",
-      day: "numeric",
-    };
-    return date.toLocaleDateString("en-US", options);
-  }
 
   return (
     <>
@@ -69,7 +57,7 @@ export default async function Blog() {
                     </h3>
                     <Link
                       href="/articles"
-                      className="block text-black hover:text-white bg-white hover:bg-[#0097d1] focus:ring-4 focus:outline-none focus:ring-sky-300 dark:focus:ring-sky-800 shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 "
+                      className="block text-black hover:text-white bg-white hover:bg-[#f6931d] focus:ring-4 focus:outline-none focus:ring-sky-300 dark:focus:ring-sky-800 shadow-lg font-medium rounded-xl text-sm px-5 py-2.5 text-center me-2 mb-2 "
                     >
                       SEE ALL ARTICLES
                     </Link>
@@ -99,7 +87,7 @@ export default async function Blog() {
                     </h3>
                     <Link
                       href="/blogs"
-                      className="block text-black hover:text-white bg-white hover:bg-[#0097d1] focus:ring-4 focus:outline-none focus:ring-sky-300 dark:focus:ring-sky-800 shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 "
+                      className="block text-black hover:text-white bg-white hover:bg-[#f6931d] rounded-xl focus:ring-4 focus:outline-none focus:ring-sky-300 dark:focus:ring-sky-800 shadow-lg font-medium text-sm px-5 py-2.5 text-center me-2 mb-2 "
                     >
                       SEE ALL BLOGS
                     </Link>

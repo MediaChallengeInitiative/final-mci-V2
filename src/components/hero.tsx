@@ -212,7 +212,7 @@ const Hero = () => {
                   initial={isInitialLoad ? false : { opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="text-orange-500 text-3xl md:text-4xl font-light italic capitalize"
+                  className="text-[#f6931d] text-3xl md:text-4xl font-light italic capitalize"
                 >
                   {slides[currentSlide].preText}
                 </motion.p>
@@ -277,7 +277,7 @@ const Hero = () => {
               <div
                 className={cn(
                   "w-16 h-1 rounded-full transition-all duration-300",
-                  currentSlide === index ? "bg-orange-500" : "bg-white/30"
+                  currentSlide === index ? "bg-[#f6931d]" : "bg-white/30"
                 )}
               >
                 {currentSlide === index && (
@@ -302,7 +302,7 @@ const Hero = () => {
               {(currentSlide + 1).toString().padStart(2, "0")}
             </span>
             <motion.div
-              className="absolute -bottom-2 left-0 h-0.5 bg-orange-500"
+              className="absolute -bottom-2 left-0 h-0.5 bg-[#f6931d]"
               initial={{ width: 0 }}
               animate={{ width: "100%" }}
               transition={{ duration: 0.6 }}
