@@ -73,10 +73,10 @@ const ModelHeroSection: React.FC<ModelHeroSectionProps> = ({
 
       {/* Content Container */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-9xl mx-auto text-center">
           {/* Main Heading with Text Reveal Animation */}
           <div className="mb-8 space-y-4">
-            <div className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight">
+            <div className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight">
               {showText && (
                 <div className="text-white block mb-4 transition-transform duration-800 ease-out transform translate-y-0">
                   {title}

@@ -8,6 +8,35 @@ import { Solution } from "@/interface/interface";
 import { getSingleSolution } from "@/utils/get-single-solution";
 import ModelHeroSection from "@/components/6SModel/ModelHeroSection";
 import Link from "next/link";
+import { useTypewriter, Cursor } from "react-simple-typewriter";
+
+interface TextChild {
+  text: string;
+}
+
+interface TextBlock {
+  children: TextChild[];
+}
+
+interface TypeWriterProps {
+  leadingAssumption: string;
+}
+
+const TypeWriterText: React.FC<TypeWriterProps> = ({ leadingAssumption }) => {
+  const [text] = useTypewriter({
+    words: [leadingAssumption],
+    loop: true,
+    typeSpeed: 50,
+    deleteSpeed: 50 // Changed from false to number
+  });
+
+  return (
+    <div className="relative z-10 p-6 bg-[#f6931d]/10 backdrop-blur-sm border-4 border-[#f6931d]/20 rounded-tl-[40px] rounded-br-[40px] transition-all duration-500 group-hover:border-orange-400/40 group-hover:bg-[#f6931d]/15">
+      {text}
+      <Cursor cursorColor="#f6931d" />
+    </div>
+  );
+};
 
 const CustomSerializer = ({ blocks }: { blocks: any[] }) => {
   return (
@@ -156,9 +185,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 >
                   <div className="absolute inset-0 bg-white/5 rounded-tl-[50px] rounded-br-[50px] transform transition-transform duration-500 group-hover:scale-[1.02]" />
                   <div className="absolute inset-[3px] bg-gray-900 rounded-tl-[48px] rounded-br-[48px]" />
-                  <div className="relative z-10 p-6 bg-[#f6931d]/10 backdrop-blur-sm border-4 border-[#f6931d]/20 rounded-tl-[40px] rounded-br-[40px] transition-all duration-500 group-hover:border-orange-400/40 group-hover:bg-[#f6931d]/15">
+                  {/* <div className="relative z-10 p-6 bg-[#f6931d]/10 backdrop-blur-sm border-4 border-[#f6931d]/20 rounded-tl-[40px] rounded-br-[40px] transition-all duration-500 group-hover:border-orange-400/40 group-hover:bg-[#f6931d]/15">
                     {solutionData?.leadingAssumption}
-                  </div>
+                  </div> */}
+                  <TypeWriterText
+                    leadingAssumption={solutionData?.leadingAssumption || ""}
+                  />
                 </motion.div>
               </div>
 
@@ -180,40 +212,72 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 </div>
 
                 <div className="p-4 md:p-8 lg:p-12 space-y-4 md:space-y-6">
-                  <h3 className="text-2xl md:text-3xl lg:text-4xl font-medium text-sky-500 tracking-wide">
-                    Challenge
+                  <h3 className="text-2xl sm:text-7xl  font-bold text-sky-500 tracking-wide">
+                    Challenge We Face
                   </h3>
 
-                  {solutionData.challengeStatement.map((block, i) => (
-                    <p
-                      key={i}
-                      className="text-[#4a5568] text-base md:text-xl lg:text-2xl font-thin leading-relaxed"
-                    >
-                      {block.children.map((child: any, j: number) => (
-                        <span key={j}>{child.text}</span>
-                      ))}
-                    </p>
-                  ))}
+                  {solutionData.challengeStatement.map(
+                    (block: TextBlock, i) => {
+                      const text = block.children
+                        .map((child: TextChild) => child.text)
+                        .join("");
+                      const [firstSentence, ...rest] = text.split(/\.(.+)/);
+                      const remainingText = rest.join(".");
+
+                      return (
+                        <p
+                          key={i}
+                          className="text-[#4a5568] font-thin leading-relaxed"
+                        >
+                          {firstSentence && (
+                            <span className="text-4xl font-extrabold block mb-4">
+                              {firstSentence}
+                            </span>
+                          )}
+                          {remainingText && (
+                            <span className="text-base font-semibold md:text-xl lg:text-2xl">
+                              {remainingText}
+                            </span>
+                          )}
+                        </p>
+                      );
+                    }
+                  )}
                 </div>
               </div>
 
               {/* Solution Section */}
               <div className="flex flex-col lg:grid lg:grid-cols-2 min-h-[400px] lg:min-h-[600px] bg-white">
                 <div className="order-2 lg:order-1 p-4 md:p-8 lg:p-12 space-y-4 md:space-y-6">
-                  <h3 className="text-2xl md:text-3xl lg:text-4xl font-medium text-sky-500 tracking-wide">
+                  <h3 className="text-2xl sm:text-7xl  font-bold text-sky-500 tracking-wide">
                     How We Have Fixed Challenge
                   </h3>
 
-                  {solutionData.solution.map((block, i) => (
-                    <p
-                      key={i}
-                      className="text-[#4a5568] text-base md:text-xl lg:text-2xl font-thin leading-relaxed"
-                    >
-                      {block.children.map((child: any, j: number) => (
-                        <span key={j}>{child.text}</span>
-                      ))}
-                    </p>
-                  ))}
+                  {solutionData.solution.map((block: TextBlock, i) => {
+                    const text = block.children
+                      .map((child: TextChild) => child.text)
+                      .join("");
+                    const [firstSentence, ...rest] = text.split(/\.(.+)/);
+                    const remainingText = rest.join(".");
+
+                    return (
+                      <p
+                        key={i}
+                        className="text-[#4a5568] font-thin leading-relaxed"
+                      >
+                        {firstSentence && (
+                          <span className="text-4xl font-extrabold block mb-4">
+                            {firstSentence}
+                          </span>
+                        )}
+                        {remainingText && (
+                          <span className="text-base font-semibold md:text-xl lg:text-2xl">
+                            {remainingText}
+                          </span>
+                        )}
+                      </p>
+                    );
+                  })}
                 </div>
 
                 <div className="order-1 lg:order-2 relative h-72 md:h-96 lg:h-full w-full">
@@ -299,9 +363,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
                         </p>
                       </div>
                       <div className="text-center">
-                        <p className="text-2xl font-bold text-[#f6931d]">
-                          30+
-                        </p>
+                        <p className="text-2xl font-bold text-[#f6931d]">30+</p>
                         <p className="text-sm text-gray-400">
                           African Countries
                         </p>

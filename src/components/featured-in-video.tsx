@@ -65,7 +65,7 @@ const FeaturedInVideo: React.FC = () => {
   const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
 
   return (
-    <section className="relative bg-gray-900 py-24 lg:py-32 overflow-hidden">
+    <section className="relative bg-gray-900 pb-20 sm:pb-40 overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute w-[500px] h-[500px] -top-32 -left-32 bg-sky-500/10 rounded-full blur-3xl" />
@@ -80,21 +80,9 @@ const FeaturedInVideo: React.FC = () => {
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16 md:mb-20"
+          className="text-center pt-4 sm:pt-16"
         >
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="flex items-center justify-center gap-2 mb-6"
-          >
-            <span className="inline-flex h-2 w-2 animate-pulse rounded-full bg-sky-500" />
-            <span className="text-sm font-medium text-sky-500">
-              Latest Coverage
-            </span>
-          </motion.div>
-
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-white">
             Featured In
             <motion.div
               className="h-1 w-32 bg-gradient-to-r from-sky-500 to-sky-400 mx-auto mt-6 rounded-full"
@@ -103,9 +91,6 @@ const FeaturedInVideo: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
             />
           </h2>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-            Award-winning coverage that makes a difference
-          </p>
         </motion.div>
 
         {/* Featured Video Container */}
@@ -125,7 +110,7 @@ const FeaturedInVideo: React.FC = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
               </span>
-              <span className="text-xs font-medium text-white">LIVE NOW</span>
+              <span className="text-xs font-medium text-white">REPLAY</span>
             </motion.div>
 
             {/* Video Thumbnail */}
@@ -192,17 +177,18 @@ const FeaturedInVideo: React.FC = () => {
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3 text-sky-400 text-sm">
                   <HiOutlineStatusOnline className="w-4 h-4" />
-                  <span>Streaming Now</span>
+                  <span>Streamed in South Africa</span>
                 </div>
 
                 <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white">
-                  Inside the Digital Newsroom: The Future of Journalism
+                  A Closer Look at the Young Leaders Highlighted in President
+                  Obama’s Mandela Lecture
                 </h3>
 
                 <div className="flex flex-wrap items-center gap-4 md:gap-6 text-gray-300 text-sm">
                   <div className="flex items-center gap-2">
                     <HiOutlineClock className="text-sky-500 w-4 h-4" />
-                    <span>12:45</span>
+                    <span>Aug 15, 2018</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <RiAwardFill className="text-sky-500 w-4 h-4" />
@@ -223,30 +209,6 @@ const FeaturedInVideo: React.FC = () => {
               transition={{ duration: 0.3 }}
             />
           </div>
-
-          {/* Video Tags */}
-          <motion.div
-            className="flex flex-wrap justify-center gap-3 mt-6"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            {[
-              { text: "Breaking News", color: "sky" },
-              { text: "Digital Media", color: "orange" },
-              { text: "Innovation", color: "purple" }
-            ].map((tag, index) => (
-              <motion.span
-                key={tag.text}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-                className={`px-4 py-2 bg-${tag.color}-500/10 text-${tag.color}-400 rounded-full text-sm font-medium backdrop-blur-sm`}
-              >
-                {tag.text}
-              </motion.span>
-            ))}
-          </motion.div>
         </motion.div>
       </div>
 
