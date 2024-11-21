@@ -56,6 +56,11 @@ export const solution = defineType({
       type: 'text',
     }),
     defineField({
+      name: 'challengeTitle',
+      title: 'Challenge Title',
+      type: 'string',
+    }),
+    defineField({
       name: 'challengeStatement',
       title: 'Challenge Statement',
       type: 'array',
@@ -68,10 +73,16 @@ export const solution = defineType({
       of: [{type: 'block'}],
     }),
     defineField({
-      name: 'description',
-      title: 'Description',
-      type: 'array',
-      of: [{type: 'block'}],
+      name: 'bgColorFrom',
+      title: 'Background Color From',
+      type: 'string',
+      initialValue: '#3cb371', // initial color for 'from'
+    }),
+    defineField({
+      name: 'bgColorTo',
+      title: 'Background Color To',
+      type: 'string',
+      initialValue: '#3cb371', // initial color for 'to'
     }),
     defineField({
       name: 'callToAction',
@@ -80,9 +91,16 @@ export const solution = defineType({
       of: [{type: 'block'}],
     }),
     defineField({
-      name: 'icon',
-      title: 'Solution Icon',
-      type: 'image',
+      name: 'iconName',
+      title: 'Icon Name',
+      type: 'string',
+      description: 'The name of the icon from react-icons (e.g., FaBrain, FaUsers, etc.)',
+    }),
+    defineField({
+      name: 'iconSize',
+      title: 'Icon Size',
+      type: 'number',
+      initialValue: 24, // Default size for icons
     }),
     defineField({
       name: 'coverImage',

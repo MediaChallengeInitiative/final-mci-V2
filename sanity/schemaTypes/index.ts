@@ -20,6 +20,7 @@ import fellowProfile from './fellowProfile'
 import story from './story'
 import impact from './impact'
 import mediaVan from './mediaVan'
+import mediaHub from './mediaHub'
 
 export const schemaTypes = [
   post,
@@ -45,4 +46,5 @@ export const schemaTypes = [
   comingSoonItem,
   impact,
   mediaVan,
+  mediaHub,
 ]

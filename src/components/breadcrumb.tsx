@@ -8,7 +8,7 @@ interface BreadcrumbProps {
 export default function Breadcrumb({ title }: BreadcrumbProps) {
   return (
     <>
-      <div className="w-full mx-auto relative lg:h-[280px] h-[140px] flex items-center justify-center mb-4">
+      <div className="w-full mx-auto relative lg:h-[280px] h-[140px] flex items-center justify-center">
         <Image
           className="w-full h-full object-cover"
           src="/assets/images/breadcrumb-bg.jpg"

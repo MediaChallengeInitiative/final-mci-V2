@@ -162,7 +162,7 @@ export interface ComingSoonItem {
   solution?: string;
 }
 
-export interface Solution {
+export interface SolutionInterface {
   _id?: string;
   _type: "solution";
   title: string;
@@ -176,6 +176,11 @@ export interface Solution {
   coverImage?: Image; // Optional image for the solution icon
   order?: number; // Optional order for display
   comingSoon?: ComingSoonItem[]; // Array of coming soon items
+  bgColorTo?: string; // Background color to
+  bgColorFrom?: string; // Background color from
+  iconName?: string; // Name of the icon
+  iconSize?: string; // Size of the icon
+  challengeTitle?: string; // Title for the challenge
 }
 
 export interface Program {
@@ -187,7 +192,7 @@ export interface Program {
   programType: "fellowship" | "training" | "innovation"; // Enum for program types
   status: "active" | "upcoming" | "completed"; // Enum for the status
   coverImage: Image; // The main cover image for the program
-  solution?: Reference<Solution>; // Optional reference to the related solution
+  solution?: Reference<SolutionInterface>; // Optional reference to the related solution
   gallery: Image[]; // Array of images for the gallery
 }
 

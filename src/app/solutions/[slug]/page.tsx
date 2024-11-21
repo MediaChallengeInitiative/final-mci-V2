@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { urlFor } from "@/lib/sanity";
-import { Solution } from "@/interface/interface";
+import { SolutionInterface } from "@/interface/interface";
 import { getSingleSolution } from "@/utils/get-single-solution";
 import ModelHeroSection from "@/components/6SModel/ModelHeroSection";
 import Link from "next/link";
@@ -111,6 +111,8 @@ const ReadingProgress = () => {
 export default async function Page({ params }: { params: { slug: string } }) {
   const solutionData = await getSingleSolution(params.slug);
 
+  console.log(solutionData);
+
   if (!solutionData) {
     // Handle the case where the solution is not found
     return (
@@ -124,7 +126,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     <>
       <ReadingProgress />
       <ModelHeroSection
-        image={urlFor(solutionData.icon).url()}
+        image={urlFor(solutionData.coverImage).url()}
         title={solutionData.title}
       />
       <div className="min-h-screen bg-white">
@@ -200,10 +202,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
             <div className="flex flex-col w-full">
               {/* Challenge Section */}
-              <div className="flex flex-col lg:grid lg:grid-cols-2 min-h-[400px] lg:min-h-[600px] bg-white">
-                <div className="relative h-72 md:h-96 lg:h-full w-full">
+              <div
+                className={`flex flex-col lg:grid lg:grid-cols-2 min-h-[400px] lg:min-h-[600px]`}
+              >
+                <div
+                  className={`relative h-72 md:h-96 lg:h-full w-full inset-0 bg-gradient-to-br from-[${solutionData.bgColorFrom}] to-[${solutionData.bgColorTo}]/90 opacity-90`}
+                >
                   <Image
-                    src={urlFor(solutionData.icon).url()}
+                    src={urlFor(solutionData.coverImage).url()}
                     alt="Investment calculator and pen"
                     fill
                     className="object-cover"
@@ -212,22 +218,29 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 </div>
 
                 <div className="p-4 md:p-8 lg:p-12 space-y-4 md:space-y-6">
-                  <h3 className="text-2xl sm:text-7xl  font-bold text-sky-500 tracking-wide">
+                  <h2
+                    className="font-black text-2xl md:text-4xl xl:text-5xl leading-tight"
+                    style={{
+                      background: `linear-gradient(135deg, ${solutionData.bgColorFrom}, ${solutionData.bgColorTo})`,
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent"
+                    }}
+                  >
                     Challenge We Face
-                  </h3>
+                  </h2>
 
                   {solutionData.challengeStatement.map(
-                    (block: TextBlock, i) => {
+                    (block: TextBlock, i: number) => {
                       const text = block.children
                         .map((child: TextChild) => child.text)
                         .join("");
                       const [firstSentence, ...rest] = text.split(/\.(.+)/);
-                      const remainingText = rest.join(".");
+                      const remainingText = rest.join("");
 
                       return (
                         <p
                           key={i}
-                          className="text-[#4a5568] font-thin leading-relaxed"
+                          className="text-3xl md:text-4xl font-bold leading-tight text-gray-800"
                         >
                           {firstSentence && (
                             <span className="text-4xl font-extrabold block mb-4">
@@ -249,22 +262,29 @@ export default async function Page({ params }: { params: { slug: string } }) {
               {/* Solution Section */}
               <div className="flex flex-col lg:grid lg:grid-cols-2 min-h-[400px] lg:min-h-[600px] bg-white">
                 <div className="order-2 lg:order-1 p-4 md:p-8 lg:p-12 space-y-4 md:space-y-6">
-                  <h3 className="text-2xl sm:text-7xl  font-bold text-sky-500 tracking-wide">
+                  <h2
+                    className="font-black text-2xl md:text-4xl xl:text-5xl leading-tight"
+                    style={{
+                      background: `linear-gradient(135deg, ${solutionData.bgColorFrom}, ${solutionData.bgColorTo})`,
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent"
+                    }}
+                  >
                     How We Have Fixed Challenge
-                  </h3>
+                  </h2>
 
-                  {solutionData.solution.map((block: TextBlock, i) => {
+                  {solutionData.solution.map((block: TextBlock, i: number) => {
                     const text = block.children
                       .map((child: TextChild) => child.text)
                       .join("");
                     const [firstSentence, ...rest] = text.split(/\.(.+)/);
-                    const remainingText = rest.join(".");
+                    const remainingText = rest.join("");
 
                     return (
                       <p
                         key={i}
-                        className="text-[#4a5568] font-thin leading-relaxed"
-                      >
+                        className="text-3xl md:text-4xl font-bold leading-tight text-gray-800"
+                        >
                         {firstSentence && (
                           <span className="text-4xl font-extrabold block mb-4">
                             {firstSentence}
@@ -280,7 +300,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
                   })}
                 </div>
 
-                <div className="order-1 lg:order-2 relative h-72 md:h-96 lg:h-full w-full">
+                <div
+                  className={`order-1 lg:order-2 relative h-72 md:h-96 lg:h-full w-full inset-0 bg-gradient-to-br from-[${solutionData.bgColorFrom}] to-[${solutionData.bgColorTo}]/90 opacity-90`}
+                >
                   <Image
                     src={urlFor(solutionData.coverImage).url()}
                     alt="Investment calculator and pen"
@@ -319,7 +341,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
                     </p>
                   </div>
 
-                  {solutionData.callToAction.map((block, i) => (
+                  {solutionData.callToAction?.map((block: any, i: number) => (
                     <p
                       key={i}
                       className="max-w-3xl mx-auto text-base md:text-lg text-gray-300"

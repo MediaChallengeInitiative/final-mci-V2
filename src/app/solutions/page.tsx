@@ -1,31 +1,23 @@
 import React from "react";
-import { Solution } from "@/interface/interface";
-import Breadcrumb from "@/components/breadcrumb";
-import { getAllSolutions, getTotalSolutions } from "@/utils/get-all-solutions";
+import { Metadata } from "next";
+import { getAllSolutions } from "@/utils/get-all-solutions";
 import SolutionsClientPage from "@/components/SolutionsClientPage";
+import Breadcrumb from "@/components/breadcrumb";
 
-export default async function Page({
-  searchParams
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const page = Number(searchParams["page"] ?? "1");
-  const per_page = 6; // Two rows of three blogs each
+export const metadata: Metadata = {
+  title: "6S Model | MCI",
+  description: "Explore MCI's 6S Model solutions for media development"
+};
 
-  const start = (page - 1) * per_page;
-  const end = start + per_page;
+export default async function Page() {
+  const solutions = await getAllSolutions();
 
-  const initialSolutions: Solution[] = await getAllSolutions(start, end);
-  const totalSolutions: number = await getTotalSolutions();
+  // console.log(solutions);
 
   return (
-    <section className="bg-white w-full py-12 md:py-24 lg:py-16 lg:mt-0 mt-2">
+    <section className="bg-transparent w-full pt-12 md:pt-24 lg:pt-16">
       <Breadcrumb title="6S Model" />
-      <SolutionsClientPage
-        initialSolutions={initialSolutions}
-        totalSolutions={totalSolutions}
-        per_page={per_page}
-      />
+      <SolutionsClientPage solutions={solutions} />
     </section>
   );
 }

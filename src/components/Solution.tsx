@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import {
@@ -11,6 +11,9 @@ import {
   FaNewspaper,
   FaChartLine
 } from "react-icons/fa";
+import { getAllSolutions } from "@/utils/get-all-solutions";
+import { SolutionInterface } from "@/interface/interface";
+import SectionTitle from "./SectionTitle";
 
 interface ModelProps {
   title: string;
@@ -116,31 +119,24 @@ const ModelCard: React.FC<ModelProps & { index: number }> = ({
   );
 };
 
-const SectionTitle: React.FC<{ title: string; subtitle: string }> = ({
-  title,
-  subtitle
-}) => (
-  <motion.div
-    initial={{ opacity: 0, y: -20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
-    viewport={{ once: true }}
-    className="text-center mb-16"
-  >
-    <h2 className="text-4xl md:text-5xl font-bold mb-4">
-      <span className="text-sky-500">{title}</span>
-    </h2>
-    <p className="text-lg text-gray-400 mt-4">{subtitle}</p>
-    <motion.div
-      className="h-1 w-32 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mt-6"
-      initial={{ scaleX: 0 }}
-      whileInView={{ scaleX: 1 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
-    />
-  </motion.div>
-);
+export default function Solution() {
+  const [solutions, setSolutions] = useState<SolutionInterface[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-const OurModel: React.FC = () => {
+  useEffect(() => {
+    // Directly handle promise resolution
+    getAllSolutions()
+      .then((solutionsData) => {
+        setSolutions(solutionsData);
+      })
+      .catch((err) => {
+        setError("Failed to load solutions");
+      });
+  }, []); // Empty dependency array ensures it runs only once after the component mounts
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
   return (
     <section className="relative bg-gray-900 pt-20 overflow-hidden">
       <div className="w-full z-10">
@@ -148,85 +144,16 @@ const OurModel: React.FC = () => {
           title="Our 6.S Model"
           subtitle="A holistic approach addressing systemic media crises"
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {modelsData.map((model, index) => (
-            <ModelCard key={index} {...model} index={index} />
-          ))}
-        </div>
+        {solutions ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {modelsData.map((model, index) => (
+              <ModelCard key={index} {...model} index={index} />
+            ))}
+          </div>
+        ) : (
+          <p>No solutions found.</p>
+        )}
       </div>
     </section>
   );
-};
-
-export default OurModel;
-
-// import React from "react";
-// import Image from "next/image";
-
-// interface ModelProps {
-//   title: string;
-//   image: string;
-//   bgColor: string;
-// }
-
-// const modelsData: ModelProps[] = [
-//   {
-//     title: "Shifting narratives, shaping culture",
-//     image: "/assets/images/models/narratives.png",
-//     bgColor: "bg-[#f28c28]"
-//   },
-//   {
-//     title: "Space for incubating media innovations",
-//     image: "/assets/images/models/innovations.png",
-//     bgColor: "bg-[#3cb371]"
-//   },
-//   {
-//     title: "Skilling the next-generation of journalists",
-//     image: "/assets/images/models/skilling.png",
-//     bgColor: "bg-[#e63946]"
-//   },
-//   {
-//     title: "Strengthening media coverage of development",
-//     image: "/assets/images/models/media.png",
-//     bgColor: "bg-[#ff69b4]"
-//   },
-//   {
-//     title: "Safeguarding the information ecosystem",
-//     image: "/assets/images/models/information.png",
-//     bgColor: "bg-[#4682b4]"
-//   },
-//   {
-//     title: "Stabilising local + rural journalism",
-//     image: "/assets/images/models/journalism.png",
-//     bgColor: "bg-[#6a0dad]"
-//   }
-// ];
-
-// export default function OurModel() {
-//   return (
-//     <>
-//       <section className="bg-white">
-//         <div className="space-y-4 text-center pt-8">
-//           <h2 className="text-4xl font-bold tracking-tight text-[#0097d1] lg:text-6xl">
-//             Our 6.S Model
-//           </h2>
-//           <span className="mt-10 pt-6 text-lg leading-8 text-[#0097d1] text-justify italic">
-//             A holistic approach addressing systemic media crises.
-//           </span>
-//         </div>
-//         <div className="w-full">
-//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-//             {modelsData.map((data: any, i: number) => (
-//               <div
-//                 className={`flex flex-col items-center justify-center p-4 text-center ${data.bgColor} text-white border-gray-300 group-hover:border-orange-500 transition-colors duration-300`}
-//               >
-//                 <Image width={300} height={300} src={data.image} alt="image" />
-//                 <p className="text-lg font-semibold">{data.title}</p>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       </section>
-//     </>
-//   );
-// }
+}

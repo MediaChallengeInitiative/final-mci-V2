@@ -1,9 +1,9 @@
-import { Solution } from "@/interface/interface";
+import { SolutionInterface } from "@/interface/interface";
 import { client } from "@/lib/sanity";
 
 export async function getSingleSolution(
   slug: string
-): Promise<Solution | null> {
+): Promise<SolutionInterface | null> {
   const query = `*[_type == 'solution' && slug.current == $slug] | order(order asc)[0] {
     _id,
     _type,
@@ -17,7 +17,9 @@ export async function getSingleSolution(
     icon,
     coverImage,
     order,
-    comingSoon
+    comingSoon,
+    bgColorFrom,
+    bgColorTo
   }`;
 
   const clientConfig = {
@@ -27,6 +29,8 @@ export async function getSingleSolution(
 
   const configuredClient = client.withConfig(clientConfig);
 
-  const data = await configuredClient.fetch<Solution | null>(query, { slug });
+  const data = await configuredClient.fetch<SolutionInterface | null>(query, {
+    slug
+  });
   return data;
 }
