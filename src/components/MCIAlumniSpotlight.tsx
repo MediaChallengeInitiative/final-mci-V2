@@ -13,6 +13,8 @@ import { PiTelevisionSimpleBold, PiSpeakerHifiBold } from "react-icons/pi";
 import { GiFilmProjector } from "react-icons/gi";
 import { MdPhotoCameraBack } from "react-icons/md";
 import "swiper/css";
+import { PortableText } from "@portabletext/react";
+// import { PortableText } from "next-sanity";
 
 interface MCIAlumniData {
   name: string;
@@ -130,7 +132,10 @@ const AlumniDialog: React.FC<{
   onClose: () => void;
 }> = ({ alumni, onClose }) => (
   <Dialog open={!!alumni} onOpenChange={onClose}>
-    <DialogContent style={{ borderRadius:"15px" }} className="max-w-5xl border-2 border-gray-900 rounded-xl p-0 overflow-hidden">
+    <DialogContent
+      style={{ borderRadius: "15px" }}
+      className="max-w-5xl border-2 border-gray-900 rounded-xl p-0 overflow-hidden"
+    >
       <DialogHeader className="p-0">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
           {/* Image Section */}
@@ -149,7 +154,7 @@ const AlumniDialog: React.FC<{
           <div className="p-8 bg-white/90 backdrop-blur-sm">
             <div className="h-full flex flex-col">
               <div className="mb-6">
-                <h2 className="text-4xl font-serif text-gray-800 mb-2 capitalize">
+                <h2 className="text-4xl font-serif text-gray-800 mb-2 uppercase">
                   MEET {alumni?.name}
                 </h2>
                 <div className="h-px w-16 bg-yellow-400 mb-4" />
@@ -159,12 +164,43 @@ const AlumniDialog: React.FC<{
                 <p className="text-gray-500">{alumni?.company}</p>
               </div>
 
-              <div className="prose prose-lg text-gray-600 max-w-none flex-grow">
-                <p className="font-light leading-relaxed">
-                  {alumni?.bio ||
-                    `A passionate media professional with over a decade of experience in digital storytelling and content creation. Dedicated to empowering young voices and fostering innovative approaches to media education through collaborative projects and mentorship.`}
-                </p>
+              <div className="mb-6 overflow-auto max-h-[400px]">
+                {alumni?.bio && (
+                  <div className="prose max-w-none">
+                    {Array.isArray(alumni.bio) ||
+                    typeof alumni.bio === "object" ? (
+                      <PortableText
+                        value={alumni.bio}
+                        components={{
+                          block: {
+                            normal: ({ children }) => (
+                              <p className="text-gray-600">{children}</p>
+                            )
+                          },
+                          list: {
+                            bullet: ({ children }) => (
+                              <ul className="list-disc ml-6">{children}</ul>
+                            ),
+                            number: ({ children }) => (
+                              <ol className="list-decimal ml-6">{children}</ol>
+                            )
+                          }
+                        }}
+                      />
+                    ) : (
+                      <p className="text-gray-600">{alumni.bio}</p>
+                    )}
+                  </div>
+                )}
               </div>
+
+              {/* <div className="prose prose-lg text-gray-600 max-w-none flex-grow">
+                <p className="font-light leading-relaxed">
+                      {alumni?.bio.map((child: any, j: number) => (
+                        <span key={j}>{child.text}</span>
+                      ))}
+                    </p>
+              </div> */}
 
               {/* <div className="mt-8 pt-6 border-t border-gray-200">
                 <div className="flex items-center justify-between">

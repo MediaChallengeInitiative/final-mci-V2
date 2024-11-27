@@ -11,7 +11,7 @@ export async function getSingleStaff(slug: string) {
 
   const clientConfig = {
     useCdn: false,
-    api: { cache: "no-store" },
+    api: { cache: "no-store" }
   };
 
   const configuredClient = client.withConfig(clientConfig);

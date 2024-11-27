@@ -1,36 +1,67 @@
+// import React from "react";
+// import { ArticleData } from "@/interface/interface";
+// import { getAllArticles, getTotalArticles } from "@/utils/get-all-articles";
+// import Breadcrumb from "@/components/breadcrumb";
+// import ArticlesClientPage from "@/components/ArticlesClientPage";
+
+// export default async function ArticlesPage({
+//   searchParams
+// }: {
+//   searchParams: { [key: string]: string | string[] | undefined };
+// }) {
+//   const page = Number(searchParams["page"] ?? "1");
+//   const per_page = 6; // Two rows of three blogs each
+
+//   const start = (page - 1) * per_page;
+//   const end = start + per_page;
+
+//   const initialArticles: ArticleData[] = await getAllArticles(start, end);
+//   const totalArticles: number = await getTotalArticles();
+
+//   return (
+//     <section className="bg-white w-full py-12 md:py-24 lg:py-16 lg:mt-0 mt-2">
+//       {/* <Breadcrumb title="Articles" /> */}
+//       <ArticlesClientPage
+//         initialArticles={initialArticles}
+//         totalArticles={totalArticles}
+//         per_page={per_page}
+//       />
+//     </section>
+//   );
+// }
+
 import React from "react";
 import { ArticleData } from "@/interface/interface";
 import { getAllArticles, getTotalArticles } from "@/utils/get-all-articles";
-import Breadcrumb from "@/components/breadcrumb";
-import ArticlesClientPage from "@/components/ArticlesClientPage";
+import ArticlesPage from "@/components/articles/ArticlesPage";
 
-export default async function ArticlesPage({
+export const runtime = "edge";
+export const preferredRegion = "auto";
+export const dynamic = "force-dynamic";
+export const revalidate = 3600;
+
+export default async function ArticlesPageWrapper({
   searchParams
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const page = Number(searchParams["page"] ?? "1");
-  const per_page = 6; // Two rows of three blogs each
+  const per_page = 6;
 
-  const start = (page - 1) * per_page;
-  const end = start + per_page;
-
-  const initialArticles: ArticleData[] = await getAllArticles(start, end);
-  const totalArticles: number = await getTotalArticles();
+  const [initialArticles, totalArticles] = await Promise.all([
+    getAllArticles((page - 1) * per_page, page * per_page),
+    getTotalArticles()
+  ]);
 
   return (
-    <section className="bg-white w-full py-12 md:py-24 lg:py-16 lg:mt-0 mt-2">
-      <Breadcrumb title="Articles" />
-      <ArticlesClientPage 
-        initialArticles={initialArticles} 
-        totalArticles={totalArticles} 
-        per_page={per_page}
-      />
-    </section>
+    <ArticlesPage
+      initialArticles={initialArticles}
+      totalArticles={totalArticles}
+      page={page}
+      per_page={per_page}
+    />
   );
 }
-
-
 
 // import React from "react";
 // import Link from "next/link";

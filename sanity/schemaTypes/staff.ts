@@ -45,6 +45,47 @@ export default defineType({
         },
       ],
     }),
+    // defineField({
+    //   name: 'qualifications',
+    //   title: 'Qualifications',
+    //   type: 'array',
+    //   of: [{type: 'string'}],
+    // }),
+    // defineField({
+    //   name: 'achievements',
+    //   title: 'Key Achievements',
+    //   type: 'array',
+    //   of: [{type: 'string'}],
+    // }),
+    // defineField({
+    //   name: 'expertise',
+    //   title: 'Areas of Expertise',
+    //   type: 'array',
+    //   of: [{type: 'string'}],
+    // }),
+    // defineField({
+    //   name: 'contact',
+    //   title: 'Contact Information',
+    //   type: 'object',
+    //   fields: [
+    //     defineField({
+    //       name: 'email',
+    //       title: 'Email',
+    //       type: 'string',
+    //       validation: (Rule) => Rule.required().email(),
+    //     }),
+    //     defineField({
+    //       name: 'phone',
+    //       title: 'Phone',
+    //       type: 'string',
+    //     }),
+    //     defineField({
+    //       name: 'socialLink',
+    //       title: 'Social URL',
+    //       type: 'url',
+    //     }),
+    //   ],
+    // }),
   ],
   preview: {
     select: {

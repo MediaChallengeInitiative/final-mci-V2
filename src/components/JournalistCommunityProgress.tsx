@@ -2,6 +2,20 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import React from "react";
+
+// Wrap the motion.div components that don't change frequently in React.memo to prevent unnecessary re-renders.
+const SectionTitle = React.memo(({ title }: { title: string }) => (
+  <h2 className="text-3xl lg:text-4xl font-bold text-sky-500 mb-6">
+    {title}
+    <motion.div
+      className="h-1 w-24 bg-gradient-to-r from-sky-500 to-sky-400 mt-2 rounded-full"
+      initial={{ scaleX: 0 }}
+      whileInView={{ scaleX: 1 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+    />
+  </h2>
+));
 
 const JournalistCommunityProgress = () => {
   return (
@@ -16,15 +30,7 @@ const JournalistCommunityProgress = () => {
             viewport={{ once: true }}
             className="relative"
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-sky-500 mb-6">
-              How it started
-              <motion.div
-                className="h-1 w-24 bg-gradient-to-r from-sky-500 to-sky-400 mt-2 rounded-full"
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              />
-            </h2>
+            <SectionTitle title="How it started" />
             <motion.div
               className="relative h-64 md:h-80 mb-6 rounded-xl overflow-hidden group shadow-lg"
               whileHover={{ scale: 1.02 }}
@@ -37,6 +43,7 @@ const JournalistCommunityProgress = () => {
                 fill
                 style={{ objectPosition: "50% 15%" }}
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
+                loading="lazy" // Lazy load image
               />
             </motion.div>
 
@@ -95,15 +102,7 @@ const JournalistCommunityProgress = () => {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-sky-500 mb-6">
-              How it is going
-              <motion.div
-                className="h-1 w-24 bg-gradient-to-r from-sky-500 to-sky-400 mt-2 rounded-full"
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              />
-            </h2>
+            <SectionTitle title="How it is going" />
             <motion.div
               className="relative h-[500px] md:h-[600px] rounded-xl overflow-hidden group shadow-lg"
               whileHover={{ scale: 1.02 }}
@@ -115,6 +114,7 @@ const JournalistCommunityProgress = () => {
                 alt="How it is going"
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
+                loading="lazy" // Lazy load image
               />
               <motion.div
                 className="absolute inset-0 flex items-center justify-center z-20 p-6"

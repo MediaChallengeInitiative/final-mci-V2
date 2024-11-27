@@ -7,17 +7,11 @@ export async function getAllStaff(start: number, end: number) {
         "image" : image.asset->url,
         "title": title,
           }`;
-  const data = await client.fetch(query);
+  const data = await client.fetch(query, {}, { next: { revalidate: 60 } }); // Revalidate every minute
   return data;
 }
 
-// export async function getTotalStaff() {
-//   const query = `count(*[_type == 'staff'])`;
-//   const totalStaff = await client.fetch(query);
-//   return totalStaff;
-// }
-
 export const getTotalStaff = async () => {
   const query = `count(*[_type == 'staff'])`;
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { revalidate: 60 } }); // Revalidate every minute
 };

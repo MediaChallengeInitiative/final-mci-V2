@@ -1,13 +1,12 @@
 import Breadcrumb from "@/components/breadcrumb";
 import OurHistory from "@/components/our-history";
-import Subscribe from "@/components/subscribe";
 import React from "react";
 
 export default function Page() {
   return (
     <>
       <section className="w-full py-12 md:py-24 lg:py-32 lg:mt-0 mt-4">
-        <Breadcrumb title={"Our History"} />
+        {/* <Breadcrumb title={"Our History"} /> */}
         <OurHistory />
         <div className="w-full grid h-full lg:grid-cols-2 grid-cols-1 lg:gap-4 gap-2 px-4 md:px-6 lg:mt-2 mt-0">
           <div className="group relative overflow-hidden rounded-xl lg:mb-0 mb-6">

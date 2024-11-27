@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 type Reference<T> = {
   _id?: string;
   _type?: string;
@@ -58,16 +60,66 @@ export interface InstructorsData {
   image: Image;
   linkedIn?: string;
 }
+// export interface StaffData {
+//   linkedin: any;
+//   twitter: any;
+//   email: any;
+//   name: string;
+//   currentSlug: Slug;
+//   title: string;
+//   bio: any;
+//   image: Image;
+// }
+
 export interface StaffData {
-  linkedin: any;
-  twitter: any;
-  email: any;
   name: string;
-  currentSlug: Slug;
   title: string;
-  bio: any;
+  currentSlug: Slug;
+  bio: Array<any>;
   image: Image;
+  // qualifications: string[];
+  // achievements: string[];
+  // expertise: string[];
+  // contact: {
+  //   email: string;
+  //   phone?: string;
+  //   socialLink?: string;
+  // };
 }
+
+//Start Color Types
+export interface Theme {
+  name: string;
+  bg: string;
+  text: string;
+  cardBg: string;
+  gradientFrom: string;
+  gradientVia: string;
+  gradientTo: string;
+  hover: string;
+}
+
+export interface ColorSwitcherProps {
+  currentTheme: Theme;
+  setCurrentTheme: (theme: Theme) => void;
+  isColorMenuOpen: boolean;
+  setIsColorMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface StaffPageProps {
+  staff: StaffData[];
+  page: string | string[];
+  totalPages: number;
+  per_page: string | string[];
+}
+
+export interface StaffCardProps {
+  staff: StaffData;
+  theme: Theme;
+  index: number;
+}
+
+//End Color Types
 
 export interface Intakes {
   title: string;
@@ -144,6 +196,8 @@ export interface Blog {
   link: string;
 }
 export interface ArticleData {
+  readingTime: ReactNode;
+  excerpt: ReactNode;
   _id: string;
   title: string;
   slug: Slug;

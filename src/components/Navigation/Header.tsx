@@ -147,6 +147,7 @@ export const Header: React.FC = () => {
                       key={social.label}
                       whileHover={{ scale: 1.1, y: -2 }}
                       whileTap={{ scale: 0.9 }}
+                      onClick={(e) => e.stopPropagation()}
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -268,6 +269,7 @@ export const Header: React.FC = () => {
                       key={social.label}
                       whileHover={{ scale: 1.1, y: -2 }}
                       whileTap={{ scale: 0.9 }}
+                      onClick={(e) => e.stopPropagation()}
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"

@@ -172,8 +172,7 @@ const timelineItems: TimelineItem[] = [
     year: "2012",
     title:
       "The first ever inter-university news anchoring and reporting competition in Uganda",
-    image:
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=800",
+    image: "/assets/images/evolution/2012.jpg",
     clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)"
   },
   {
@@ -188,8 +187,7 @@ const timelineItems: TimelineItem[] = [
     year: "2018",
     title:
       "A fellowship program skilling market ready graduates passionate about solutions and narrative change",
-    image:
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=800",
+    image: "/assets/images/evolution/2018.jpg",
     clipPath:
       "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)"
   },
@@ -197,8 +195,7 @@ const timelineItems: TimelineItem[] = [
     year: "2020",
     title:
       "A media incubator hub amplifying media innovation and building media capacity for viability",
-    image:
-      "https://images.unsplash.com/photo-1497015289639-54688650d173?auto=format&fit=crop&q=80&w=800",
+    image: "/assets/images/evolution/2020.jpg",
     clipPath: "polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%)"
   },
   {
@@ -206,14 +203,13 @@ const timelineItems: TimelineItem[] = [
     title:
       "The MCI SDGs Media Van taking journalism to hard to reach communities to promote local journalism and fix news deserts",
     image:
-      "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&q=80&w=800",
+      "/assets/images/evolution/sdg-van.jpg",
     clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)"
   },
   {
     year: "2024",
     title: "Africa...",
-    image:
-      "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&q=80&w=800",
+    image: "/assets/images/evolution/africa.jpg",
     clipPath: "circle(50% at 50% 50%)"
   }
 ];
@@ -272,26 +268,44 @@ interface TimelineItemProps {
   isMobile?: boolean;
 }
 
-const TimelineItem: React.FC<TimelineItemProps> = ({ item, index, isMobile = false }) => {
+const TimelineItem: React.FC<TimelineItemProps> = ({
+  item,
+  index,
+  isMobile = false
+}) => {
   return (
     <div className="relative">
-      <div className={`bg-transparent rounded-2xl ${index % 2 === 0 ? "pt-4 pb-12" : "pt-12 pb-4"}`}>
-        <div className={`bg-transparent absolute left-1/2 transform -translate-x-1/2 
+      <div
+        className={`bg-transparent rounded-2xl ${index % 2 === 0 ? "pt-4 pb-12" : "pt-12 pb-4"}`}
+      >
+        <div
+          className={`bg-transparent absolute left-1/2 transform -translate-x-1/2 
                        text-sky-400 text-2xl px-8 py-2 rounded-full font-bold z-10
-                       ${index % 2 === 0 ? "bottom-0 -mb-6" : "top-0 -mt-6"}`}>
+                       ${index % 2 === 0 ? "bottom-0 -mb-6" : "top-0 -mt-6"}`}
+        >
           {item.year}
         </div>
 
-        <p className={`absolute left-1/2 w-full transform -translate-x-1/2 text-orange-400 
+        <p
+          className={`absolute left-1/2 w-full transform -translate-x-1/2 text-orange-400 
                      text-center text-sm leading-tight
-                     ${index % 2 === 0 ? "bottom-0 mb-6" : "top-0 mt-6"}`}>
+                     ${index % 2 === 0 ? "bottom-0 mb-6" : "top-0 mt-6"}`}
+        >
           {item.title}
         </p>
 
-        <div className={`flex flex-col gap-2 py-16 ${index % 2 === 0 ? "" : "flex-col-reverse"}`}>
-          <div className="relative w-[150px] h-[150px] rounded-xl overflow-hidden"
-               style={{ clipPath: item.clipPath }}>
-            <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+        <div
+          className={`flex flex-col gap-2 py-16 ${index % 2 === 0 ? "" : "flex-col-reverse"}`}
+        >
+          <div
+            className="relative w-[150px] h-[150px] rounded-xl overflow-hidden"
+            style={{ clipPath: item.clipPath }}
+          >
+            <img
+              src={item.image}
+              alt={item.title}
+              className="w-full h-full object-cover"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent" />
           </div>
         </div>

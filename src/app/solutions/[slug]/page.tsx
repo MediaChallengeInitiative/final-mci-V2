@@ -111,7 +111,7 @@ const ReadingProgress = () => {
 export default async function Page({ params }: { params: { slug: string } }) {
   const solutionData = await getSingleSolution(params.slug);
 
-  console.log(solutionData);
+  // console.log(solutionData);
 
   if (!solutionData) {
     // Handle the case where the solution is not found

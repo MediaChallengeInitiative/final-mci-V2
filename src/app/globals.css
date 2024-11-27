@@ -2,6 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .timeline-arrow {
+    clip-path: polygon(0% 0%, 75% 50%, 0% 100%);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .shadow-orange-100 {
+    --tw-shadow-color: rgb(255 237 213 / 0.5);
+    --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color),
+      0 2px 4px -2px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+      var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
+  .aspect-w-3 {
+    position: relative;
+    padding-bottom: calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 100%);
+  }
+  .aspect-h-4 {
+    --tw-aspect-h: 4;
+  }
+  .aspect-w-3 {
+    --tw-aspect-w: 3;
+  }
+  .animate-fadeIn {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-slideDown {
+    opacity: 0;
+    animation: slideDown 0.5s ease-out 0.2s forwards;
+  }
+
+  .animate-slideLeft {
+    opacity: 0;
+    animation: slideLeft 0.5s ease-out 0.4s forwards;
+  }
+
+  .animate-scaleRight {
+    transform: scaleX(0);
+    animation: scaleRight 0.8s ease-out 0.5s forwards;
+  }
+}
+
 html,
 body,
 * {
@@ -254,21 +305,6 @@ a:hover {
 
 /* Timeline  */
 
-@layer utilities {
-  .timeline-arrow {
-    clip-path: polygon(0% 0%, 75% 50%, 0% 100%);
-  }
-  
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-}
-
 @layer components {
   .border-3 {
     border-width: 3px;
@@ -427,23 +463,6 @@ a:hover {
   }
 }
 
-/* 3-D Effect */
-/* .bg-grid {
-  background-size: 50px 50px;
-  background-image: 
-    linear-gradient(to right, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-.float {
-  animation: float 3s ease-in-out infinite;
-} */
-
 .perspective-1000 {
   perspective: 1000px;
 }
@@ -455,24 +474,6 @@ a:hover {
 .backface-hidden {
   backface-visibility: hidden;
 }
-
-/* @layer utilities {
-  .perspective-1000 {
-    perspective: 1000px;
-  }
-
-  .preserve-3d {
-    transform-style: preserve-3d;
-  }
-
-  .backface-hidden {
-    backface-visibility: hidden;
-  }
-
-  .rotateY-180 {
-    transform: rotateY(180deg);
-  }
-} */
 
 @layer components {
   .profile-card-mask {
@@ -501,5 +502,96 @@ a:hover {
     .profile-grid {
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     }
+  }
+}
+
+/* THemes  */
+
+/* Enhanced pattern background */
+.bg-pattern {
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.1) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Smooth hover transitions */
+.hover-lift {
+  @apply transition-all duration-300 ease-out;
+  &:hover {
+    @apply -translate-y-0.5;
+  }
+}
+
+/* Enhanced wave animation */
+@keyframes wave {
+  0% {
+    transform: translateX(0) translateZ(0) scaleY(1);
+  }
+  50% {
+    transform: translateX(-25%) translateZ(0) scaleY(0.95);
+  }
+  100% {
+    transform: translateX(-50%) translateZ(0) scaleY(1);
+  }
+}
+
+.animate-wave {
+  animation: wave 15s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+}
+
+/* Articles  */
+
+.article-card-hover {
+  @apply transition-all duration-300 ease-out;
+  &:hover {
+    @apply transform -translate-y-1;
+  }
+}
+
+.article-image-hover {
+  @apply transition-all duration-500 ease-out;
+  &:hover {
+    @apply transform scale-110;
+  }
+}
+
+/* Theme transition utilities */
+.theme-transition {
+  @apply transition-colors duration-300;
+}
+
+/* Gradient text animation */
+.animate-gradient-text {
+  background-size: 200% auto;
+  animation: gradient 2s linear infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+@layer components {
+  .article-card {
+    @apply transition-all duration-300 ease-out transform hover:-translate-y-2;
+  }
+
+  .article-image {
+    @apply transition-transform duration-500 ease-out transform hover:scale-110;
+  }
+
+  .article-date {
+    @apply transition-colors duration-300 ease-out;
+  }
+
+  .article-link {
+    @apply transition-all duration-300 ease-out;
   }
 }
