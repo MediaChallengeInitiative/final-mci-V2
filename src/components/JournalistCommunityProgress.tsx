@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import React from "react";
 
-// Wrap the motion.div components that don't change frequently in React.memo to prevent unnecessary re-renders.
+// Add display name to the SectionTitle component
 const SectionTitle = React.memo(({ title }: { title: string }) => (
   <h2 className="text-3xl lg:text-4xl font-bold text-sky-500 mb-6">
     {title}
@@ -16,6 +16,7 @@ const SectionTitle = React.memo(({ title }: { title: string }) => (
     />
   </h2>
 ));
+SectionTitle.displayName = "SectionTitle";
 
 const JournalistCommunityProgress = () => {
   return (
@@ -43,7 +44,7 @@ const JournalistCommunityProgress = () => {
                 fill
                 style={{ objectPosition: "50% 15%" }}
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
-                loading="lazy" // Lazy load image
+                loading="lazy"
               />
             </motion.div>
 
@@ -65,7 +66,7 @@ const JournalistCommunityProgress = () => {
               >
                 <span className="font-semibold text-sky-500">Issue:</span> In
                 2012, our co-founder was denied an internship at a television
-                station because he "didn't know anyone" there.
+                station because he &ldquo;didn&apos;t know anyone&rdquo; there.
               </motion.p>
               <motion.p
                 initial={{ opacity: 0, y: 10 }}
@@ -114,7 +115,7 @@ const JournalistCommunityProgress = () => {
                 alt="How it is going"
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
-                loading="lazy" // Lazy load image
+                loading="lazy"
               />
               <motion.div
                 className="absolute inset-0 flex items-center justify-center z-20 p-6"

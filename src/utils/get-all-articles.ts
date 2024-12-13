@@ -1,6 +1,4 @@
-import { Blog } from "@/interface/interface";
 import { client } from "@/lib/sanity";
-import { groq } from "next-sanity";
 
 export async function getAllArticles(start: number, end: number) {
   const query = `*[_type == 'article'] | order(name asc)[${start}...${end}]{

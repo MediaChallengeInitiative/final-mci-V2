@@ -595,3 +595,93 @@ a:hover {
     @apply transition-all duration-300 ease-out;
   }
 }
+
+/* Add to your CSS/SCSS file */
+
+#horizontal-scroll {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.horizontal-scroll-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.horizontal {
+  position: relative;
+  width: fit-content;
+  min-width: 100%;
+  padding-right: 100vw; /* Ensures last item is fully visible */
+}
+
+/* Optional: Add smooth scrolling for touch devices */
+@media (hover: none) {
+  .horizontal {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+}
+
+/* Ensure proper sizing on mobile */
+@media (max-width: 768px) {
+  #horizontal-scroll {
+    height: 90vh;
+  }
+}
+
+/* Add to your CSS file */
+
+.card-container {
+  perspective: 1000px;
+  transition: transform 0.3s ease;
+}
+
+.card {
+  transform-style: preserve-3d;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+/* Optional hover effects */
+@media (hover: hover) {
+  .card-container:hover {
+    transform: translateY(-5px);
+  }
+
+  .card:hover {
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+}
+
+/* Ensure proper aspect ratio on different screens */
+@media (max-width: 768px) {
+  .card-container {
+    min-width: 280px;
+    max-width: 400px;
+  }
+}
+
+/* Timeline Arrow */
+
+@keyframes pulse-subtle {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.95);
+    opacity: 0.9;
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}

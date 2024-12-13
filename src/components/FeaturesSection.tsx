@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import {
   Video as VideoIcon,
-  Users,
   Sparkles,
   MonitorPlay,
   Building2,
@@ -22,7 +21,6 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
   title,
   description,
   benefits = [],
-  index
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [spotlight, setSpotlight] = useState<CardSpotlight>({

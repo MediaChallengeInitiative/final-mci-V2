@@ -1,4 +1,3 @@
-import { ArticleData } from "@/interface/interface";
 import { client } from "@/lib/sanity";
 
 export async function getSingleArticle(slug: string) {

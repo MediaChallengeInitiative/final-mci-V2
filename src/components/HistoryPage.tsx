@@ -1,5 +1,6 @@
+import Image from "next/image";
 import React from "react";
-import { FaHeart, FaAward, FaUsers, FaChurch } from "react-icons/fa";
+// import { FaHeart, FaAward, FaUsers, FaChurch } from "react-icons/fa";
 
 type TimelinePoint = {
   year: number;
@@ -54,28 +55,28 @@ const timelinePoints: TimelinePoint[] = [
 ];
 
 const HistoryPage: React.FC = () => {
-  const renderIcon = (icon: string, index: number) => {
-    const colorClasses = [
-      "text-red-500",
-      "text-blue-500",
-      "text-green-500",
-      "text-purple-500"
-    ];
-    const colorClass = colorClasses[index % colorClasses.length];
+  // const renderIcon = (icon: string, index: number) => {
+  //   const colorClasses = [
+  //     "text-red-500",
+  //     "text-blue-500",
+  //     "text-green-500",
+  //     "text-purple-500"
+  //   ];
+  //   const colorClass = colorClasses[index % colorClasses.length];
 
-    switch (icon) {
-      case "heart":
-        return <FaHeart className={colorClass} />;
-      case "award":
-        return <FaAward className={colorClass} />;
-      case "users":
-        return <FaUsers className={colorClass} />;
-      case "church":
-        return <FaChurch className={colorClass} />;
-      default:
-        return null;
-    }
-  };
+  //   switch (icon) {
+  //     case "heart":
+  //       return <FaHeart className={colorClass} />;
+  //     case "award":
+  //       return <FaAward className={colorClass} />;
+  //     case "users":
+  //       return <FaUsers className={colorClass} />;
+  //     case "church":
+  //       return <FaChurch className={colorClass} />;
+  //     default:
+  //       return null;
+  //   }
+  // };
 
   return (
     <div className="bg-gray-50 py-20">
@@ -110,7 +111,9 @@ const HistoryPage: React.FC = () => {
                     <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
                       <div className="w-72 h-72 rounded-full bg-white shadow-lg flex items-center justify-center">
                         {/* {renderIcon(point.icon, index)} */}
-                        <img
+                        <Image
+                          width={300}
+                          height={300}
                           src={point.icon}
                           alt={`${point.title} icon`}
                           className="w-full h-full object-cover rounded-full"
@@ -126,7 +129,9 @@ const HistoryPage: React.FC = () => {
                     <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                       <div className="w-72 h-72 rounded-full bg-white shadow-lg flex items-center justify-center">
                         {/* {renderIcon(point.icon, index)} */}
-                        <img
+                        <Image
+                          width={300}
+                          height={300}
                           src={point.icon}
                           alt={`${point.title} icon`}
                           className="w-full h-full object-cover rounded-full"

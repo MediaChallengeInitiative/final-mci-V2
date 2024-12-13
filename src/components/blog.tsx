@@ -1,24 +1,8 @@
 import React from "react";
-import { client } from "@/lib/sanity";
 import Link from "next/link";
-
-async function getBlogs() {
-  const query = `
-    *[_type == "blog"] | order(_createdAt asc) {
-      "title": title,
-      "currentSlug": slug.current,
-      "author": author->{name},
-      "mainImage": mainImage,
-      "publishedAt": publishedAt,
-      "description": description,
-    }
-  `;
-  const data = await client.fetch(query);
-  return data;
-}
+import Image from "next/image";
 
 export default async function Blog() {
-
   return (
     <>
       <section className="w-full bg-[#f6931d] py-6 md:py-12 lg:pt-10 lg:pb-4">
@@ -38,14 +22,14 @@ export default async function Blog() {
               </div>
             </div>
             <div className="group relative overflow-hidden rounded-xl">
-              <img
+              <Image
                 alt="Recent blog post"
                 className="h-full w-full object-cover transition-all duration-300 group-hover:scale-105"
                 height="200"
                 src="/assets/images/blog/bog-3.jpeg"
                 style={{
                   aspectRatio: "300/200",
-                  objectFit: "cover",
+                  objectFit: "cover"
                 }}
                 width="300"
               />
@@ -65,16 +49,16 @@ export default async function Blog() {
                 </div>
               </div>
             </div>
-            
+
             <div className="group relative overflow-hidden rounded-xl">
-              <img
+              <Image
                 alt="Recent blog post"
                 className="h-full w-full object-cover transition-all duration-300 group-hover:scale-105"
                 height="200"
                 src="/assets/images/blog/blog-1.jpg"
                 style={{
                   aspectRatio: "300/200",
-                  objectFit: "cover",
+                  objectFit: "cover"
                 }}
                 width="300"
               />

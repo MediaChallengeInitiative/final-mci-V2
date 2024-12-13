@@ -1,6 +1,7 @@
-import Breadcrumb from "@/components/breadcrumb";
+// import Breadcrumb from "@/components/breadcrumb";
 import OurHistory from "@/components/our-history";
 import React from "react";
+import Image from "next/image";
 
 export default function Page() {
   return (
@@ -10,16 +11,16 @@ export default function Page() {
         <OurHistory />
         <div className="w-full grid h-full lg:grid-cols-2 grid-cols-1 lg:gap-4 gap-2 px-4 md:px-6 lg:mt-2 mt-0">
           <div className="group relative overflow-hidden rounded-xl lg:mb-0 mb-6">
-            <img
+            <Image
               alt="Recent blog post"
               className="h-full w-full object-cover transition-all duration-300 group-hover:scale-105"
-              height="200"
+              height={200}
               src="/assets/images/blog/blog-1.jpg"
               style={{
                 aspectRatio: "300/200",
                 objectFit: "cover"
               }}
-              width="300"
+              width={300}
             />
           </div>
           <div className="lg:px-2 px-0 text-justify">

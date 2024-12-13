@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Breadcrumb from "@/components/breadcrumb";
 import { ModernPagination } from "@/components/ui/modern-pagination";
 import StaffCard from "./StaffCard";
-import { StaffPageProps } from "@/interface/interface";
+import { StaffPageProps, Theme } from "@/interface/interface";
 import { themes } from "@/config/themes";
 import ColorSwitcher from "./ColorSwitcher";
 
@@ -17,9 +17,9 @@ const StaffPage: React.FC<StaffPageProps> = ({
 }) => {
   const [currentTheme, setCurrentTheme] = useState(themes[0]);
   const [isColorMenuOpen, setIsColorMenuOpen] = useState(true);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
-  const handleThemeChange = useCallback((theme: any) => {
+  const handleThemeChange = useCallback((theme: Theme) => {
     startTransition(() => {
       setCurrentTheme(theme);
     });
@@ -86,7 +86,7 @@ export default React.memo(StaffPage);
 
 // "use client";
 
-// import React, { useState, useCallback, useTransition } from "react";
+// import React, { useState, useCallback, useTransition, useMemo } from "react";
 // import { motion, AnimatePresence } from "framer-motion";
 // import Breadcrumb from "@/components/breadcrumb";
 // import { ModernPagination } from "@/components/ui/modern-pagination";
@@ -111,23 +111,35 @@ export default React.memo(StaffPage);
 //     });
 //   }, []);
 
+//   const memoizedStaffCards = useMemo(
+//     () =>
+//       staff.map((s, i) => (
+//         <StaffCard key={i} staff={s} theme={currentTheme} index={i} />
+//       )),
+//     [staff, currentTheme]
+//   );
+
 //   return (
 //     <div
 //       className={`min-h-screen transition-colors duration-300 ${currentTheme.bg}`}
 //     >
+//       {/* Color switcher component */}
 //       <ColorSwitcher
 //         currentTheme={currentTheme}
 //         setCurrentTheme={handleThemeChange}
 //         isColorMenuOpen={isColorMenuOpen}
 //         setIsColorMenuOpen={setIsColorMenuOpen}
 //       />
+
 //       <section className="w-full py-8 md:py-12 lg:py-16">
-//         {/* <Breadcrumb title="Our Staff" /> */}
+//         {/* Breadcrumb for navigation */}
 //         <Breadcrumb
 //           title="Our Staff"
 //           subtitle="Meet our amazing team of professionals"
 //           currentTheme={currentTheme}
 //         />
+
+//         {/* Staff grid */}
 //         <AnimatePresence mode="wait">
 //           <motion.div
 //             key={currentTheme.name}
@@ -137,17 +149,12 @@ export default React.memo(StaffPage);
 //             className="container grid gap-12 px-4 md:px-6"
 //           >
 //             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 auto-rows-max">
-//               {staff.map((s, i) => (
-//                 <StaffCard
-//                   key={i}
-//                   staff={s}
-//                   theme={currentTheme}
-//                   index={i}
-//                 />
-//               ))}
+//               {memoizedStaffCards}
 //             </div>
 //           </motion.div>
 //         </AnimatePresence>
+
+//         {/* Pagination component */}
 //         <ModernPagination
 //           currentPage={Number(page)}
 //           totalPages={totalPages}
@@ -161,4 +168,4 @@ export default React.memo(StaffPage);
 //   );
 // };
 
-// export default StaffPage;
+// export default React.memo(StaffPage);

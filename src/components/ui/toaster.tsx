@@ -1,35 +1,97 @@
-'use client';
+import { useState, useCallback } from "react";
 
-import { useToast } from '@/hooks/use-toast';
-import {
-  Toast,
-  ToastClose,
-  ToastDescription,
-  ToastProvider,
-  ToastTitle,
-  ToastViewport,
-} from '@/components/ui/toast';
+export type ToastType = "success" | "error" | "warning" | "info";
 
-export function Toaster() {
-  const { toasts } = useToast();
-
-  return (
-    <ToastProvider>
-      {toasts.map(function ({ id, title, description, action, ...props }) {
-        return (
-          <Toast key={id} {...props}>
-            <div className="grid gap-1">
-              {title && <ToastTitle>{title}</ToastTitle>}
-              {description && (
-                <ToastDescription>{description}</ToastDescription>
-              )}
-            </div>
-            {action}
-            <ToastClose />
-          </Toast>
-        );
-      })}
-      <ToastViewport />
-    </ToastProvider>
-  );
+export interface Toast {
+  id: string;
+  message: string;
+  type: ToastType;
+  duration?: number;
+  title?: string;
 }
+
+export interface ToastOptions {
+  type?: ToastType;
+  duration?: number;
+  title?: string;
+}
+
+export const useToast = () => {
+  const [toasts, setToasts] = useState<Toast[]>([]);
+
+  const generateId = useCallback((): string => {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2);
+  }, []);
+
+  const removeToast = useCallback((id: string): void => {
+    setToasts((prev) => prev.filter((toast) => toast.id !== id));
+  }, []);
+
+  const addToast = useCallback(
+    (message: string, options: ToastOptions = {}): string => {
+      const { type = "info", duration = 5000, title } = options;
+
+      const newToast: Toast = {
+        id: generateId(),
+        message,
+        type,
+        duration,
+        title
+      };
+
+      setToasts((prev) => [...prev, newToast]);
+
+      if (duration !== Infinity) {
+        setTimeout(() => {
+          removeToast(newToast.id);
+        }, duration);
+      }
+
+      return newToast.id;
+    },
+    [generateId, removeToast] // Added removeToast to dependencies
+  );
+
+  const clearToasts = useCallback((): void => {
+    setToasts([]);
+  }, []);
+
+  const success = useCallback(
+    (message: string, options?: Omit<ToastOptions, "type">): string => {
+      return addToast(message, { ...options, type: "success" });
+    },
+    [addToast]
+  );
+
+  const error = useCallback(
+    (message: string, options?: Omit<ToastOptions, "type">): string => {
+      return addToast(message, { ...options, type: "error" });
+    },
+    [addToast]
+  );
+
+  const warning = useCallback(
+    (message: string, options?: Omit<ToastOptions, "type">): string => {
+      return addToast(message, { ...options, type: "warning" });
+    },
+    [addToast]
+  );
+
+  const info = useCallback(
+    (message: string, options?: Omit<ToastOptions, "type">): string => {
+      return addToast(message, { ...options, type: "info" });
+    },
+    [addToast]
+  );
+
+  return {
+    toasts,
+    addToast,
+    removeToast,
+    clearToasts,
+    success,
+    error,
+    warning,
+    info
+  } as const;
+};

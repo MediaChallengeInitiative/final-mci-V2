@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 export default function Gallery() {
   return (
@@ -6,7 +7,9 @@ export default function Gallery() {
       <div className="md:flex">
         <div className="lg:w-1/2 md:w-1/2 p-1">
           <div className="group relative overflow-hidden">
-            <img
+            <Image
+              width={300}
+              height={300}
               src="/assets/images/gallery/g1.jpg"
               alt="placeholder"
               className="w-full"
@@ -26,7 +29,9 @@ export default function Gallery() {
           <div className="flex">
             <div className="w-1/2 p-1">
               <div className="group relative overflow-hidden">
-                <img
+                <Image
+                  width={300}
+                  height={300}
                   src="/assets/images/gallery/g2.jpg"
                   alt="placeholder"
                   className="w-full h-[260px] object-cover"
@@ -44,7 +49,9 @@ export default function Gallery() {
             </div>
             <div className="w-1/2 p-1">
               <div className="group relative overflow-hidden">
-                <img
+                <Image
+                  width={300}
+                  height={300}
                   src="/assets/images/gallery/g3.jpg"
                   alt="placeholder"
                   className="w-full h-[260px] object-cover"
@@ -64,7 +71,9 @@ export default function Gallery() {
           <div className="flex">
             <div className="w-1/2 p-1">
               <div className="group relative overflow-hidden">
-                <img
+                <Image
+                  width={300}
+                  height={300}
                   src="/assets/images/gallery/g4.jpg"
                   alt="placeholder"
                   className="w-full h-[260px] object-cover"
@@ -82,7 +91,9 @@ export default function Gallery() {
             </div>
             <div className="w-1/2 p-1">
               <div className="group relative overflow-hidden">
-                <img
+                <Image
+                  width={300}
+                  height={300}
                   src="/assets/images/gallery/g1.jpg"
                   alt="placeholder"
                   className="w-full h-[260px] object-cover"

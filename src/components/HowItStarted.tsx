@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 export default function HowItStarted() {
   return (
@@ -8,10 +9,10 @@ export default function HowItStarted() {
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-sky-500">
             How it started
           </h2>
-          <img
+          <Image
+            width={700}
+            height={400}
             src="/assets/images/projects/p1.jpg"
-            width="650"
-            height="365"
             alt="Image"
             className="aspect-video w-full overflow-hidden rounded-xl object-cover"
           />
@@ -23,7 +24,7 @@ export default function HowItStarted() {
           <p className="text-gray-200 md:text-xl/relaxed">
             <span className="text-orange-500 pr-2">Issue:</span> In 2012, our
             co-founder was denied an internship at a television station because
-            he "didn't know anyone" there.
+            he &quot;didn&apos;t know anyone&quot; there.
           </p>
           <p className="text-gray-200 md:text-xl/relaxed">
             <span className="text-orange-500 pr-2">Response:</span> Tired by the
@@ -31,8 +32,9 @@ export default function HowItStarted() {
             it. The motivating idea holds that every young journalist,
             regardless of background, deserves an internship and an employment
             opportunity. No amount of nepotism should prevent that. Rather than
-            "technical-know-who," the industry must embrace "technical
-            -know-how" as a recruitment and internship program.
+            &quot;technical-know-who,&quot; the industry must embrace
+            &quot;technical-know-how&quot; as a recruitment and internship
+            program.
           </p>
           <p className="text-gray-200 md:text-xl/relaxed">
             <span className="text-orange-500 pr-2">The Creative Fix:</span> an

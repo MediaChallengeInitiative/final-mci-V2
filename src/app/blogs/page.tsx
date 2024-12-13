@@ -1,32 +1,40 @@
-// app/blog/page.tsx
 import React from "react";
-import { Blog } from "@/interface/interface";
 import { getAllBlogs, getTotalBlogs } from "@/utils/get-all-blogs";
-import Breadcrumb from "@/components/breadcrumb";
-import BlogClientPage from "@/components/BlogClientPage";
+import BlogsPage from "@/components/blogs/BlogsPage";
+import type { Metadata } from "next";
 
-export default async function BlogPage({
-  searchParams
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export const metadata: Metadata = {
+  title: "Our Blogs",
+  description: "Explore our collection of blogs and stories"
+};
+
+type SearchParams = { [key: string]: string | string[] | undefined };
+
+interface PageProps {
+  params?: Record<string, string>; // Adjusted to allow params for dynamic routes
+  searchParams: SearchParams;
+}
+
+export const runtime = "edge";
+export const preferredRegion = "auto";
+export const dynamic = "force-dynamic";
+export const revalidate = 3600;
+
+export default async function Page({ searchParams }: PageProps) {
   const page = Number(searchParams["page"] ?? "1");
-  const per_page = 6; // Two rows of three blogs each
+  const per_page = 6;
 
-  const start = (page - 1) * per_page;
-  const end = start + per_page;
-
-  const initialBlogs: Blog[] = await getAllBlogs(start, end);
-  const totalBlogs: number = await getTotalBlogs();
+  const [initialBlogs, totalBlogs] = await Promise.all([
+    getAllBlogs((page - 1) * per_page, page * per_page),
+    getTotalBlogs()
+  ]);
 
   return (
-    <section className="bg-white w-full py-12 md:py-24 lg:py-16 lg:mt-0 mt-2">
-      <Breadcrumb title="Blog" />
-      <BlogClientPage
-        initialBlogs={initialBlogs}
-        totalBlogs={totalBlogs}
-        per_page={per_page}
-      />
-    </section>
+    <BlogsPage
+      initialBlogs={initialBlogs}
+      totalBlogs={totalBlogs}
+      page={page}
+      per_page={per_page}
+    />
   );
 }

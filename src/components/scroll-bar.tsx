@@ -1,46 +1,91 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { motion } from "framer-motion";
+import type { SwiperOptions } from "swiper/types";
 import "swiper/css";
 
 interface NewsItem {
   text: string;
   category: string;
+  id: string;
 }
 
+// Move data outside component
 const newsItems: NewsItem[] = [
   {
     text: "BUILDING THE NEXT GENERATION OF JOURNALISTS,",
-    category: "SPOTLIGHT"
+    category: "SPOTLIGHT",
+    id: "news-1"
   },
   {
     text: "CONTENT CREATORS,",
-    category: "MISSION"
+    category: "MISSION",
+    id: "news-2"
   },
   {
     text: "AND STORY LEADERS TO FIX THE MULTI-LAYERED MEDIA CRISIS IN AFRICA.",
-    category: "VISION"
+    category: "VISION",
+    id: "news-3"
   }
 ];
 
-const ScrollBanner = () => {
-  const duplicatedItems = [...newsItems, ...newsItems, ...newsItems];
+// Memoized NewsSlide component
+const NewsSlide = React.memo<{ item: NewsItem }>(({ item }) => (
+  <div className="group relative flex items-center px-6 lg:px-8">
+    <span className="text-base md:text-lg lg:text-xl text-gray-300 whitespace-nowrap transition-colors duration-300 group-hover:text-white font-medium">
+      {item.text}
+    </span>
+    <span
+      className="mx-8 lg:mx-12 text-2xl text-gray-600 group-hover:text-gray-500 transition-colors duration-300"
+      aria-hidden="true"
+    >
+      •
+    </span>
+  </div>
+));
+
+NewsSlide.displayName = "NewsSlide";
+
+const ScrollBanner: React.FC = () => {
+  // Memoize duplicated items
+  const duplicatedItems = useMemo(
+    () => [...newsItems, ...newsItems, ...newsItems],
+    []
+  );
+
+  // Memoize Swiper config
+  const swiperConfig: SwiperOptions = useMemo(
+    () => ({
+      modules: [Autoplay],
+      slidesPerView: "auto",
+      loop: true,
+      speed: 15000,
+      autoplay: {
+        delay: 0,
+        disableOnInteraction: false,
+        reverseDirection: false
+      }
+    }),
+    []
+  );
 
   return (
-    <section className="relative isolate overflow-hidden bg-gradient-to-b from-gray-950 to-gray-900 border-y border-gray-800">
-      {/* Subtle grid background */}
+    <section
+      className="relative isolate overflow-hidden bg-gradient-to-b from-gray-950 to-gray-900 border-y border-gray-800"
+      aria-label="Mission Statement Banner"
+    >
+      {/* Grid Background */}
       <div
         className="absolute inset-0 opacity-10"
         style={{
-          backgroundImage: `
-            linear-gradient(to right, rgb(255 255 255 / 0.1) 1px, transparent 1px),
-            linear-gradient(to bottom, rgb(255 255 255 / 0.1) 1px, transparent 1px)
-          `,
+          backgroundImage: `linear-gradient(to right, rgb(255 255 255 / 0.1) 1px, transparent 1px),
+            linear-gradient(to bottom, rgb(255 255 255 / 0.1) 1px, transparent 1px)`,
           backgroundSize: "4rem 4rem"
         }}
+        aria-hidden="true"
       />
 
       <div className="relative flex flex-col lg:flex-row items-stretch">
@@ -49,66 +94,41 @@ const ScrollBanner = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative py-2 px-1 bg-gradient-to-r from-[#f6931d] to-orange-600 lg:w-[280px] xl:w-[320px] flex items-center justify-start lg:justify-start"
+          className="relative py-2 px-4 bg-gradient-to-r from-[#f6931d] to-orange-600 lg:w-[280px] xl:w-[320px] flex items-center justify-start"
         >
           <h2 className="text-2md lg:text-lg font-bold text-white uppercase tracking-wider whitespace-nowrap">
             We Do This Through
           </h2>
-
-          {/* Decorative gradient edge */}
-          {/* <div className="absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-orange-600/20 to-transparent" /> */}
         </motion.div>
 
-        {/* News Ticker Section */}
+        {/* News Ticker */}
         <div className="flex-1 relative overflow-hidden bg-gray-900/90 backdrop-blur-sm">
           <div className="h-full flex items-center py-1 lg:py-2">
-            <Swiper
-              modules={[Autoplay]}
-              slidesPerView="auto"
-              loop={true}
-              speed={15000}
-              autoplay={{
-                delay: 0,
-                disableOnInteraction: false,
-                reverseDirection: false
-              }}
-              className="news-ticker"
-            >
+            <Swiper {...swiperConfig} className="news-ticker !overflow-visible">
               {duplicatedItems.map((item, index) => (
-                <SwiperSlide key={index} className="!w-auto">
-                  <div className="group relative flex items-center px-6 lg:px-8">
-                    {/* Category Badge */}
-                    {/* <div className="hidden md:flex h-7 items-center px-4 mr-4 rounded-full bg-sky-500/10 border border-sky-500/20 transition-colors duration-300 group-hover:border-sky-500/40 group-hover:bg-sky-500/15">
-                      <span className="text-sm font-semibold text-sky-400 whitespace-nowrap">
-                        {item.category}
-                      </span>
-                    </div> */}
-
-                    {/* News Text */}
-                    <span className="text-base md:text-lg lg:text-xl text-gray-300 whitespace-nowrap transition-colors duration-300 group-hover:text-white font-medium">
-                      {item.text}
-                    </span>
-
-                    {/* Separator */}
-                    <span className="mx-8 lg:mx-12 text-2xl text-gray-600 group-hover:text-gray-500 transition-colors duration-300">
-                      •
-                    </span>
-                  </div>
+                <SwiperSlide key={`${item.id}-${index}`} className="!w-auto">
+                  <NewsSlide item={item} />
                 </SwiperSlide>
               ))}
             </Swiper>
           </div>
 
           {/* Fade Gradients */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-gray-900 via-gray-900/90 to-transparent pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-gray-900 via-gray-900/90 to-transparent pointer-events-none" />
+          <div
+            className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-gray-900 via-gray-900/90 to-transparent pointer-events-none"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-gray-900 via-gray-900/90 to-transparent pointer-events-none"
+            aria-hidden="true"
+          />
         </div>
       </div>
 
       <style jsx global>{`
         .news-ticker {
           width: 100%;
-          overflow: visible;
+          will-change: transform;
         }
 
         .news-ticker .swiper-wrapper {
@@ -135,12 +155,166 @@ const ScrollBanner = () => {
             height: 4rem;
           }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+          .news-ticker .swiper-wrapper {
+            transition: none !important;
+          }
+
+          .group * {
+            transition: none !important;
+          }
+        }
       `}</style>
     </section>
   );
 };
 
-export default ScrollBanner;
+export default React.memo(ScrollBanner);
+
+// "use client";
+
+// import React from "react";
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import { Autoplay } from "swiper/modules";
+// import { motion } from "framer-motion";
+// import "swiper/css";
+
+// interface NewsItem {
+//   text: string;
+//   category: string;
+// }
+
+// const newsItems: NewsItem[] = [
+//   {
+//     text: "BUILDING THE NEXT GENERATION OF JOURNALISTS,",
+//     category: "SPOTLIGHT"
+//   },
+//   {
+//     text: "CONTENT CREATORS,",
+//     category: "MISSION"
+//   },
+//   {
+//     text: "AND STORY LEADERS TO FIX THE MULTI-LAYERED MEDIA CRISIS IN AFRICA.",
+//     category: "VISION"
+//   }
+// ];
+
+// const ScrollBanner = () => {
+//   const duplicatedItems = [...newsItems, ...newsItems, ...newsItems];
+
+//   return (
+//     <section className="relative isolate overflow-hidden bg-gradient-to-b from-gray-950 to-gray-900 border-y border-gray-800">
+//       {/* Subtle grid background */}
+//       <div
+//         className="absolute inset-0 opacity-10"
+//         style={{
+//           backgroundImage: `
+//             linear-gradient(to right, rgb(255 255 255 / 0.1) 1px, transparent 1px),
+//             linear-gradient(to bottom, rgb(255 255 255 / 0.1) 1px, transparent 1px)
+//           `,
+//           backgroundSize: "4rem 4rem"
+//         }}
+//       />
+
+//       <div className="relative flex flex-col lg:flex-row items-stretch">
+//         {/* Label Section */}
+//         <motion.div
+//           initial={{ opacity: 0, x: -20 }}
+//           animate={{ opacity: 1, x: 0 }}
+//           transition={{ duration: 0.8, ease: "easeOut" }}
+//           className="relative py-2 px-1 bg-gradient-to-r from-[#f6931d] to-orange-600 lg:w-[280px] xl:w-[320px] flex items-center justify-start lg:justify-start"
+//         >
+//           <h2 className="text-2md lg:text-lg font-bold text-white uppercase tracking-wider whitespace-nowrap">
+//             We Do This Through
+//           </h2>
+
+//           {/* Decorative gradient edge */}
+//           {/* <div className="absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-orange-600/20 to-transparent" /> */}
+//         </motion.div>
+
+//         {/* News Ticker Section */}
+//         <div className="flex-1 relative overflow-hidden bg-gray-900/90 backdrop-blur-sm">
+//           <div className="h-full flex items-center py-1 lg:py-2">
+//             <Swiper
+//               modules={[Autoplay]}
+//               slidesPerView="auto"
+//               loop={true}
+//               speed={15000}
+//               autoplay={{
+//                 delay: 0,
+//                 disableOnInteraction: false,
+//                 reverseDirection: false
+//               }}
+//               className="news-ticker"
+//             >
+//               {duplicatedItems.map((item, index) => (
+//                 <SwiperSlide key={index} className="!w-auto">
+//                   <div className="group relative flex items-center px-6 lg:px-8">
+//                     {/* Category Badge */}
+//                     {/* <div className="hidden md:flex h-7 items-center px-4 mr-4 rounded-full bg-sky-500/10 border border-sky-500/20 transition-colors duration-300 group-hover:border-sky-500/40 group-hover:bg-sky-500/15">
+//                       <span className="text-sm font-semibold text-sky-400 whitespace-nowrap">
+//                         {item.category}
+//                       </span>
+//                     </div> */}
+
+//                     {/* News Text */}
+//                     <span className="text-base md:text-lg lg:text-xl text-gray-300 whitespace-nowrap transition-colors duration-300 group-hover:text-white font-medium">
+//                       {item.text}
+//                     </span>
+
+//                     {/* Separator */}
+//                     <span className="mx-8 lg:mx-12 text-2xl text-gray-600 group-hover:text-gray-500 transition-colors duration-300">
+//                       •
+//                     </span>
+//                   </div>
+//                 </SwiperSlide>
+//               ))}
+//             </Swiper>
+//           </div>
+
+//           {/* Fade Gradients */}
+//           <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-gray-900 via-gray-900/90 to-transparent pointer-events-none" />
+//           <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-gray-900 via-gray-900/90 to-transparent pointer-events-none" />
+//         </div>
+//       </div>
+
+//       <style jsx global>{`
+//         .news-ticker {
+//           width: 100%;
+//           overflow: visible;
+//         }
+
+//         .news-ticker .swiper-wrapper {
+//           transition-timing-function: linear !important;
+//           align-items: center;
+//         }
+
+//         .news-ticker .swiper-slide {
+//           width: auto;
+//           height: 100%;
+//           display: flex;
+//           align-items: center;
+//         }
+
+//         @media (max-width: 768px) {
+//           .news-ticker .swiper-slide {
+//             padding-left: 0.5rem;
+//             padding-right: 0.5rem;
+//           }
+//         }
+
+//         @media (min-width: 1024px) {
+//           .news-ticker .swiper-slide {
+//             height: 4rem;
+//           }
+//         }
+//       `}</style>
+//     </section>
+//   );
+// };
+
+// export default ScrollBanner;
 
 // import React from "react";
 // import Link from "next/link";

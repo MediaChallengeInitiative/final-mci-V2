@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import { Play, ArrowRight } from "lucide-react";
 
 export const ImpactHero: React.FC = () => {
@@ -104,7 +104,7 @@ export const ImpactHero: React.FC = () => {
               transition={{ delay: 0.6 }}
               className="text-lg sm:text-xl md:text-2xl text-sky-200/70 max-w-2xl mx-auto"
             >
-              Building Africa's next generation of storytellers
+              Building Africa&apos;s next generation of storytellers
             </motion.p>
           </motion.div>
 

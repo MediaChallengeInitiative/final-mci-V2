@@ -10,3 +10,5 @@ const fetchImpactBySolutionId = async (
   );
   return impacts;
 };
+
+export default fetchImpactBySolutionId;

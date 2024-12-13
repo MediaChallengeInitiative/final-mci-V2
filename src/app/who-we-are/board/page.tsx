@@ -3,8 +3,9 @@ import { StaffData } from "@/interface/interface";
 import { urlFor } from "@/lib/sanity";
 import { getAllBoardMembers } from "@/utils/get-all-board-members";
 import Link from "next/link";
-import Breadcrumb from "@/components/breadcrumb";
+// import Breadcrumb from "@/components/breadcrumb";
 import { getAllFounders } from "@/utils/get-all-founders";
+import Image from "next/image";
 
 export default async function Page() {
   const board: StaffData[] = await getAllBoardMembers();
@@ -12,7 +13,7 @@ export default async function Page() {
   return (
     <>
       <section className="w-full py-12 md:py-24 lg:py-32 lg:mt-0">
-        <Breadcrumb title={"Our Advisory Board"} />
+        {/* <Breadcrumb title={"Our Advisory Board"} /> */}
         <div className="container grid gap-12 px-4 md:px-6">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {board.map((s, i: number) => (
@@ -21,7 +22,7 @@ export default async function Page() {
                 key={i}
                 className="group relative overflow-hidden rounded-xl"
               >
-                <img
+                <Image
                   alt="Recent blog post"
                   className="h-full w-full object-cover object-center transition-all duration-300 group-hover:scale-105"
                   height="400"
@@ -62,7 +63,7 @@ export default async function Page() {
                 key={i}
                 className="group relative overflow-hidden rounded-xl"
               >
-                <img
+                <Image
                   alt="Recent blog post"
                   className="h-full w-full object-cover object-center transition-all duration-300 group-hover:scale-105"
                   height="400"

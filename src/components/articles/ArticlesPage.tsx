@@ -1,35 +1,72 @@
 "use client";
 
-import React, { useState, useCallback, useTransition, useMemo } from "react";
+import React, {
+  useState,
+  useCallback,
+  useTransition,
+  useMemo,
+  useEffect
+} from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArticleData } from "@/interface/interface";
+import { ArticleData, Theme } from "@/interface/interface";
 import Breadcrumb from "@/components/breadcrumb";
 import ArticleCard from "./ArticleCard";
 import ColorSwitcher from "@/components/staff/ColorSwitcher";
 import { themes } from "@/config/themes";
 import { getAllArticles } from "@/utils/get-all-articles";
 
-interface ArticlesPageProps {
+interface ArticlesPageClientProps {
   initialArticles: ArticleData[];
   totalArticles: number;
   page: number;
   per_page: number;
 }
 
-const ArticlesPage: React.FC<ArticlesPageProps> = ({
+const LoadingSpinner = () => (
+  <>
+    <svg
+      className="animate-spin h-5 w-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      />
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      />
+    </svg>
+    <span>Loading...</span>
+  </>
+);
+
+export const ArticlesPage: React.FC<ArticlesPageClientProps> = ({
   initialArticles,
   totalArticles,
   page,
   per_page
 }) => {
+  const [mounted, setMounted] = useState(false);
   const [articles, setArticles] = useState<ArticleData[]>(initialArticles);
   const [currentPage, setCurrentPage] = useState(page);
   const [loading, setLoading] = useState(false);
   const [currentTheme, setCurrentTheme] = useState(themes[0]);
   const [isColorMenuOpen, setIsColorMenuOpen] = useState(true);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
-  const handleThemeChange = useCallback((theme: any) => {
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const handleThemeChange = useCallback((theme: Theme) => {
     startTransition(() => {
       setCurrentTheme(theme);
     });
@@ -51,12 +88,11 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({
     }
   };
 
-  // Memoize article cards to prevent unnecessary re-renders
   const memoizedArticleCards = useMemo(
     () =>
       articles.map((article, i) => (
         <ArticleCard
-          key={article._id}
+          key={`${article._id}-${i}`}
           article={article}
           theme={currentTheme}
           index={i}
@@ -64,6 +100,18 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({
       )),
     [articles, currentTheme]
   );
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen">
+        <div className="w-full py-8 md:py-12 lg:py-16">
+          <div className="container grid gap-12 px-4 md:px-6">
+            <div className="animate-pulse bg-gray-200 h-8 w-48 mx-auto rounded" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -85,7 +133,7 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({
 
         <AnimatePresence mode="wait">
           <motion.div
-            key={currentTheme.name}
+            key={`theme-${currentTheme.name}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -104,13 +152,16 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({
             </div>
 
             {/* Articles Grid */}
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 auto-rows-max">
+            <div
+              key="articles-grid"
+              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 auto-rows-max"
+            >
               {memoizedArticleCards}
             </div>
 
             {/* Load More Button */}
             {articles.length < totalArticles && (
-              <div className="flex justify-center">
+              <div key="load-more" className="flex justify-center">
                 <button
                   onClick={loadMore}
                   disabled={loading}
@@ -120,31 +171,13 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({
                     hover:shadow-lg transform hover:-translate-y-1
                     transition-all duration-300 disabled:opacity-70
                   `}
+                  aria-label={
+                    loading ? "Loading more articles..." : "Show more articles"
+                  }
                 >
                   <span className="relative z-10 flex items-center space-x-3 text-white">
                     {loading ? (
-                      <>
-                        <svg
-                          className="animate-spin h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          />
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          />
-                        </svg>
-                        <span>Loading...</span>
-                      </>
+                      <LoadingSpinner />
                     ) : (
                       <>
                         <span>Show More Articles</span>
@@ -153,6 +186,7 @@ const ArticlesPage: React.FC<ArticlesPageProps> = ({
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
+                          aria-hidden="true"
                         >
                           <path
                             strokeLinecap="round"

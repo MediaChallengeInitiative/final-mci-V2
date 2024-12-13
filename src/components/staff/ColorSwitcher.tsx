@@ -6,14 +6,14 @@ import { ColorSwitcherProps } from "@/interface/interface";
 import { themes } from "@/config/themes";
 
 const ColorSwitcher = React.memo<ColorSwitcherProps>(
-  ({ currentTheme, setCurrentTheme, isColorMenuOpen, setIsColorMenuOpen }) => {
+  ({ setCurrentTheme, isColorMenuOpen, setIsColorMenuOpen }) => {
     return (
       <div className="fixed left-4 top-1/2 -translate-y-1/2 z-50">
         <button
           onClick={() => setIsColorMenuOpen(!isColorMenuOpen)}
           className="p-2 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 mb-2 shadow-lg"
         >
-          <Palette className="w-6 h-6 text-gray-700" />
+          <Palette className="w-6 h-6 text-gray-400" />
         </button>
 
         {isColorMenuOpen && (

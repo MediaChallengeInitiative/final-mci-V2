@@ -10,28 +10,30 @@ interface ImpactGalleryProps {
 }
 
 export const ImpactGallery: React.FC<ImpactGalleryProps> = ({ items }) => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [, setHoveredIndex] = useState<number | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const categories = useMemo(() => {
     const uniqueCategories = Array.from(
-      new Set(items.map(item => item.category.toLowerCase()))
+      new Set(items.map((item) => item.category.toLowerCase()))
     );
     return ["all", ...uniqueCategories];
   }, [items]);
 
-  const filteredItems = useMemo(() => 
-    items.filter(item => 
-      selectedCategory === "all" || 
-      item.category.toLowerCase() === selectedCategory
-    ),
+  const filteredItems = useMemo(
+    () =>
+      items.filter(
+        (item) =>
+          selectedCategory === "all" ||
+          item.category.toLowerCase() === selectedCategory
+      ),
     [items, selectedCategory]
   );
 
   return (
     <div className="bg-gray-900 rounded-3xl px-8 py-12 space-y-8">
       {/* Category Filter */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="flex flex-wrap gap-4 mb-8"
@@ -41,9 +43,11 @@ export const ImpactGallery: React.FC<ImpactGalleryProps> = ({ items }) => {
             key={category}
             onClick={() => setSelectedCategory(category)}
             className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300
-              ${selectedCategory === category 
-                ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/25' 
-                : 'bg-gray-800 text-gray-300 hover:bg-sky-900 hover:text-sky-400'}`}
+              ${
+                selectedCategory === category
+                  ? "bg-sky-500 text-white shadow-lg shadow-sky-500/25"
+                  : "bg-gray-800 text-gray-300 hover:bg-sky-900 hover:text-sky-400"
+              }`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -53,7 +57,7 @@ export const ImpactGallery: React.FC<ImpactGalleryProps> = ({ items }) => {
       </motion.div>
 
       {/* Gallery Grid */}
-      <motion.div 
+      <motion.div
         layout
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
       >
@@ -79,7 +83,7 @@ export const ImpactGallery: React.FC<ImpactGalleryProps> = ({ items }) => {
                   whileHover={{ scale: 1.1 }}
                   transition={{ duration: 0.6 }}
                 />
-                
+
                 {/* Overlay Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -140,7 +144,7 @@ export const ImpactGallery: React.FC<ImpactGalleryProps> = ({ items }) => {
                   <h3 className="text-xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors">
                     {item.title}
                   </h3>
-                  
+
                   <p className="text-gray-300 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {item.description}
                   </p>
@@ -172,23 +176,6 @@ export const ImpactGallery: React.FC<ImpactGalleryProps> = ({ items }) => {
           </p>
         </motion.div>
       )}
-    </div>
-  );
-};
-
-// Optional: Add type-safe loading state
-interface GallerySkeletonProps {
-  count?: number;
-}
-
-const GallerySkeleton: React.FC<GallerySkeletonProps> = ({ count = 3 }) => {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="animate-pulse">
-          <div className="h-72 bg-gray-800 rounded-2xl" />
-        </div>
-      ))}
     </div>
   );
 };

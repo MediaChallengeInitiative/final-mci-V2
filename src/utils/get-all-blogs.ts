@@ -1,6 +1,4 @@
-import { Blog } from "@/interface/interface";
 import { client } from "@/lib/sanity";
-import { groq } from "next-sanity";
 
 export async function getAllBlogs(start: number, end: number) {
   const query = `*[_type == 'post'] | order(name asc)[${start}...${end}]{

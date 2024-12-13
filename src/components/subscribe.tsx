@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Mail, Loader2, Check } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { motion } from "framer-motion";
@@ -12,33 +12,41 @@ const Subscribe = () => {
     message: ""
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formState.email) {
-      setFormState((prev) => ({
-        ...prev,
-        status: "error",
-        message: "Please enter your email address"
-      }));
-      return;
-    }
-    if (!/^\S+@\S+\.\S+$/.test(formState.email)) {
-      setFormState((prev) => ({
-        ...prev,
-        status: "error",
-        message: "Please enter a valid email address"
-      }));
-      return;
-    }
-    setFormState((prev) => ({ ...prev, status: "loading" }));
-    setTimeout(() => {
-      setFormState((prev) => ({
-        ...prev,
-        status: "success",
-        message: "Thank you for subscribing!"
-      }));
-    }, 1500);
-  };
+  // Handle form submission with validation and status updates
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+
+      if (!formState.email) {
+        setFormState((prev) => ({
+          ...prev,
+          status: "error",
+          message: "Please enter your email address"
+        }));
+        return;
+      }
+
+      if (!/^\S+@\S+\.\S+$/.test(formState.email)) {
+        setFormState((prev) => ({
+          ...prev,
+          status: "error",
+          message: "Please enter a valid email address"
+        }));
+        return;
+      }
+
+      setFormState((prev) => ({ ...prev, status: "loading" }));
+
+      setTimeout(() => {
+        setFormState((prev) => ({
+          ...prev,
+          status: "success",
+          message: "Thank you for subscribing!"
+        }));
+      }, 1500);
+    },
+    [formState.email]
+  );
 
   return (
     <section className="relative w-full bg-gray-900 py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
@@ -56,8 +64,7 @@ const Subscribe = () => {
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
           onSubmit={handleSubmit}
-          className="flex flex-col lg:flex-row items-center justify-between gap-6 bg-[#f6931d] border border-none
-                   p-6 sm:p-8 shadow-2xl relative overflow-hidden rounded-xl"
+          className="flex flex-col lg:flex-row items-center justify-between gap-6 bg-[#f6931d] border border-none p-6 sm:p-8 shadow-2xl relative overflow-hidden rounded-xl"
         >
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-xl bg-white">
@@ -69,7 +76,12 @@ const Subscribe = () => {
           </div>
 
           <div className="relative w-full lg:w-auto flex-grow">
+            {/* Label added for accessibility */}
+            <label htmlFor="email" className="sr-only">
+              Email Address
+            </label>
             <input
+              id="email"
               type="email"
               value={formState.email}
               onChange={(e) =>
@@ -80,20 +92,10 @@ const Subscribe = () => {
                 }))
               }
               placeholder="Enter your email"
-              className="w-full h-12 pl-5 pr-12 
-                      bg-white text-[#f6931d] placeholder-[#f6931d]
-                      backdrop-blur-sm rounded-xl border-2 border-[#f6931d]
-                      focus:border-[#f6931d] focus:ring-2 focus:ring-[#f6931d]
-                      transition-all duration-300"
+              className="w-full h-12 pl-5 pr-12 bg-white text-[#f6931d] placeholder-[#f6931d] backdrop-blur-sm rounded-xl border-2 border-[#f6931d] focus:border-[#f6931d] focus:ring-2 focus:ring-[#f6931d] transition-all duration-300"
             />
             <Mail className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#f6931d]" />
           </div>
-
-          {/* <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800">
-            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-              Purple to pink
-            </span>
-          </button> */}
 
           <motion.button
             whileHover={{ scale: 1.02 }}
@@ -119,12 +121,11 @@ const Subscribe = () => {
 
           {(formState.status === "error" || formState.status === "success") && (
             <Alert
-              className={`absolute -bottom-16 w-full 
-                           ${
-                             formState.status === "error"
-                               ? "bg-red-500/10 border-red-500/20"
-                               : "bg-[#f6931d]/10 border-[#f6931d]/20"
-                           }`}
+              className={`absolute -bottom-16 w-full ${
+                formState.status === "error"
+                  ? "bg-red-500/10 border-red-500/20"
+                  : "bg-[#f6931d]/10 border-[#f6931d]/20"
+              }`}
             >
               <AlertDescription
                 className={
@@ -144,6 +145,153 @@ const Subscribe = () => {
 };
 
 export default Subscribe;
+
+// "use client";
+
+// import React, { useState } from "react";
+// import { Mail, Loader2, Check } from "lucide-react";
+// import { Alert, AlertDescription } from "@/components/ui/alert";
+// import { motion } from "framer-motion";
+
+// const Subscribe = () => {
+//   const [formState, setFormState] = useState({
+//     email: "",
+//     status: "idle",
+//     message: ""
+//   });
+
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     if (!formState.email) {
+//       setFormState((prev) => ({
+//         ...prev,
+//         status: "error",
+//         message: "Please enter your email address"
+//       }));
+//       return;
+//     }
+//     if (!/^\S+@\S+\.\S+$/.test(formState.email)) {
+//       setFormState((prev) => ({
+//         ...prev,
+//         status: "error",
+//         message: "Please enter a valid email address"
+//       }));
+//       return;
+//     }
+//     setFormState((prev) => ({ ...prev, status: "loading" }));
+//     setTimeout(() => {
+//       setFormState((prev) => ({
+//         ...prev,
+//         status: "success",
+//         message: "Thank you for subscribing!"
+//       }));
+//     }, 1500);
+//   };
+
+//   return (
+//     <section className="relative w-full bg-gray-900 py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+//       {/* Animated background elements */}
+//       <div className="absolute inset-0 overflow-hidden">
+//         <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#f6931d]/10 rounded-full blur-3xl" />
+//         <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-[#f6931d]/10 rounded-full blur-3xl" />
+//         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff06_1px,transparent_1px),linear-gradient(to_bottom,#ffffff06_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
+//       </div>
+
+//       <div className="max-w-7xl mx-auto relative">
+//         <motion.form
+//           initial={{ opacity: 0, y: 20 }}
+//           whileInView={{ opacity: 1, y: 0 }}
+//           transition={{ duration: 0.5 }}
+//           viewport={{ once: true }}
+//           onSubmit={handleSubmit}
+//           className="flex flex-col lg:flex-row items-center justify-between gap-6 bg-[#f6931d] border border-none
+//                    p-6 sm:p-8 shadow-2xl relative overflow-hidden rounded-xl"
+//         >
+//           <div className="flex items-center gap-3">
+//             <div className="p-2 rounded-xl bg-white">
+//               <Mail className="w-7 h-7 text-[#f6931d]" />
+//             </div>
+//             <h2 className="text-3xl sm:text-4xl font-bold text-white">
+//               Newsletter
+//             </h2>
+//           </div>
+
+//           <div className="relative w-full lg:w-auto flex-grow">
+//             <input
+//               type="email"
+//               value={formState.email}
+//               onChange={(e) =>
+//                 setFormState((prev) => ({
+//                   ...prev,
+//                   email: e.target.value,
+//                   status: "idle"
+//                 }))
+//               }
+//               placeholder="Enter your email"
+//               className="w-full h-12 pl-5 pr-12
+//                       bg-white text-[#f6931d] placeholder-[#f6931d]
+//                       backdrop-blur-sm rounded-xl border-2 border-[#f6931d]
+//                       focus:border-[#f6931d] focus:ring-2 focus:ring-[#f6931d]
+//                       transition-all duration-300"
+//             />
+//             <Mail className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#f6931d]" />
+//           </div>
+
+//           {/* <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800">
+//             <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+//               Purple to pink
+//             </span>
+//           </button> */}
+
+//           <motion.button
+//             whileHover={{ scale: 1.02 }}
+//             whileTap={{ scale: 0.98 }}
+//             type="submit"
+//             disabled={
+//               formState.status === "loading" || formState.status === "success"
+//             }
+//             className="relative rounded-xl overflow-hidden text-sm font-medium text-[#f6931d] group bg-transparent border-2 border-white hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-white dark:focus:ring-white flex items-center justify-center"
+//           >
+//             <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white text-[#f6931d] hover:text-white dark:bg-[#f6931d] rounded-lg group-hover:bg-opacity-0">
+//               {formState.status === "loading" && (
+//                 <Loader2 className="w-5 h-5 animate-spin" />
+//               )}
+//               {formState.status === "success" && <Check className="w-5 h-5" />}
+//               {formState.status === "loading"
+//                 ? "Subscribing..."
+//                 : formState.status === "success"
+//                   ? "Subscribed!"
+//                   : "Subscribe"}
+//             </span>
+//           </motion.button>
+
+//           {(formState.status === "error" || formState.status === "success") && (
+//             <Alert
+//               className={`absolute -bottom-16 w-full
+//                            ${
+//                              formState.status === "error"
+//                                ? "bg-red-500/10 border-red-500/20"
+//                                : "bg-[#f6931d]/10 border-[#f6931d]/20"
+//                            }`}
+//             >
+//               <AlertDescription
+//                 className={
+//                   formState.status === "error"
+//                     ? "text-red-200"
+//                     : "text-orange-200"
+//                 }
+//               >
+//                 {formState.message}
+//               </AlertDescription>
+//             </Alert>
+//           )}
+//         </motion.form>
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default Subscribe;
 
 // import React from "react";
 

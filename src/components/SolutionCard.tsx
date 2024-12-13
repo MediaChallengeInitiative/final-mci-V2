@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { urlFor } from "@/lib/sanity";
-import { PortableText } from "@portabletext/react";
 import { SolutionInterface } from "@/interface/interface";
+import { PortableTextBlock } from "@portabletext/types";
 import {
   FaBrain,
   FaUsers,
@@ -29,12 +28,34 @@ interface SolutionCardProps {
   index: number;
 }
 
-const getPlainText = (blocks: any[] = []) => {
+interface PortableTextSpan {
+  _type: "span";
+  text: string;
+  marks?: string[];
+}
+
+// interface PortableTextBlock {
+//   _type: "block";
+//   children: PortableTextSpan[];
+//   style?: string;
+//   markDefs?: any[];
+// }
+
+const getPlainText = (blocks: PortableTextBlock[] = []): string => {
   return blocks
-    ?.map((block) => {
-      if (block?._type !== "block" || !block?.children) return "";
-      return block.children.map((child: any) => child?.text || "").join("");
-    })
+    .filter(
+      (block): block is PortableTextBlock =>
+        block._type === "block" && Array.isArray(block.children)
+    )
+    .map((block) =>
+      block.children
+        .filter(
+          (child): child is PortableTextSpan =>
+            child._type === "span" && typeof child.text === "string"
+        )
+        .map((child) => child.text)
+        .join("")
+    )
     .join(" ");
 };
 
@@ -45,11 +66,20 @@ export const SolutionCard: React.FC<SolutionCardProps> = ({
   const IconComponent = solution.iconName
     ? iconComponents[solution.iconName]
     : null;
-  const iconSize = solution.iconSize || 24;
-  const plainSolution =
-    typeof solution.solution === "string"
+  const iconSize = solution.iconSize ? parseInt(solution.iconSize) : 24;
+
+  // Use type guard to handle different types of solution content
+  const plainSolution = Array.isArray(solution.solution)
+    ? getPlainText(solution.solution as PortableTextBlock[])
+    : typeof solution.solution === "string"
       ? solution.solution
-      : getPlainText(solution.solution);
+      : "";
+
+  // Use fallback image logic
+  const imageToUse = solution.icon || solution.coverImage;
+  if (!imageToUse?.asset) {
+    return null; // Or render a fallback UI
+  }
 
   return (
     <motion.div
@@ -59,13 +89,16 @@ export const SolutionCard: React.FC<SolutionCardProps> = ({
       viewport={{ once: true }}
       className="group relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500"
     >
-      <Link href={`/solutions/${solution.slug.current}`}>
+      <a href={`/solutions/${solution.slug.current}`}>
         <div
-          className={`absolute inset-0 bg-gradient-to-br from-[${solution.bgColorFrom}] to-[${solution.bgColorTo}]/90 opacity-90 group-hover:opacity-95 transition-opacity duration-500`}
+          className="absolute inset-0 opacity-90 group-hover:opacity-95 transition-opacity duration-500"
+          style={{
+            background: `linear-gradient(to bottom right, ${solution.bgColorFrom || "#000000"}, ${solution.bgColorTo || "#000000"})`
+          }}
         />
         <div className="relative aspect-square overflow-hidden">
           <Image
-            src={urlFor(solution.icon || solution.coverImage).url()}
+            src={urlFor(imageToUse).url()}
             alt={solution.title}
             width={400}
             height={400}
@@ -89,8 +122,105 @@ export const SolutionCard: React.FC<SolutionCardProps> = ({
           </div>
         </div>
         {/* Animated border */}
-        <div className="absolute inset-0 border-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl" />{" "}
-      </Link>
+        <div className="absolute inset-0 border-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl" />
+      </a>
     </motion.div>
   );
 };
+
+// "use client";
+
+// import React, { useState } from "react";
+// import Image from "next/image";
+// import Link from "next/link";
+// import { motion } from "framer-motion";
+// import { urlFor } from "@/lib/sanity";
+// import { PortableText } from "@portabletext/react";
+// import { SolutionInterface } from "@/interface/interface";
+// import {
+//   FaBrain,
+//   FaUsers,
+//   FaNewspaper,
+//   FaHandHoldingHeart,
+//   FaChartLine
+// } from "react-icons/fa";
+// import { IconType } from "react-icons";
+
+// const iconComponents: Record<string, IconType> = {
+//   FaBrain,
+//   FaUsers,
+//   FaNewspaper,
+//   FaHandHoldingHeart,
+//   FaChartLine
+// };
+
+// interface SolutionCardProps {
+//   solution: SolutionInterface;
+//   index: number;
+// }
+
+// const getPlainText = (blocks: any[] = []) => {
+//   return blocks
+//     ?.map((block) => {
+//       if (block?._type !== "block" || !block?.children) return "";
+//       return block.children.map((child: any) => child?.text || "").join("");
+//     })
+//     .join(" ");
+// };
+
+// export const SolutionCard: React.FC<SolutionCardProps> = ({
+//   solution,
+//   index
+// }) => {
+//   const IconComponent = solution.iconName
+//     ? iconComponents[solution.iconName]
+//     : null;
+//   const iconSize = solution.iconSize || 24;
+//   const plainSolution =
+//     typeof solution.solution === "string"
+//       ? solution.solution
+//       : getPlainText(solution.solution);
+
+//   return (
+//     <motion.div
+//       initial={{ opacity: 0, y: 20 }}
+//       whileInView={{ opacity: 1, y: 0 }}
+//       transition={{ duration: 0.5, delay: index * 0.1 }}
+//       viewport={{ once: true }}
+//       className="group relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500"
+//     >
+//       <a href={`/solutions/${solution.slug.current}`}>
+//         <div
+//           className={`absolute inset-0 bg-gradient-to-br from-[${solution.bgColorFrom}] to-[${solution.bgColorTo}]/90 opacity-90 group-hover:opacity-95 transition-opacity duration-500`}
+//         />
+//         <div className="relative aspect-square overflow-hidden">
+//           <Image
+//             src={urlFor(solution.icon || solution.coverImage).url()}
+//             alt={solution.title}
+//             width={400}
+//             height={400}
+//             className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+//           />
+//           <div className="absolute top-4 left-4 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
+//             {IconComponent && (
+//               <IconComponent className="text-white" size={iconSize} />
+//             )}
+//           </div>
+//         </div>
+//         {/* Content overlay */}
+//         <div className="absolute inset-0 p-6 flex flex-col justify-end bg-gradient-to-t from-black/30 to-transparent">
+//           <div className="relative transform group-hover:-translate-y-2 transition-transform duration-500">
+//             <h3 className="text-xl font-bold text-white mb-2">
+//               {solution.title}
+//             </h3>
+//             <p className="text-white/80 text-sm transform opacity-0 group-hover:opacity-100 transition-all duration-500 line-clamp-2">
+//               {plainSolution}
+//             </p>
+//           </div>
+//         </div>
+//         {/* Animated border */}
+//         <div className="absolute inset-0 border-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl" />{" "}
+//       </a>
+//     </motion.div>
+//   );
+// };

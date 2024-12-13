@@ -1,18 +1,20 @@
-// app/who-we-are/staff/error.tsx
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { Button } from '@/components/ui/button';
+import { useEffect, memo } from "react";
+import { Button } from "@/components/ui/button";
 
-export default function Error({
+function Error({
   error,
-  reset,
+  reset
 }: {
   error: Error & { digest?: string };
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error(error);
+    // Log the error to the console for debugging purposes
+    if (process.env.NODE_ENV !== "production") {
+      console.error(error);
+    }
   }, [error]);
 
   return (
@@ -31,8 +33,8 @@ export default function Error({
   );
 }
 
-
-
+// Wrap the component with React.memo to prevent unnecessary re-renders
+export default memo(Error);
 
 // "use client";
 // import React from "react";

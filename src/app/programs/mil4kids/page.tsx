@@ -57,7 +57,7 @@ export default function Page() {
               <p className="text-lg leading-relaxed text-gray-700">
                 Media and information literacy (MIL) enables children to fully
                 use many types of media safely, wisely, and responsibly. Our
-                program strengthens children's knowledge, skills and attitude to
+                program strengthens children&apos;s knowledge, skills and attitude to
                 engage with media as young consumers and producers.
               </p>
               <div className="mt-8 space-y-4">

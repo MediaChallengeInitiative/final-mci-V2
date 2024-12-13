@@ -63,6 +63,16 @@ interface Country {
   code: string;
 }
 
+interface RestCountryResponse {
+  name: {
+    common: string;
+    official: string;
+  };
+  cca2: string;
+  cca3: string;
+  region: string;
+}
+
 // Components
 const WaveOverlay: React.FC = () => (
   <div className="absolute bottom-0 left-0 w-full overflow-hidden">
@@ -298,8 +308,7 @@ const StepTwo: React.FC<StepTwoProps> = ({
 const StepThree: React.FC<StepThreeProps> = ({
   donationType,
   amount,
-  customAmount,
-  formData
+  customAmount
 }) => (
   <motion.div
     initial={{ opacity: 0, x: 50 }}
@@ -357,20 +366,21 @@ const StepThree: React.FC<StepThreeProps> = ({
   </motion.div>
 );
 
-const ParallaxText: React.FC<{ children: React.ReactNode }> = ({
-  children
-}) => {
-  const { scrollYProgress } = useScroll();
-  const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
+// const ParallaxText: React.FC<{ children: React.ReactNode }> = ({
+//   children
+// }) => {
+//   const { scrollYProgress } = useScroll();
+//   const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
 
-  return (
-    <motion.div style={{ y }} className="will-change-transform">
-      {children}
-    </motion.div>
-  );
-};
+//   return (
+//     <motion.div style={{ y }} className="will-change-transform">
+//       {children}
+//     </motion.div>
+//   );
+// };
 
 // Form Container Component
+
 const FormContainer: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => (
@@ -389,7 +399,7 @@ const FormContainer: React.FC<{ children: React.ReactNode }> = ({
 const Page: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [countries, setCountries] = useState<Country[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [, setLoading] = useState<boolean>(true);
 
   // Form states
   const [donationType, setDonationType] = useState<string>("once");
@@ -406,9 +416,11 @@ const Page: React.FC = () => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const response = await axios.get("https://restcountries.com/v3.1/all");
+        const response = await axios.get<RestCountryResponse[]>(
+          "https://restcountries.com/v3.1/all"
+        );
         const sortedCountries: Country[] = response.data
-          .map((country: any) => ({
+          .map((country: RestCountryResponse) => ({
             name: country.name.common,
             code: country.cca2
           }))
@@ -423,6 +435,27 @@ const Page: React.FC = () => {
 
     fetchCountries();
   }, []);
+
+  // useEffect(() => {
+  //   const fetchCountries = async () => {
+  //     try {
+  //       const response = await axios.get("https://restcountries.com/v3.1/all");
+  //       const sortedCountries: Country[] = response.data
+  //         .map((country: any) => ({
+  //           name: country.name.common,
+  //           code: country.cca2
+  //         }))
+  //         .sort((a: Country, b: Country) => a.name.localeCompare(b.name));
+  //       setCountries(sortedCountries);
+  //     } catch (error) {
+  //       console.error("Error fetching countries:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchCountries();
+  // }, []);
 
   const nextStep = () => setCurrentStep((prev) => Math.min(prev + 1, 3));
   const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 1));

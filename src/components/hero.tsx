@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -30,7 +30,8 @@ const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
-  const slides: HeroSlide[] = [
+  // Memoize slides data
+  const slides = useMemo<HeroSlide[]>(() => [
     {
       image: "/assets/images/hero/hero-1.jpg",
       preText: "we believe",
@@ -46,9 +47,9 @@ const Hero = () => {
       preText: "that",
       lines: ["PUTS PEOPLE", "AND PLANET FIRST. PROFITS", "MAKE IT POSSIBLE"]
     }
-  ];
+  ], []); // Empty dependency array since this data is static
 
-  const calculateTextMetrics = (
+  const calculateTextMetrics = useCallback((
     text: string,
     containerWidth: number,
     baseSize: number,
@@ -66,7 +67,7 @@ const Hero = () => {
     const letterCount = text.replace(/\s/g, "").length;
     const wordCount = words.length;
 
-    let fontSize = baseSize;
+    const fontSize = baseSize;
     let letterSpacing = 0;
     let wordSpacing = 0;
     let scale = 1;
@@ -114,18 +115,18 @@ const Hero = () => {
       wordSpacing: `${wordSpacing}px`,
       scale
     };
-  };
+  }, []);
 
-  const updateTextStyles = () => {
+  const updateTextStyles = useCallback(() => {
     if (!containerRef.current) return;
+    
     const containerWidth = containerRef.current.offsetWidth;
     const newStyles: TextStyles = {};
 
     slides.forEach((slide, slideIndex) => {
       slide.lines.forEach((line, lineIndex) => {
         const baseSize = lineIndex === 0 ? 120 : lineIndex === 1 ? 80 : 100;
-
-        const targetWidth = containerWidth * 0.98; // 98% of container width
+        const targetWidth = containerWidth * 0.98;
         newStyles[`${slideIndex}-${lineIndex}`] = calculateTextMetrics(
           line,
           containerWidth,
@@ -136,8 +137,9 @@ const Hero = () => {
     });
 
     setTextStyles(newStyles);
-  };
+  }, [slides, calculateTextMetrics]);
 
+  // Handle resize and initial setup
   useEffect(() => {
     const handleResize = () => {
       requestAnimationFrame(updateTextStyles);
@@ -156,14 +158,15 @@ const Hero = () => {
       observer.disconnect();
       window.removeEventListener("resize", handleResize);
     };
-  }, [currentSlide]);
+  }, [updateTextStyles]);
 
+  // Handle slide transitions
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, SLIDE_DURATION);
     return () => clearInterval(interval);
-  }, []);
+  }, [slides.length]);
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-black">
@@ -184,10 +187,9 @@ const Hero = () => {
             <Image
               src={slide.image}
               alt={`Slide ${index + 1}`}
-              layout="fill"
-              objectFit="cover"
+              fill
               priority
-              className="transition-transform duration-[1.6s]"
+              className="transition-transform duration-2000 object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
           </motion.div>
@@ -195,8 +197,8 @@ const Hero = () => {
       </AnimatePresence>
 
       {/* Content */}
-      <div className="absolute inset-0 z-20 flex items-center px-4 sm:px-6 md:px-8">
-        <div className="container mx-auto w-full">
+      <div className="absolute inset-0 z-20 flex items-center">
+        <div className="container mx-auto px-4">
           <div ref={containerRef} className="w-full max-w-[1200px] mx-auto">
             <AnimatePresence mode="wait">
               <motion.div
@@ -220,14 +222,12 @@ const Hero = () => {
                 {/* Text blocks */}
                 <div className="relative space-y-4">
                   {slides[currentSlide].lines.map((line, lineIndex) => {
-                    const style = textStyles[
-                      `${currentSlide}-${lineIndex}`
-                    ] || {
-                      fontSize:
-                        lineIndex === 0
-                          ? "120px"
-                          : lineIndex === 1
-                            ? "80px"
+                    const style = textStyles[`${currentSlide}-${lineIndex}`] || {
+                      fontSize: 
+                        lineIndex === 0 
+                          ? "120px" 
+                          : lineIndex === 1 
+                            ? "80px" 
                             : "100px",
                       letterSpacing: "0",
                       wordSpacing: "0",
@@ -265,22 +265,60 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Progress Bar */}
-      <motion.div
-        className="absolute bottom-0 left-0 w-full h-[4px] bg-[#f6931d]"
-        initial={{ width: "0%" }}
-        animate={{
-          width: "100%",
-          transition: { duration: SLIDE_DURATION / 1000 }
-        }}
-      />
+      {/* Navigation */}
+      <div className="absolute bottom-8 right-8 z-30">
+        <div className="flex items-center space-x-4">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className="group relative"
+            >
+              <div
+                className={cn(
+                  "w-16 h-1 rounded-full transition-all duration-300",
+                  currentSlide === index ? "bg-[#f6931d]" : "bg-white/30"
+                )}
+              >
+                {currentSlide === index && (
+                  <motion.div
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: SLIDE_DURATION / 1000 }}
+                    className="absolute top-0 left-0 h-full bg-sky-500/50 rounded-full"
+                  />
+                )}
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Slide Counter */}
+      <div className="absolute left-8 bottom-8 z-30">
+        <div className="text-white font-mono flex items-center space-x-4">
+          <div className="relative">
+            <span className="text-4xl font-bold">
+              {(currentSlide + 1).toString().padStart(2, "0")}
+            </span>
+            <motion.div
+              className="absolute -bottom-2 left-0 h-0.5 bg-[#f6931d]"
+              initial={{ width: 0 }}
+              animate={{ width: "100%" }}
+              transition={{ duration: 0.6 }}
+            />
+          </div>
+          <span className="text-white/50 text-2xl">/</span>
+          <span className="text-white/50 text-2xl">
+            {slides.length.toString().padStart(2, "0")}
+          </span>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default Hero;
-
-
 
 
 // "use client";
@@ -472,7 +510,7 @@ export default Hero;
 //               layout="fill"
 //               objectFit="cover"
 //               priority
-//               className="transition-transform duration-[1.6s]"
+//               className="transition-transform duration-2000"
 //             />
 //             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
 //           </motion.div>

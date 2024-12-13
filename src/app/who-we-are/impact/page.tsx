@@ -5,9 +5,7 @@ import { ImpactHero } from "@/components/ImpactHero";
 import { ImpactGallery } from "@/components/ImpactGallery";
 import { SuccessStories } from "@/components/SuccessStories";
 import { DecorativeShapes } from "@/components/DecorativeShapes";
-import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ResponsiveContainer } from "@/components/ResponsiveContainer";
 import { ImpactStats } from "@/components/ImpactStats";
 
 const galleryItems = [

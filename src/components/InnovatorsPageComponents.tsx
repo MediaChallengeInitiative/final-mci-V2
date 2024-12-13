@@ -1,21 +1,14 @@
 "use client";
 
-import React, { useState, useEffect, useRef, ReactNode } from "react";
+import React, { useState, useEffect } from "react";
 import {
   motion,
   useScroll,
   useTransform,
-  useSpring,
   useInView,
-  AnimatePresence
 } from "framer-motion";
 import {
-  ArrowRight,
-  MousePointer2,
   Sparkles,
-  ChevronDown,
-  Camera,
-  ChevronRight
 } from "lucide-react";
 
 // New Creative SVG Components

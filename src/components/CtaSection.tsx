@@ -8,8 +8,8 @@ import { CtaSectionProps } from "@/interface/innovation";
 import { SignUpModal } from "./SignUpModal";
 
 export const CtaSection: React.FC<CtaSectionProps> = ({
-  onSuccess,
-  onError
+  // onSuccess,
+  // onError
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -19,10 +19,10 @@ export const CtaSection: React.FC<CtaSectionProps> = ({
     setTimeout(() => setSubmitted(false), 300);
   };
 
-  const handleSuccess = () => {
-    setSubmitted(true);
-    onSuccess?.();
-  };
+  // const handleSuccess = () => {
+  //   setSubmitted(true);
+  //   onSuccess?.();
+  // };
 
   return (
     <>
