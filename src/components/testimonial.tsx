@@ -86,25 +86,25 @@ const testimonials = [
   {
     id: 1,
     name: "Kababiito Tracy",
-    image: "/public/assets/images/testimonials/t1.jpg",
+    image: "/assets/images/testimonials/t1.jpg",
     videoUrl: "https://youtu.be/oXPMzymNia0?si=T1ipM1N9x_bbTcET"
   },
   {
     id: 2,
     name: "Ruth Omar Esther | 2019",
-    image: "/public/assets/images/testimonials/testimonials-5.jpg",
+    image: "/assets/images/testimonials/testimonials-5.jpg",
     videoUrl: "https://www.youtube.com/watch?v=YmIsrwW2yCk"
   },
   {
     id: 3,
     name: "Nwali Rahim | 2020",
-    image: "/public/assets/images/testimonials/t3.jpg",
+    image: "/assets/images/testimonials/t3.jpg",
     videoUrl: "https://youtu.be/Mf2TZRHQ180?si=QJ2rJaCTQhCDO0Te"
   },
   {
     id: 4,
     name: "Kahumuza Sandra | 2018",
-    image: "/public/assets/images/testimonials/t4.jpg",
+    image: "/assets/images/testimonials/t4.jpg",
     videoUrl: "https://youtu.be/XtuYIh0YtMk?si=HGYsgSUfRoWvk-1W"
   }
 ] as const;
