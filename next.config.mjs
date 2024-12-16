@@ -24,14 +24,12 @@ const nextConfig = {
 
   // Experimental features
   experimental: {
-    scrollRestoration: true,
-    workerThreads: true,
-    webpackBuildWorker: true
+    scrollRestoration: true // Preserve scroll position
   },
 
-  // Compiler options - simplified
+  // Compiler options
   compiler: {
-    removeConsole: process.env.NODE_ENV === "production"
+    removeConsole: process.env.NODE_ENV === "production" // Remove console logs in production
   },
 
   // Page extensions
@@ -39,10 +37,10 @@ const nextConfig = {
 
   // TypeScript configuration
   typescript: {
-    ignoreBuildErrors: true
+    ignoreBuildErrors: process.env.NODE_ENV !== "production" // Ignore only in non-production builds
   },
 
-  // Headers as a plain object
+  // Headers
   async headers() {
     return [
       {
@@ -70,5 +68,4 @@ const nextConfig = {
   }
 };
 
-// Clean export
 export default nextConfig;

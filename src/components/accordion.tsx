@@ -1,7 +1,7 @@
 "use client";
 
-import useIsomorphicLayoutEffect from "@/hooks/useIsomorphicLayoutEffect";
 import React, { ReactElement, useEffect, useRef, useState } from "react";
+import useIsomorphicLayoutEffect from "@/hooks/useIsomorphicLayoutEffect";
 
 interface AccordionItemProps {
   title: string;
@@ -14,13 +14,12 @@ interface AccordionItemProps {
 
 interface AccordionProps {
   openMultiple?: boolean;
-  children: ReactElement[];
+  children: ReactElement<AccordionItemProps>[]; // Ensure children conform to AccordionItemProps
   openIcon?: JSX.Element;
   closeIcon?: JSX.Element;
   defaultOpen?: number[];
 }
 
-// Separate icons into their own components for better code splitting
 const MinusIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +66,6 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   closeIcon
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number | string>(isOpen ? "auto" : "0");
   const [hasRendered, setHasRendered] = useState(false);
 
@@ -113,7 +111,6 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
         </button>
 
         <div
-          ref={wrapperRef}
           className="overflow-hidden transition-all duration-300"
           style={{ height }}
         >
@@ -135,11 +132,6 @@ const Accordion: React.FC<AccordionProps> = ({
 }) => {
   const [activeAccordions, setActiveAccordions] =
     useState<number[]>(defaultOpen);
-  const [hasRendered, setHasRendered] = useState(false);
-
-  useEffect(() => {
-    setHasRendered(true);
-  }, []);
 
   const handleAccordionClick = React.useCallback(
     (index: number) => {
@@ -156,15 +148,11 @@ const Accordion: React.FC<AccordionProps> = ({
     [openMultiple]
   );
 
-  if (!hasRendered) {
-    return <div className="gap-base grid lg:grid-cols-2 grid-cols-1 my-4" />;
-  }
-
   return (
     <div className="gap-base grid lg:grid-cols-2 grid-cols-1 my-4">
       {React.Children.map(children, (child, index) =>
-        React.isValidElement(child)
-          ? React.cloneElement(child as ReactElement, {
+        React.isValidElement<AccordionItemProps>(child)
+          ? React.cloneElement(child, {
               isOpen: activeAccordions.includes(index),
               onClick: () => handleAccordionClick(index),
               openIcon,
@@ -176,7 +164,6 @@ const Accordion: React.FC<AccordionProps> = ({
   );
 };
 
-// Utility function for debouncing resize events with proper typing
 function debounce<Func extends (...args: unknown[]) => void>(
   func: Func,
   wait: number

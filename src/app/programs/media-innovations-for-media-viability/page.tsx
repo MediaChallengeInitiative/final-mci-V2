@@ -5,7 +5,7 @@ import { motion, useScroll, useSpring } from "framer-motion";
 import { HeroSection } from "@/components/InnovatorsPageComponents";
 import { InfiniteScrollText } from "@/components/InfiniteScrollText";
 import InnovatorsSpotlightPageComponent from "@/components/InnovatorsSpotlightPageComponent";
-import { FeaturesSection } from "@/components/FeaturesSection";
+import FeaturesSection from "@/components/FeaturesSection";
 import { CtaSection } from "@/components/CtaSection";
 
 const Page: React.FC = () => {
