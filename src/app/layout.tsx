@@ -31,15 +31,13 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className} suppressHydrationWarning>
-        <Header />
-        <ThemeProvider attribute="class">
-          <LoadingProvider>
+        <LoadingProvider>
+          <Header />
+          <ThemeProvider attribute="class">
             <main>{children}</main>
-          </LoadingProvider>
-        </ThemeProvider>
-        <Suspense fallback={<div>Loading Footer...</div>}>
+          </ThemeProvider>
           <Footer />
-        </Suspense>
+        </LoadingProvider>
       </body>
     </html>
   );
