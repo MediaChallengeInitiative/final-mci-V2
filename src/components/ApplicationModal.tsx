@@ -82,7 +82,9 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
             <div className="p-8">
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="text-xl font-semibold mb-4">Key Benefits</h3>
+                  <h3 className="text-xl text-black font-semibold mb-4">
+                    Key Benefits
+                  </h3>
                   <ul className="space-y-3">
                     {[
                       "Intensive multimedia training",
@@ -90,7 +92,10 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
                       "Industry networking",
                       "Career development"
                     ].map((benefit) => (
-                      <li key={benefit} className="flex items-start">
+                      <li
+                        key={benefit}
+                        className="flex items-start text-black/20 font-thin"
+                      >
                         <CheckCircle className="w-5 h-5 text-orange-500 mt-1 mr-2 flex-shrink-0" />
                         <span>{benefit}</span>
                       </li>
@@ -98,7 +103,7 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-4">
+                  <h3 className="text-xl text-black font-semibold mb-4">
                     Program Details
                   </h3>
                   <div className="space-y-4 text-gray-600">
