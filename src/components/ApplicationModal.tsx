@@ -94,7 +94,7 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
                     ].map((benefit) => (
                       <li
                         key={benefit}
-                        className="flex items-start text-black/20 font-thin"
+                        className="flex items-start text-black font-bold"
                       >
                         <CheckCircle className="w-5 h-5 text-orange-500 mt-1 mr-2 flex-shrink-0" />
                         <span>{benefit}</span>
