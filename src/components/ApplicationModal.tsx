@@ -113,7 +113,7 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
                     </div>
                     <div className="flex items-center">
                       <Users className="w-5 h-5 text-orange-500 mr-2" />
-                      <span>25 Fellows will be selected</span>
+                      <span>26 Fellows will be selected</span>
                     </div>
                   </div>
                 </div>
