@@ -39,12 +39,12 @@ export default async function Blog() {
                     <h3 className="text-md font-bold tracking-tight text-gray-50 md:text-lg">
                       In the Spotlight: Featured Articles Making Headlines
                     </h3>
-                    <Link
-                      href="/articles"
+                    <a
+                      href="/press/articles"
                       className="block text-black hover:text-white bg-white hover:bg-[#f6931d] focus:ring-4 focus:outline-none focus:ring-sky-300 dark:focus:ring-sky-800 shadow-lg font-medium rounded-xl text-sm px-5 py-2.5 text-center me-2 mb-2 "
                     >
                       SEE ALL ARTICLES
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -69,12 +69,12 @@ export default async function Blog() {
                       Unveiling the Future: Insights and Innovations from our
                       Blogs.
                     </h3>
-                    <Link
-                      href="/blogs"
+                    <a
+                      href="/press/blogs"
                       className="block text-black hover:text-white bg-white hover:bg-[#f6931d] rounded-xl focus:ring-4 focus:outline-none focus:ring-sky-300 dark:focus:ring-sky-800 shadow-lg font-medium text-sm px-5 py-2.5 text-center me-2 mb-2 "
                     >
                       SEE ALL BLOGS
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </div>

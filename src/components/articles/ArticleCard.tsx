@@ -61,14 +61,14 @@ const ArticleCard = React.memo(
     // Prefetch optimization
     const prefetchArticle = useCallback(() => {
       const timer = setTimeout(() => {
-        router.prefetch(`/articles/${article.slug}`);
+        router.prefetch(`/press/articles/${article.slug}`);
       }, 100); // Small delay to prevent unnecessary prefetches
       return () => clearTimeout(timer);
     }, [router, article.slug]);
 
     return (
       <Link
-        href={`/articles/${article.slug}`}
+        href={`/press/articles/${article.slug}`}
         prefetch={false} // We'll handle prefetching manually with the hover/focus handlers
         className={`group relative block p-1 rounded-2xl bg-gradient-to-tr ${
           theme.cardBg

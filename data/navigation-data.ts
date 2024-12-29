@@ -105,21 +105,21 @@ export const navItems: NavItem[] = [
     path: "/press",
     description: "News and updates",
     subMenu: [
-      {
-        title: "News",
-        path: "/press/news",
-        description: "Latest updates"
-      },
-      {
-        title: "Press Releases",
-        path: "/press/releases",
-        description: "Official announcements"
-      },
-      {
-        title: "Media Kit",
-        path: "/press/media-kit",
-        description: "Download our assets"
-      },
+      // {
+      //   title: "News",
+      //   path: "/press/news",
+      //   description: "Latest updates"
+      // },
+      // {
+      //   title: "Press Releases",
+      //   path: "/press/releases",
+      //   description: "Official announcements"
+      // },
+      // {
+      //   title: "Media Kit",
+      //   path: "/press/media-kit",
+      //   description: "Download our assets"
+      // },
       {
         title: "Articles",
         path: "/press/articles",
@@ -127,7 +127,7 @@ export const navItems: NavItem[] = [
       },
       {
         title: "Blog",
-        path: "/press/blog",
+        path: "/press/blogs",
         description: "Insights and thoughts"
       }
     ]
