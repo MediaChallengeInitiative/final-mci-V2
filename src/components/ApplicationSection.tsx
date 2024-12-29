@@ -70,7 +70,7 @@ export const ApplicationSection = () => {
                       <div className="flex items-center space-x-3 text-white/90">
                         <Users className="w-6 h-6" />
                         <p className="text-xl">
-                          25 Fellows from 12 Universities
+                          26 Fellows from 12 Universities
                         </p>
                       </div>
                     </div>
