@@ -355,7 +355,7 @@ const Page = () => {
                   <ul className="space-y-4">
                     {[
                       "Must be journalism and media students",
-                      "IMC and expo participants have added advantage"
+                      "IMC and NNC participants have added advantage"
                     ].map((item, index) => (
                       <motion.li
                         key={item}
