@@ -41,7 +41,7 @@ export const navItems: NavItem[] = [
       },
       {
         title: "Our Partners",
-        path: "/who-we-are/partners",
+        path: "/who-we-are/our-partners",
         description: "Organizations we work with"
       }
     ]
@@ -63,12 +63,12 @@ export const navItems: NavItem[] = [
       },
       {
         title: "Content Catalyst",
-        path: "/programs/content-catalyst",
+        path: "https://catalyst.mciug.org/",
         description: "Accelerating content creation"
       },
       {
         title: "Digital Literacy",
-        path: "/programs/digital-literacy",
+        path: "/programs/mil4kids",
         description: "Promoting media literacy"
       }
     ]
@@ -80,29 +80,29 @@ export const navItems: NavItem[] = [
     subMenu: [
       {
         title: "MCI Radio",
-        path: "/platforms/radio",
+        path: "https://mciradio.live/",
         description: "Listen to our broadcasts"
       },
       {
         title: "MCI Academy",
-        path: "/platforms/academy",
+        path: "https://academy.mciug.org/",
         description: "Learn with us"
       },
       {
         title: "MCI Media Hub",
-        path: "/platforms/media-hub",
+        path: "#",
         description: "Access our media resources"
       },
       {
         title: "Solutions Now Africa",
-        path: "/platforms/solutions-africa",
+        path: "https://solutionsnow.africa/",
         description: "African media solutions"
       }
     ]
   },
   {
     title: "Press",
-    path: "/press",
+    path: "#",
     description: "News and updates",
     subMenu: [
       // {
@@ -134,7 +134,7 @@ export const navItems: NavItem[] = [
   },
   {
     title: "Contact",
-    path: "/contact",
+    path: "#",
     description: "Get in touch with us"
   }
 ];
@@ -142,37 +142,37 @@ export const navItems: NavItem[] = [
 export const socialLinks: SocialLink[] = [
   {
     icon: FaTwitter,
-    href: "https://twitter.com",
-    label: "Twitter",
+    href: "https://x.com/imchallengeug?lang=en",
+    label: "X",
     color: "#1DA1F2"
   },
   {
     icon: FaFacebook,
-    href: "https://facebook.com",
+    href: "#",
     label: "Facebook",
     color: "#4267B2"
   },
   {
     icon: FaInstagram,
-    href: "https://instagram.com",
+    href: "https://www.instagram.com/mediachallengeug?igsh=d3A3ZHYyem1ocHFu",
     label: "Instagram",
     color: "#E4405F"
   },
   {
     icon: FaLinkedinIn,
-    href: "https://linkedin.com",
+    href: "https://www.linkedin.com/in/mpindi-abaas-b385a121/?originalSubdomain=ug",
     label: "LinkedIn",
     color: "#0A66C2"
   },
   {
     icon: FaYoutube,
-    href: "https://youtube.com",
+    href: "https://www.youtube.com/c/MediaChallengeInitiative",
     label: "YouTube",
     color: "#FF0000"
   },
   {
     icon: FaTiktok,
-    href: "https://tiktok.com",
+    href: "https://www.tiktok.com/@mediachallengeug?_t=ZM-8tQ7xugzUN3&_r=1",
     label: "TikTok",
     color: "#000000"
   }

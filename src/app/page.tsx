@@ -33,7 +33,7 @@ export default async function Home() {
   return (
     <React.Fragment>
       <main className="bg-white">
-        <ApplicationWrapper />
+        {/* <ApplicationWrapper /> */}
         <Hero />
         <ScrollBar />
         <StorySection />
