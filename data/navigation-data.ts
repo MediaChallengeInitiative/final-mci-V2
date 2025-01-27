@@ -53,7 +53,7 @@ export const navItems: NavItem[] = [
     subMenu: [
       {
         title: "Next Generation of Journalists",
-        path: "/programs/next-gen-journalists",
+        path: "/programs/next-generation-of-journalists",
         description: "Supporting emerging media talent"
       },
       {
