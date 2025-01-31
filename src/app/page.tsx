@@ -22,8 +22,8 @@ import SolutionsClientPage from "@/components/SolutionsClientPage";
 import { getAllSolutions } from "@/utils/get-all-solutions";
 import SectionTitle from "@/components/SectionTitle";
 import TestimonialSection from "@/components/testimonial";
-import { ApplicationWrapper } from "@/components/ApplicationWrapper";
-import { ApplicationSection } from "@/components/ApplicationSection";
+// import { ApplicationWrapper } from "@/components/ApplicationWrapper";
+// import { ApplicationSection } from "@/components/ApplicationSection";
 
 export default async function Home() {
   const alumniLogos = await getAllAlumniWorkLogos();
@@ -38,7 +38,7 @@ export default async function Home() {
         <ScrollBar />
         <StorySection />
         <TimelineSection />
-        <ApplicationSection />
+        {/* <ApplicationSection /> */}
         <ImpactSection />
         <MCIAlumniSpotlight alumni={alumni} />
         <PartnerLogos logos={alumniLogos} />
