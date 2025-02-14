@@ -1,3 +1,4 @@
+// src/app/layout.tsx
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Suspense, lazy } from "react";
@@ -5,11 +6,11 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import Header from "@/components/Navigation/Header";
 import { LoadingProvider } from "@/components/loading";
+import LayoutWrapper from "@/components/layouts/LayoutWrapper";
 
-// Use React.lazy instead of dynamic with suspense
 const Footer = lazy(() => import("@/components/footer"));
 
-const inter = Inter({ subsets: ["latin"], weight: ["400", "700"] }); // Load required weights only
+const inter = Inter({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
   title: "Media Challenge Initiative",
@@ -18,39 +19,41 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link
-          rel="icon"
-          type="image/x-icon"
-          href="/assets/images/favicon.ico"
-        />
-      </head>
-      <body className={inter.className} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="h-full">
+      <body className={`${inter.className} flex flex-col min-h-screen`}>
         <LoadingProvider>
-          <Header />
-          <ThemeProvider attribute="class">
-            <main>{children}</main>
+          <ThemeProvider attribute="class" defaultTheme="light">
+            <LayoutWrapper>
+              <div className="flex flex-col min-h-screen">
+                <Header />
+                <main className="flex-grow">{children}</main>
+                <Suspense fallback={<div className="h-[100px]" />}>
+                  <Footer />
+                </Suspense>
+              </div>
+            </LayoutWrapper>
           </ThemeProvider>
-          <Footer />
         </LoadingProvider>
       </body>
     </html>
   );
 }
-
 // import type { Metadata } from "next";
 // import { Inter } from "next/font/google";
+// import { Suspense, lazy } from "react";
 // import "./globals.css";
-// import Footer from "@/components/footer";
 // import { ThemeProvider } from "next-themes";
 // import Header from "@/components/Navigation/Header";
+// import { LoadingProvider } from "@/components/loading";
 
-// const inter = Inter({ subsets: ["latin"] });
+// // Use React.lazy instead of dynamic with suspense
+// const Footer = lazy(() => import("@/components/footer"));
+
+// const inter = Inter({ subsets: ["latin"], weight: ["400", "700"] }); // Load required weights only
 
 // export const metadata: Metadata = {
 //   title: "Media Challenge Initiative",
@@ -63,38 +66,22 @@ export default function RootLayout({
 //   children: React.ReactNode;
 // }>) {
 //   return (
-//     <html lang="en">
+//     <html lang="en" suppressHydrationWarning>
 //       <head>
 //         <link
 //           rel="icon"
 //           type="image/x-icon"
 //           href="/assets/images/favicon.ico"
 //         />
-//         <link rel="preconnect" href="https://fonts.googleapis.com" />
-//         <link
-//           rel="preconnect"
-//           href="https://fonts.gstatic.com"
-//           crossOrigin=""
-//         />
-//         <link
-//           href="https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&display=swap"
-//           rel="stylesheet"
-//         />
-//         <link rel="preconnect" href="https://fonts.googleapis.com" />
-//         <link
-//           rel="preconnect"
-//           href="https://fonts.gstatic.com"
-//           crossOrigin=""
-//         />
-//         <link
-//           href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
-//           rel="stylesheet"
-//         />
 //       </head>
-//       <body className={inter.className}>
-//         <Header />
-//         <ThemeProvider attribute="class">{children}</ThemeProvider>
-//         <Footer />
+//       <body className={inter.className} suppressHydrationWarning>
+//         <LoadingProvider>
+//           <ThemeProvider attribute="class">
+//           <Header />
+//             <main>{children}</main>
+//             <Footer />
+//           </ThemeProvider>
+//         </LoadingProvider>
 //       </body>
 //     </html>
 //   );

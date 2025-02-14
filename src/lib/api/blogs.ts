@@ -1,47 +1,19 @@
-// app/lib/api/blogs.ts
+// lib/api/blogs.ts
+import {
+  Blog,
+  BlogsResponse,
+  SingleBlogResponse,
+  Category
+} from "@/types/blog";
 import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-interface BlogPost {
-  id: number;
-  title: string;
-  slug: string;
-  content: string;
-  excerpt: string;
-  image: string | null;
-  read_time: number;
-  category: {
-    id: number;
-    name: string;
-    slug: string;
-  };
-  published_at: string;
-  created_at: string;
-}
-
-interface Category {
-  id: number;
-  name: string;
-  slug: string;
-  blog_posts_count: number;
-}
-
-interface PaginatedResponse<T> {
-  data: T[];
-  meta: {
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-  };
-}
-
-export async function getBlogPosts(
+export async function getBlogs(
   page = 1,
   category?: string,
   search?: string
-): Promise<PaginatedResponse<BlogPost>> {
+): Promise<BlogsResponse> {
   const params = new URLSearchParams({
     page: page.toString(),
     ...(category && { category }),
@@ -52,7 +24,7 @@ export async function getBlogPosts(
   return response.data;
 }
 
-export async function getBlogPost(slug: string): Promise<{ data: BlogPost }> {
+export async function getBlog(slug: string): Promise<SingleBlogResponse> {
   const response = await axios.get(`${API_URL}/blogs/${slug}`);
   return response.data;
 }
@@ -62,9 +34,9 @@ export async function getCategories(): Promise<{ data: Category[] }> {
   return response.data;
 }
 
-export async function getRelatedPosts(
-  slug: string
-): Promise<{ data: BlogPost[] }> {
-  const response = await axios.get(`${API_URL}/blogs/related/${slug}`);
+export async function getRecentBlogs(
+  excludeSlug: string
+): Promise<BlogsResponse> {
+  const response = await axios.get(`${API_URL}/blogs/recent/${excludeSlug}`);
   return response.data;
 }

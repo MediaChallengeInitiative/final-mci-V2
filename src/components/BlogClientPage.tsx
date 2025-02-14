@@ -14,8 +14,8 @@ import { Blog, Theme } from "@/interface/interface";
 import { urlFor } from "@/lib/sanity";
 import { getAllBlogs } from "@/utils/get-all-blogs";
 import Breadcrumb from "@/components/breadcrumb";
-import ColorSwitcher from "@/components/staff/ColorSwitcher";
 import { themes } from "@/config/themes";
+import ColorSwitcher from "./ColorSwitcher";
 
 interface BlogCardProps {
   blog: Blog;

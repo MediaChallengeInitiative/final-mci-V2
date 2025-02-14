@@ -1,40 +1,37 @@
+// app/press/blogs/page.tsx
 import React from "react";
-import { getAllBlogs, getTotalBlogs } from "@/utils/get-all-blogs";
+import { getBlogs } from "@/lib/api/blogs";
 import BlogsPage from "@/components/blogs/BlogsPage";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Our Blogs",
-  description: "Explore our collection of blogs and stories"
-};
-
-type SearchParams = { [key: string]: string | string[] | undefined };
-
-interface PageProps {
-  params?: Record<string, string>; // Adjusted to allow params for dynamic routes
-  searchParams: SearchParams;
-}
+import { BlogsResponse } from "@/types/blog";
 
 export const runtime = "edge";
 export const preferredRegion = "auto";
 export const dynamic = "force-dynamic";
 export const revalidate = 3600;
 
+interface PageProps {
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  };
+}
+
 export default async function Page({ searchParams }: PageProps) {
   const page = Number(searchParams["page"] ?? "1");
-  const per_page = 6;
+  const category = searchParams["category"]?.toString();
+  const search = searchParams["search"]?.toString();
 
-  const [initialBlogs, totalBlogs] = await Promise.all([
-    getAllBlogs((page - 1) * per_page, page * per_page),
-    getTotalBlogs()
-  ]);
-
-  return (
-    <BlogsPage
-      initialBlogs={initialBlogs}
-      totalBlogs={totalBlogs}
-      page={page}
-      per_page={per_page}
-    />
-  );
+  try {
+    const response: BlogsResponse = await getBlogs(page, category, search);
+    return <BlogsPage initialBlogs={response.data} meta={response.meta} />;
+  } catch (error) {
+    console.error("Error fetching blogs:", error);
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">Failed to load blogs</h2>
+          <p className="text-gray-600">Please try again later.</p>
+        </div>
+      </div>
+    );
+  }
 }

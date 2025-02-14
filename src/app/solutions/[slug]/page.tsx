@@ -1,39 +1,156 @@
-import { getSingleSolution } from "@/utils/get-single-solution";
-import SolutionContent from "@/components/SolutionContent";
-import { Metadata } from "next";
+import { Suspense } from "react";
+import { notFound } from "next/navigation";
+import { getSolutionBySlug, getStorageUrl } from "@/lib/api/solutions";
+import SolutionContent from "@/components/solutions/SolutionContent";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Metadata, ResolvingMetadata } from "next";
+import { ApiError } from "@/lib/api/solutions";
 
 interface PageProps {
-  params: Promise<{
+  params: {
     slug: string;
-  }>;
-}
-
-export async function generateMetadata({
-  params
-}: PageProps): Promise<Metadata> {
-  const resolvedParams = await params;
-  const solutionData = await getSingleSolution(resolvedParams.slug);
-
-  return {
-    title: solutionData?.title || "Solution",
-    description:
-      solutionData?.leadingAssumption || "Innovation solution details"
   };
 }
 
-export default async function Page({ params }: PageProps) {
-  const resolvedParams = await params;
-  const solutionData = await getSingleSolution(resolvedParams.slug);
-
-  if (!solutionData) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <p className="text-lg text-gray-500">Solution not found.</p>
+// Loading component with skeleton UI
+function LoadingSkeleton() {
+  return (
+    <div className="min-h-screen bg-white space-y-8">
+      {/* Hero Section Skeleton */}
+      <div className="w-full h-[50vh] relative bg-gray-100">
+        <Skeleton className="w-full h-full" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60">
+          <div className="container mx-auto px-4 h-full flex items-end pb-8">
+            <Skeleton className="h-12 w-2/3" />
+          </div>
+        </div>
       </div>
-    );
-  }
 
-  return <SolutionContent initialData={solutionData} />;
+      {/* Content Sections Skeleton */}
+      <div className="container mx-auto px-4 space-y-12">
+        <div className="space-y-4">
+          <Skeleton className="h-8 w-1/3" />
+          <Skeleton className="h-24 w-full" />
+        </div>
+        <div className="space-y-4">
+          <Skeleton className="h-8 w-1/3" />
+          <Skeleton className="h-24 w-full" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Error component with improved error handling
+function ErrorDisplay({ error }: { error: Error | ApiError }) {
+  const errorMessage =
+    error instanceof ApiError
+      ? `${error.message} (Status: ${error.status})`
+      : error.message;
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <Alert variant="destructive" className="max-w-lg">
+        <AlertTitle>Error Loading Solution</AlertTitle>
+        <AlertDescription>
+          {errorMessage ||
+            "There was an error loading this solution. Please try again later."}
+        </AlertDescription>
+      </Alert>
+    </div>
+  );
+}
+
+export async function generateMetadata(
+  { params }: PageProps,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  try {
+    const { data: solution } = await getSolutionBySlug(params.slug);
+    const previousImages = (await parent).openGraph?.images || [];
+
+    if (!solution) {
+      return {
+        title: "Solution Not Found",
+        description: "The requested solution could not be found."
+      };
+    }
+
+    const commonDescription =
+      solution.solution ||
+      solution.leading_assumption ||
+      "Innovation solution details";
+
+    const imageUrl = solution.cover_image
+      ? getStorageUrl(solution.cover_image)
+      : undefined;
+
+    return {
+      title: solution.title,
+      description: commonDescription,
+      openGraph: {
+        title: solution.title,
+        description: commonDescription,
+        images: imageUrl
+          ? [
+              {
+                url: imageUrl,
+                width: 1200,
+                height: 630,
+                alt: solution.title
+              },
+              ...previousImages
+            ]
+          : previousImages,
+        type: "article",
+        publishedTime: solution.created_at,
+        modifiedTime: solution.updated_at,
+        authors: solution.creator?.name ? [solution.creator.name] : undefined
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: solution.title,
+        description: commonDescription,
+        images: imageUrl ? [imageUrl] : undefined
+      }
+    };
+  } catch (error) {
+    console.error("Error generating metadata:", error);
+    return {
+      title: "Solution",
+      description: "Innovation solution details"
+    };
+  }
+}
+
+export default async function Page({ params }: PageProps) {
+  try {
+    const { data: solution } = await getSolutionBySlug(params.slug);
+
+    if (!solution) {
+      notFound();
+    }
+
+    return (
+      <Suspense fallback={<LoadingSkeleton />}>
+        <SolutionContent initialData={solution} />
+      </Suspense>
+    );
+  } catch (error) {
+    console.error("Error loading solution:", error);
+
+    if (error instanceof ApiError) {
+      // Handle API-specific errors
+      return <ErrorDisplay error={error} />;
+    }
+
+    if (error instanceof Error) {
+      return <ErrorDisplay error={error} />;
+    }
+
+    return <ErrorDisplay error={new Error("An unexpected error occurred")} />;
+  }
 }
 
 // "use client";

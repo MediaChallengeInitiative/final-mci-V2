@@ -1,64 +1,26 @@
-// app/lib/api/history.ts
+// lib/api/history.ts
 
 import axios from "axios";
+import {
+  History,
+  TimelineEntry,
+  HistoryDetail,
+  Statistics,
+  HistoriesResponse,
+  TimelineResponse,
+  SingleHistoryResponse,
+  HistoryDetailResponse,
+  StatisticsResponse
+} from "@/types/history";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// Types
-export interface HistoryEntry {
-  id: number;
-  title: string;
-  description: string;
-  slug: string;
-  image: string | null;
-  order: number;
-  created_at: string;
-  updated_at: string;
-  creator?: {
-    id: number;
-    name: string;
-  };
-}
-
-export interface TimelineEntry {
-  id: number;
-  title: string;
-  description: string;
-  image_url: string | null;
-  order: number;
-  slug: string;
-}
-
-export interface HistoryDetail {
-  current: HistoryEntry;
-  previous: HistoryEntry | null;
-  next: HistoryEntry | null;
-}
-
-export interface Statistics {
-  total_entries: number;
-  with_images: number;
-  latest_addition: string | null;
-  last_update: string | null;
-}
-
-export interface PaginatedResponse<T> {
-  data: T[];
-  meta: {
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-  };
-}
-
-export interface HistoryFilters {
+interface HistoryFilters {
   page?: number;
   per_page?: number;
   search?: string;
 }
 
-// API Functions
 export async function getHistoryEntries(filters: HistoryFilters = {}) {
   const params = new URLSearchParams({
     page: (filters.page || 1).toString(),
@@ -66,69 +28,74 @@ export async function getHistoryEntries(filters: HistoryFilters = {}) {
     ...(filters.search && { search: filters.search })
   });
 
-  const response = await axios.get<PaginatedResponse<HistoryEntry>>(
-    `${API_URL}/history?${params}`
+  const response = await axios.get<HistoriesResponse>(
+    `${API_URL}/histories?${params}`
   );
   return response.data;
 }
 
 export async function getHistoryTimeline() {
-  const response = await axios.get<{ data: TimelineEntry[] }>(
-    `${API_URL}/history/timeline`
+  const response = await axios.get<TimelineResponse>(
+    `${API_URL}/histories/timeline`
   );
-  return response.data.data;
+  return response.data;
 }
 
 export async function getHistoryEntry(id: number) {
-  const response = await axios.get<{ data: HistoryEntry }>(
-    `${API_URL}/history/${id}`
+  const response = await axios.get<SingleHistoryResponse>(
+    `${API_URL}/histories/${id}`
   );
-  return response.data.data;
+  return response.data;
 }
 
 export async function getHistoryEntryBySlug(slug: string) {
-  const response = await axios.get<{ data: HistoryDetail }>(
-    `${API_URL}/history/slug/${slug}`
+  const response = await axios.get<HistoryDetailResponse>(
+    `${API_URL}/histories/slug/${slug}`
   );
-  return response.data.data;
+  return response.data;
 }
 
 export async function getHistoryStatistics() {
-  const response = await axios.get<{ data: Statistics }>(
-    `${API_URL}/history/statistics`
+  const response = await axios.get<StatisticsResponse>(
+    `${API_URL}/histories/statistics`
   );
-  return response.data.data;
+  return response.data;
 }
 
 export function getImageUrl(path: string | null) {
   if (!path) return null;
-  return `${process.env.NEXT_PUBLIC_API_URL}/storage/${path}`;
+  return `${API_URL}/storage/${path}`;
 }
 
 export function getImageDownloadUrl(id: number) {
-  return `${API_URL}/history/${id}/download-image`;
+  return `${API_URL}/histories/${id}/download-image`;
 }
 
-// Helper function to download image
 export async function downloadHistoryImage(id: number, title: string) {
-  const response = await axios.get(getImageDownloadUrl(id), {
-    responseType: "blob"
-  });
+  try {
+    const response = await axios.get(getImageDownloadUrl(id), {
+      responseType: "blob"
+    });
 
-  const url = window.URL.createObjectURL(new Blob([response.data]));
-  const link = document.createElement("a");
-  link.href = url;
-  link.setAttribute(
-    "download",
-    `${title}.${getFileExtension(response.headers["content-type"])}`
-  );
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  window.URL.revokeObjectURL(url);
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+
+    // Get file extension from content-type
+    const contentType = response.headers["content-type"];
+    const extension = getFileExtension(contentType);
+
+    link.setAttribute("download", `${title}.${extension}`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Error downloading image:", error);
+    throw error;
+  }
 }
 
-// Helper function to get file extension from MIME type
 function getFileExtension(mimeType: string | undefined) {
   if (!mimeType) return "jpg";
   const lookup: { [key: string]: string } = {
@@ -141,7 +108,6 @@ function getFileExtension(mimeType: string | undefined) {
   return lookup[mimeType] || "jpg";
 }
 
-// Helper function to format date
 export function formatDate(date: string | null) {
   if (!date) return "";
   return new Date(date).toLocaleDateString("en-US", {
@@ -151,7 +117,7 @@ export function formatDate(date: string | null) {
   });
 }
 
-// Error handling
+// Error Handling
 export class ApiError extends Error {
   constructor(
     public status: number,

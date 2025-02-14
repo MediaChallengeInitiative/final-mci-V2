@@ -16,9 +16,9 @@ import {
 import Image from "next/image";
 import { urlFor } from "@/lib/sanity";
 import { ArrowUpDown } from "lucide-react";
-import ColorSwitcher from "../staff/ColorSwitcher";
 import FilterBar from "./FilterBar";
 import getFormattedDate from "@/utils/get-formatted-date";
+import ColorSwitcher from "../ColorSwitcher";
 
 interface SortConfig {
   key: keyof PartnerData;

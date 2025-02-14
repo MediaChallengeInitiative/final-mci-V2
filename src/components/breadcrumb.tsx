@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Theme } from "@/interface/interface";
 
 interface BreadcrumbProps {
@@ -16,7 +16,18 @@ export default function Breadcrumb({
   subtitle,
   currentTheme
 }: BreadcrumbProps) {
-  // Helper function to extract color from theme gradient strings
+  const [isMounted, setIsMounted] = useState(false);
+  const { scrollY } = useScroll();
+
+  // Parallax effect for background image
+  const backgroundY = useTransform(scrollY, [0, 500], [0, 150]);
+  const backgroundScale = useTransform(scrollY, [0, 500], [1.1, 1.3]);
+  const opacityRange = useTransform(scrollY, [0, 300], [1, 0.5]);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const extractColor = (gradientClass: string): string => {
     return gradientClass.split("-")[1] || "";
   };
@@ -29,84 +40,121 @@ export default function Breadcrumb({
   };
 
   const getOverlayStyle = (): string => {
-    const overlayStyles: Record<string, string> = {
-      green: "from-green-900/80 via-emerald-900/80 to-green-900/80",
-      sky: "from-sky-900/80 via-blue-900/80 to-indigo-900/80",
-      pink: "from-pink-900/80 via-rose-900/80 to-red-900/80",
-      orange: "from-orange-900/80 via-amber-900/80 to-yellow-900/80",
-      purple: "from-purple-900/80 via-violet-900/80 to-indigo-900/80",
-      dark: "from-gray-900/90 via-gray-800/90 to-gray-900/90"
-    };
-
-    return (
-      overlayStyles[currentTheme.name] ||
-      "from-blue-900/80 via-purple-900/80 to-blue-900/80"
-    );
+    return "from-sky-500/30 via-sky-700/50 to-sky-900/80";
   };
 
+  if (!isMounted) return null;
+
   return (
-    <div className="relative lg:h-[320px] h-[200px] w-full overflow-hidden">
+    <div className="relative min-h-[200px] h-[40vh] max-h-[480px] w-full overflow-hidden">
       <motion.div
-        initial={{ scale: 1.2 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 1.5 }}
-        className="absolute inset-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2 }}
+        style={{
+          y: backgroundY,
+          scale: backgroundScale,
+          opacity: opacityRange
+        }}
+        className="absolute inset-0 will-change-transform"
       >
         <Image
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover scale-110"
           src="/assets/images/breadcrumb-bg.jpg"
           width={1920}
           height={1080}
           priority
           alt="breadcrumb background"
         />
-        <div
-          className={`absolute inset-0 bg-gradient-to-r ${getOverlayStyle()} transition-colors duration-500`}
+
+        {/* Gradient Overlay */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5 }}
+          className={`absolute inset-0 bg-gradient-to-br ${getOverlayStyle()} transition-colors duration-500`}
         />
 
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute w-full h-full bg-pattern animate-float" />
+        {/* Animated Patterns */}
+        <div className="absolute inset-0">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.1 }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              repeatType: "reverse"
+            }}
+            className="absolute w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-sky-400 via-transparent to-transparent"
+          />
         </div>
       </motion.div>
 
-      <div className="relative z-10 h-full flex flex-col items-center justify-between py-8 lg:py-12">
-        <div className="flex-1 flex flex-col items-center justify-center px-4 w-full max-w-7xl mx-auto">
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="relative text-center"
-          >
-            <div className="absolute -left-4 -top-4 w-8 h-8 border-t-2 border-l-2 border-white/20 rounded-tl-lg" />
-            <div className="absolute -right-4 -bottom-4 w-8 h-8 border-b-2 border-r-2 border-white/20 rounded-br-lg" />
-
-            <h1
-              className={`relative font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl
-              bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-${extractColor(currentTheme.gradientFrom)}-200
-              pb-2 mb-4`}
+      {/* Content Section */}
+      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 py-8">
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          style={{ opacity: opacityRange }}
+          className="w-full max-w-7xl mx-auto text-center"
+        >
+          {/* Decorative Frame */}
+          <div className="relative inline-block">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              className="absolute -left-6 -top-6 w-12 h-12"
             >
-              {title}
-            </h1>
-
-            {subtitle && (
-              <motion.p
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="text-white/90 text-lg sm:text-xl font-light max-w-2xl mx-auto leading-relaxed"
-              >
-                {subtitle}
-              </motion.p>
-            )}
+              <div className="w-full h-full border-l-2 border-t-2 border-sky-300/30 rounded-tl-xl" />
+            </motion.div>
 
             <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className={`h-1 w-24 mx-auto mt-6 bg-gradient-to-r ${getThemeGradient()} rounded-full`}
-            />
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              className="absolute -right-6 -bottom-6 w-12 h-12"
+            >
+              <div className="w-full h-full border-r-2 border-b-2 border-sky-300/30 rounded-br-xl" />
+            </motion.div>
+
+            {/* Title */}
+            <motion.h1
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl tracking-tight"
+            >
+              <span className="bg-gradient-to-r from-white via-sky-200 to-sky-400 bg-clip-text text-transparent">
+                {title}
+              </span>
+            </motion.h1>
+          </div>
+
+          {/* Subtitle */}
+          {subtitle && (
+            <motion.p
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.9 }}
+              className="mt-6 text-sky-100/90 text-base sm:text-lg md:text-xl font-light max-w-3xl mx-auto leading-relaxed"
+            >
+              {subtitle}
+            </motion.p>
+          )}
+
+          {/* Decorative Line */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.7, delay: 1 }}
+            className="relative mt-8"
+          >
+            <div className="absolute left-1/2 -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-sky-400 via-sky-500 to-sky-600 rounded-full blur-sm" />
+            <div className="h-px w-48 mx-auto bg-gradient-to-r from-transparent via-sky-400 to-transparent" />
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

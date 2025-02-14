@@ -1,82 +1,77 @@
-// app/lib/api/team.ts
 import axios from "axios";
+
+// Types
+export interface BaseTeamMember {
+  id: number;
+  name: string;
+  position: string;
+  slug: string;
+  bio: string;
+  photo_url: string;
+}
+
+export interface TeamMember extends BaseTeamMember {
+  category: {
+    id: number;
+    name: string;
+    slug: string;
+    description: string;
+    created_by: {
+      id: number;
+      name: string;
+    } | null;
+    updated_by: {
+      id: number;
+      name: string;
+    } | null;
+    created_at: string;
+    updated_at: string;
+  } | null;
+  created_by: {
+    id: number;
+    name: string;
+  } | null;
+  updated_by: {
+    id: number;
+    name: string;
+  } | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface TeamResponse {
+  data: {
+    board: TeamMember[];
+    founder: TeamMember[];
+    staff: TeamMember[];
+  };
+}
+
+export interface SingleTeamMemberResponse {
+  data: TeamMember;
+}
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-interface TeamMember {
-  id: number;
-  name: string;
-  slug: string;
-  position: string;
-  bio: string | null;
-  photo_url: string | null;
-  category: {
-    id: number;
-    name: string;
-    slug: string;
-  } | null;
-  social_links: {
-    linkedin?: string;
-    twitter?: string;
-    github?: string;
-    [key: string]: string | undefined;
-  } | null;
-  is_featured: boolean;
-  created_at: string;
-}
-
-interface PaginatedResponse<T> {
-  data: T[];
-  meta: {
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-  };
-}
-
-interface CategoryTeams {
-  category: {
-    id: number;
-    name: string;
-    slug: string;
-    description: string | null;
-  };
-  teams: TeamMember[];
-}
-
-export async function getTeamMembers(
-  page = 1,
-  category?: string,
-  search?: string
-): Promise<PaginatedResponse<TeamMember>> {
+export async function getTeamMembers(search?: string): Promise<TeamResponse> {
   const params = new URLSearchParams({
-    page: page.toString(),
-    ...(category && { category }),
     ...(search && { search })
   });
 
-  const response = await axios.get(`${API_URL}/team?${params}`);
+  const response = await axios.get(
+    `${API_URL}/team${search ? `?${params}` : ""}`
+  );
   return response.data;
 }
 
 export async function getTeamMember(
   slug: string
-): Promise<{ data: TeamMember }> {
+): Promise<SingleTeamMemberResponse> {
   const response = await axios.get(`${API_URL}/team/${slug}`);
   return response.data;
 }
 
-export async function getFeaturedTeamMembers(): Promise<{
-  data: TeamMember[];
-}> {
+export async function getFeaturedTeamMembers(): Promise<TeamResponse> {
   const response = await axios.get(`${API_URL}/team/featured`);
-  return response.data;
-}
-
-export async function getTeamMembersByCategory(
-  categorySlug: string
-): Promise<{ data: CategoryTeams }> {
-  const response = await axios.get(`${API_URL}/team/category/${categorySlug}`);
   return response.data;
 }

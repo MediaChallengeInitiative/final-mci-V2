@@ -1,143 +1,189 @@
-// app/lib/api/innovators.ts
-
+// lib/api/innovators.ts
 import axios from "axios";
+import {
+  BaseInnovator,
+  Innovator,
+  InnovatorsResponse,
+  SingleInnovatorResponse,
+  PaginationMeta
+} from "@/types/innovator";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// Types
-export interface Innovator {
-  id: number;
-  name: string;
-  short_description: string;
-  website_link: string | null;
-  logo: string | null;
-  image: string | null;
-  slug: string;
-  created_at: string;
-  updated_at: string;
-  creator?: {
-    id: number;
-    name: string;
-  };
-  updater?: {
-    id: number;
-    name: string;
-  };
-}
-
-export interface PaginatedResponse<T> {
-  data: T[];
-  meta: {
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-  };
-}
-
-export interface InnovatorFilters {
-  page?: number;
-  per_page?: number;
-  search?: string;
-}
-
-export interface FeaturedInnovator {
-  id: number;
-  name: string;
-  short_description: string;
-  website_link: string | null;
-  logo_url: string | null;
-  image_url: string | null;
-  slug: string;
-}
-
-// API Functions
-export async function getInnovators(filters: InnovatorFilters = {}) {
-  const params = new URLSearchParams({
-    page: (filters.page || 1).toString(),
-    per_page: (filters.per_page || 10).toString(),
-    ...(filters.search && { search: filters.search })
-  });
-
-  const response = await axios.get<PaginatedResponse<Innovator>>(
-    `${API_URL}/innovators?${params}`
-  );
-  return response.data;
-}
-
-export async function getInnovator(id: number) {
-  const response = await axios.get<{ data: Innovator }>(
-    `${API_URL}/innovators/${id}`
-  );
-  return response.data.data;
-}
-
-export async function getInnovatorBySlug(slug: string) {
-  const response = await axios.get<{ data: Innovator }>(
-    `${API_URL}/innovators/slug/${slug}`
-  );
-  return response.data.data;
-}
-
-export async function getFeaturedInnovators(limit: number = 3) {
-  const response = await axios.get<{ data: FeaturedInnovator[] }>(
-    `${API_URL}/innovators/featured?limit=${limit}`
-  );
-  return response.data.data;
-}
-
-export function getImageUrl(path: string | null) {
-  if (!path) return null;
-  return `${process.env.NEXT_PUBLIC_API_URL}/storage/${path}`;
-}
-
-export function getLogoDownloadUrl(id: number) {
-  return `${API_URL}/innovators/${id}/download-logo`;
-}
-
-export function getImageDownloadUrl(id: number) {
-  return `${API_URL}/innovators/${id}/download-image`;
-}
-
-// Helper function to download files
-export async function downloadInnovatorFile(url: string, filename: string) {
-  const response = await axios.get(url, {
-    responseType: "blob"
-  });
-
-  const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
-  const link = document.createElement("a");
-  link.href = downloadUrl;
-  link.setAttribute("download", filename);
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  window.URL.revokeObjectURL(downloadUrl);
-}
-
-// Error handling
+// Error class for API errors
 export class ApiError extends Error {
   constructor(
     public status: number,
     public message: string,
-    public errors?: Record<string, string[]>
+    public errors: Record<string, string[]>
   ) {
     super(message);
-    this.name = "ApiError";
+    this.name = 'ApiError';
   }
 }
 
-// Axios error interceptor
-axios.interceptors.response.use(
-  (response) => response,
-  (error) => {
+// Central error handling function
+function handleApiError(error: unknown): never {
+  if (axios.isAxiosError(error)) {
     if (error.response) {
       throw new ApiError(
         error.response.status,
         error.response.data.message || "An error occurred",
         error.response.data.errors
       );
+    } else if (error.request) {
+      throw new ApiError(0, "No response received from server", {});
     }
-    throw error;
+  }
+  throw new ApiError(
+    0,
+    error instanceof Error ? error.message : "An unexpected error occurred",
+    {}
+  );
+}
+
+interface GetInnovatorsParams {
+  page?: number;
+  per_page?: number;
+  search?: string;
+}
+
+/**
+ * Get a paginated list of innovators with optional filters
+ */
+export async function getInnovators({
+  page = 1,
+  per_page = 10,
+  search
+}: GetInnovatorsParams = {}): Promise<InnovatorsResponse> {
+  try {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      per_page: per_page.toString(),
+      ...(search && { search })
+    });
+
+    const response = await axios.get<InnovatorsResponse>(
+      `${API_URL}/innovators?${params}`
+    );
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+}
+
+/**
+ * Get featured innovators
+ */
+export async function getFeaturedInnovators(
+  limit = 3
+): Promise<BaseInnovator[]> {
+  try {
+    const params = new URLSearchParams({ limit: limit.toString() });
+    const response = await axios.get<{ data: BaseInnovator[] }>(
+      `${API_URL}/innovators/featured?${params}`
+    );
+    return response.data.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+}
+
+/**
+ * Get a specific innovator by ID
+ */
+export async function getInnovator(id: number): Promise<Innovator> {
+  try {
+    const response = await axios.get<SingleInnovatorResponse>(
+      `${API_URL}/innovators/${id}`
+    );
+    return response.data.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+}
+
+/**
+ * Get an innovator by slug
+ */
+export async function getInnovatorBySlug(slug: string): Promise<Innovator> {
+  try {
+    const response = await axios.get<SingleInnovatorResponse>(
+      `${API_URL}/innovators/slug/${slug}`
+    );
+    return response.data.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+}
+
+/**
+ * Utility function to get storage URL for images
+ */
+export function getStorageUrl(path: string | null): string {
+  if (!path) return '/images/placeholder.jpg';
+  
+  // Remove /api from the URL if it exists and ensure no double slashes
+  const baseUrl = (API_URL || '').replace(/\/api\/?$/, '').replace(/\/$/, '');
+  return `${baseUrl}/storage/${path}`;
+}
+
+/**
+ * Get download URL for innovator logo
+ */
+export function getLogoDownloadUrl(id: number): string {
+  return `${API_URL}/innovators/${id}/download-logo`;
+}
+
+/**
+ * Get download URL for innovator image
+ */
+export function getImageDownloadUrl(id: number): string {
+  return `${API_URL}/innovators/${id}/download-image`;
+}
+
+/**
+ * Download a file (logo or image)
+ */
+export async function downloadFile(url: string, filename: string): Promise<void> {
+  try {
+    const response = await axios.get(url, {
+      responseType: "blob"
+    });
+
+    // Create blob URL and trigger download
+    const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.setAttribute("download", filename);
+    document.body.appendChild(link);
+    link.click();
+    
+    // Cleanup
+    link.remove();
+    window.URL.revokeObjectURL(downloadUrl);
+  } catch (error) {
+    handleApiError(error);
+  }
+}
+
+// Add response interceptor for consistent error handling
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    handleApiError(error);
+    return Promise.reject(error);
   }
 );
+
+// Export all functions as a default object
+export default {
+  getInnovators,
+  getFeaturedInnovators,
+  getInnovator,
+  getInnovatorBySlug,
+  getStorageUrl,
+  getLogoDownloadUrl,
+  getImageDownloadUrl,
+  downloadFile
+};

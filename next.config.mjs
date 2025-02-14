@@ -13,8 +13,48 @@ const nextConfig = {
         hostname: "cdn.sanity.io"
       },
       {
+        protocol: "http",
+        hostname: "167.86.76.177"
+      },
+      {
         protocol: "https",
         hostname: "images.unsplash.com"
+      },
+      {
+        protocol: "http",
+        hostname: "mci-admin.org",
+        port: "",
+        pathname: "/storage/**"
+      },
+      {
+        protocol: "https",
+        hostname: "mci-admin.org",
+        port: "",
+        pathname: "/api/storage/innovators/**"
+      },
+      {
+        protocol: 'http',
+        hostname: 'mci-admin.org',
+        port: '',
+        pathname: '/api/storage/**',
+      },
+      {
+        protocol: 'http',
+        hostname: '167.86.76.177',
+        port: '8080',
+        pathname: '/storage/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'mci-admin.org',
+        port: '',
+        pathname: '/api/storage/**',
+      },
+      {
+        protocol: "https",
+        hostname: "mci-admin.org",
+        port: "",
+        pathname: "/storage/**"
       }
     ],
     minimumCacheTTL: 60,

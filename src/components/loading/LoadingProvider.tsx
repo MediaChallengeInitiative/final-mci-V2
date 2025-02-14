@@ -1,17 +1,12 @@
+// src/components/loading/LoadingProvider.tsx
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
-import { LoadingSpinner } from "./LoadingSpinner";
+import React, { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import { LoadingContext } from "./LoadingContext";
+import { MediaLoadingSpinner } from "./MediaLoadingSpinner";
 
-interface LoadingContextType {
-  setLoading: (loading: boolean, text?: string) => void;
-}
-
-export const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
-
-export const LoadingProvider: React.FC<{ children: React.ReactNode }> = ({
-  children
-}) => {
+export function LoadingProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingText, setLoadingText] = useState<string | undefined>();
 
@@ -22,18 +17,12 @@ export const LoadingProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <LoadingContext.Provider value={{ setLoading }}>
-      {isLoading && (
-        <LoadingSpinner fullScreen overlay customText={loadingText} />
-      )}
+      <AnimatePresence mode="sync">
+        {isLoading && <MediaLoadingSpinner customText={loadingText} />}
+      </AnimatePresence>
       {children}
     </LoadingContext.Provider>
   );
-};
+}
+export { LoadingContext };
 
-export const useLoading = () => {
-  const context = useContext(LoadingContext);
-  if (context === undefined) {
-    throw new Error("useLoading must be used within a LoadingProvider");
-  }
-  return context;
-};

@@ -1,5 +1,6 @@
-import { LoadingSpinner } from "@/components/loading/LoadingSpinner";
+// src/app/loading.tsx
+import LoadingSpinner from "@/components/loading/LoadingSpinner";
 
-export default function RootLoading() {
-  return <LoadingSpinner fullScreen overlay />;
+export default function Loading() {
+  return <LoadingSpinner />;
 }

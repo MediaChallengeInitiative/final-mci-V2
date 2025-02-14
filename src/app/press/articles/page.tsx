@@ -1,6 +1,8 @@
+// app/press/articles/page.tsx
 import React from "react";
-import { getAllArticles, getTotalArticles } from "@/utils/get-all-articles";
+import { getArticles } from "@/lib/api/articles";
 import ArticlesPage from "@/components/articles/ArticlesPage";
+import { ArticlesResponse } from "@/types/article";
 
 export const runtime = "edge";
 export const preferredRegion = "auto";
@@ -15,24 +17,28 @@ interface PageProps {
 
 export default async function Page({ searchParams }: PageProps) {
   const page = Number(searchParams["page"] ?? "1");
-  const per_page = 6;
+  const category = searchParams["category"]?.toString();
+  const search = searchParams["search"]?.toString();
 
   try {
-    const [initialArticles, totalArticles] = await Promise.all([
-      getAllArticles((page - 1) * per_page, per_page),
-      getTotalArticles(),
-    ]);
+    const response: ArticlesResponse = await getArticles(
+      page,
+      category,
+      search
+    );
 
     return (
-      <ArticlesPage
-        initialArticles={initialArticles}
-        totalArticles={totalArticles}
-        page={page}
-        per_page={per_page}
-      />
+      <ArticlesPage initialArticles={response.data} meta={response.meta} />
     );
   } catch (error) {
     console.error("Error fetching articles:", error);
-    return <div>Failed to load articles. Please try again later.</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">Failed to load articles</h2>
+          <p className="text-gray-600">Please try again later.</p>
+        </div>
+      </div>
+    );
   }
 }

@@ -34,9 +34,7 @@ export default function Footer() {
                           />
                         </svg>
                       </div>
-                      <span
-                        className="leading-1.5 px-4 pl-[10px] lg:text-base text-sm"
-                      >
+                      <span className="leading-1.5 px-4 pl-[10px] lg:text-base text-sm">
                         4th Floor Tirupati Mazima Mall, Kabalagala,
                         Kampala-Uganda | +256-785-195228 | info@mciug.org
                       </span>
