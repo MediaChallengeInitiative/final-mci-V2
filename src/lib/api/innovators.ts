@@ -18,7 +18,7 @@ export class ApiError extends Error {
     public errors: Record<string, string[]>
   ) {
     super(message);
-    this.name = 'ApiError';
+    this.name = "ApiError";
   }
 }
 
@@ -121,10 +121,10 @@ export async function getInnovatorBySlug(slug: string): Promise<Innovator> {
  * Utility function to get storage URL for images
  */
 export function getStorageUrl(path: string | null): string {
-  if (!path) return '/images/placeholder.jpg';
-  
+  if (!path) return "/images/placeholder.jpg";
+
   // Remove /api from the URL if it exists and ensure no double slashes
-  const baseUrl = (API_URL || '').replace(/\/api\/?$/, '').replace(/\/$/, '');
+  const baseUrl = (API_URL || "").replace(/\/api\/?$/, "").replace(/\/$/, "");
   return `${baseUrl}/storage/${path}`;
 }
 
@@ -145,7 +145,10 @@ export function getImageDownloadUrl(id: number): string {
 /**
  * Download a file (logo or image)
  */
-export async function downloadFile(url: string, filename: string): Promise<void> {
+export async function downloadFile(
+  url: string,
+  filename: string
+): Promise<void> {
   try {
     const response = await axios.get(url, {
       responseType: "blob"
@@ -158,7 +161,7 @@ export async function downloadFile(url: string, filename: string): Promise<void>
     link.setAttribute("download", filename);
     document.body.appendChild(link);
     link.click();
-    
+
     // Cleanup
     link.remove();
     window.URL.revokeObjectURL(downloadUrl);
