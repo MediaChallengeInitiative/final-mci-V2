@@ -1,0 +1,10 @@
+// app/programs/next-generation-of-journalists/loading.tsx
+import { Loader2 } from "lucide-react";
+
+export default function Loading() {
+  return (
+    <div className="w-full h-screen flex items-center justify-center">
+      <Loader2 className="w-8 h-8 animate-spin text-sky-500" />
+    </div>
+  );
+}

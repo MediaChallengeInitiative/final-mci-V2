@@ -1,72 +1,166 @@
-"use client";
-import React, { useRef } from "react";
-import Image from "next/image";
-import { gsap } from "gsap";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import NextGenScrollSection from "@/components/next-gen-scroll-section";
+// app/programs/next-generation-of-journalists/page.tsx
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
+import { Metadata } from "next";
+import { LoadingScreen } from "@/components/ui/loading-screen";
 
-gsap.registerPlugin(useGSAP);
+const NextGenPage = dynamic(
+  () => import("@/components/pages/next-gen/NextGenPage"),
+  {
+    ssr: false,
+    loading: () => <LoadingScreen />
+  }
+);
+
+export const metadata: Metadata = {
+  title: "Next Generation of Journalists | Media Challenge Initiative",
+  description:
+    "Training and empowering the next generation of journalists in Uganda and East Africa.",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://mciug.org"
+  ),
+  openGraph: {
+    title: "Next Generation of Journalists | Media Challenge Initiative",
+    description:
+      "Training and empowering the next generation of journalists in Uganda and East Africa.",
+    images: ["/assets/images/hero/hero-3.jpg"],
+    type: "website"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Next Generation of Journalists | Media Challenge Initiative",
+    description:
+      "Training and empowering the next generation of journalists in Uganda and East Africa.",
+    images: ["/assets/images/hero/hero-3.jpg"]
+  }
+};
 
 export default function Page() {
-  const sectionRef = useRef(null);
-  const triggerRef = useRef(null);
-  gsap.registerPlugin(ScrollTrigger);
-
-  useGSAP(
-    () => {
-      const pin = gsap.fromTo(
-        sectionRef.current,
-        { translateX: 0 },
-        {
-          translateX: "-300vw",
-          ease: "none",
-          duration: 1,
-          scrollTrigger: {
-            trigger: triggerRef.current,
-            start: "top top",
-            end: "2000px top",
-            scrub: 0.6,
-            pin: true
-          }
-        }
-      );
-      return () => {
-        pin.kill();
-      };
-    },
-    { scope: sectionRef }
-  );
-
   return (
-    <>
-      <section className="w-full py-12 md:py-24 lg:py-24 lg:mt-0 mt-4">
-        <div
-          className="mx-auto w-full h-[68vh] relative flex items-center justify-center px-10 bg-center"
-          style={{ backgroundImage: "url(/assets/images/hero/hero-3.jpg)" }}
-        >
-          <h1 className="text-white text-4xl font-extrabold ml-6 text-center z-20 sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl">
-            Next Generation Of Journalists
-          </h1>
-
-          <div className="absolute inset-0 bg-black bg-opacity-70 z-10"></div>
-        </div>
-
-        <NextGenScrollSection />
-
-        <div className="w-full">
-          <Image
-            className="w-full"
-            src="/assets/images/nextgen/next-gen-cycle.jpg"
-            width={500}
-            height={500}
-            alt="stats image"
-          />
-        </div>
-      </section>
-    </>
+    <Suspense fallback={<LoadingScreen />}>
+      <NextGenPage />
+    </Suspense>
   );
 }
+
+// // app/programs/next-generation-of-journalists/page.tsx
+// import { Suspense } from "react";
+// import dynamic from "next/dynamic";
+// import { Metadata } from "next";
+// import { Loader2 } from "lucide-react";
+
+// // Dynamic import of the client components
+// const NextGenPage = dynamic(
+//   () => import("@/components/pages/next-gen/NextGenPage"),
+//   { ssr: false }
+// );
+
+// const LoadingSpinner = () => (
+//   <div className="w-full h-screen flex items-center justify-center">
+//     <Loader2 className="w-8 h-8 animate-spin text-sky-500" />
+//   </div>
+// );
+
+// export const metadata: Metadata = {
+//   title: "Next Generation of Journalists | Media Challenge Initiative",
+//   description:
+//     "Training and empowering the next generation of journalists in Uganda and East Africa.",
+//   metadataBase: new URL(
+//     process.env.NEXT_PUBLIC_SITE_URL || "https://mciug.org"
+//   ),
+//   openGraph: {
+//     title: "Next Generation of Journalists | Media Challenge Initiative",
+//     description:
+//       "Training and empowering the next generation of journalists in Uganda and East Africa.",
+//     images: ["/assets/images/hero/hero-3.jpg"],
+//     type: "website"
+//   },
+//   twitter: {
+//     card: "summary_large_image",
+//     title: "Next Generation of Journalists | Media Challenge Initiative",
+//     description:
+//       "Training and empowering the next generation of journalists in Uganda and East Africa.",
+//     images: ["/assets/images/hero/hero-3.jpg"]
+//   }
+// };
+
+// export default function Page() {
+//   return (
+//     <Suspense fallback={<LoadingSpinner />}>
+//       <NextGenPage />
+//     </Suspense>
+//   );
+// }
+
+// "use client";
+// import React, { useRef } from "react";
+// import Image from "next/image";
+// import { gsap } from "gsap";
+// import { useGSAP } from "@gsap/react";
+// import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+// import NextGenScrollSection from "@/components/next-gen-scroll-section";
+
+// gsap.registerPlugin(useGSAP);
+
+// export default function Page() {
+//   const sectionRef = useRef(null);
+//   const triggerRef = useRef(null);
+//   gsap.registerPlugin(ScrollTrigger);
+
+//   useGSAP(
+//     () => {
+//       const pin = gsap.fromTo(
+//         sectionRef.current,
+//         { translateX: 0 },
+//         {
+//           translateX: "-300vw",
+//           ease: "none",
+//           duration: 1,
+//           scrollTrigger: {
+//             trigger: triggerRef.current,
+//             start: "top top",
+//             end: "2000px top",
+//             scrub: 0.6,
+//             pin: true
+//           }
+//         }
+//       );
+//       return () => {
+//         pin.kill();
+//       };
+//     },
+//     { scope: sectionRef }
+//   );
+
+//   return (
+//     <>
+//       <section className="w-full py-12 md:py-24 lg:py-24 lg:mt-0 mt-4">
+//         <div
+//           className="mx-auto w-full h-[68vh] relative flex items-center justify-center px-10 bg-center"
+//           style={{ backgroundImage: "url(/assets/images/hero/hero-3.jpg)" }}
+//         >
+//           <h1 className="text-white text-4xl font-extrabold ml-6 text-center z-20 sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl">
+//             Next Generation Of Journalists
+//           </h1>
+
+//           <div className="absolute inset-0 bg-black bg-opacity-70 z-10"></div>
+//         </div>
+
+//         <NextGenScrollSection />
+
+//         <div className="w-full">
+//           <Image
+//             className="w-full"
+//             src="/assets/images/nextgen/next-gen-cycle.jpg"
+//             width={500}
+//             height={500}
+//             alt="stats image"
+//           />
+//         </div>
+//       </section>
+//     </>
+//   );
+// }
 
 // "use client";
 // import React, { useRef } from "react";

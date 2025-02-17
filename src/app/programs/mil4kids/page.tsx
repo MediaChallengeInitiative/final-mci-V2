@@ -18,175 +18,358 @@ import {
   CarouselNext,
   CarouselPrevious
 } from "@/components/ui/carousel";
+import { Suspense } from "react"; // Import Suspense for useSearchParams() if needed
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-white to-gray-50">
-      {/* Hero Section */}
-      <section className="relative h-[600px] flex items-center justify-center text-white">
-        <div className="absolute inset-0 bg-black/60 z-10" />
-        <Image
-          src="https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070"
-          alt="Children learning"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="relative z-20 text-center max-w-4xl mx-auto px-4">
-          <h1 className="text-5xl font-bold mb-6">
-            Media and Information Literacy for Children
-          </h1>
-          <p className="text-xl mb-8">
-            Supporting Children Understand, Produce and Consume Media
-            Responsibly
-          </p>
-          <Button size="lg" className="bg-[#0097d1] hover:bg-[#0097d1]/90">
-            Learn More
-          </Button>
-        </div>
-      </section>
+    <Suspense fallback={<div>Loading...</div>}>
+      <main className="min-h-screen bg-gradient-to-b from-white to-gray-50">
+        {/* Hero Section */}
+        <section className="relative h-[600px] flex items-center justify-center text-white">
+          <div className="absolute inset-0 bg-black/60 z-10" />
+          <Image
+            src="https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070"
+            alt="Children learning"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="relative z-20 text-center max-w-4xl mx-auto px-4">
+            <h1 className="text-5xl font-bold mb-6">
+              Media and Information Literacy for Children
+            </h1>
+            <p className="text-xl mb-8">
+              Supporting Children Understand, Produce and Consume Media
+              Responsibly
+            </p>
+            <Button size="lg" className="bg-[#0097d1] hover:bg-[#0097d1]/90">
+              Learn More
+            </Button>
+          </div>
+        </section>
 
-      {/* About Section */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            About MIL4KIDS
-          </h2>
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-lg leading-relaxed text-gray-700">
-                Media and information literacy (MIL) enables children to fully
-                use many types of media safely, wisely, and responsibly. Our
-                program strengthens children&apos;s knowledge, skills and attitude to
-                engage with media as young consumers and producers.
-              </p>
-              <div className="mt-8 space-y-4">
-                <div className="flex items-center gap-3">
-                  <Users className="h-6 w-6 text-[#0097d1]" />
-                  <span>Targeting children aged 9-12 years</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <GraduationCap className="h-6 w-6 text-[#0097d1]" />
-                  <span>Certified MIL4KIDS Trainers</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <School className="h-6 w-6 text-[#0097d1]" />
-                  <span>Implementation in 15+ schools</span>
+        {/* About Section */}
+        <section className="py-20 px-4 bg-white">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-12">
+              About MIL4KIDS
+            </h2>
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <p className="text-lg leading-relaxed text-gray-700">
+                  Media and information literacy (MIL) enables children to fully
+                  use many types of media safely, wisely, and responsibly. Our
+                  program strengthens children&apos;s knowledge, skills and
+                  attitude to engage with media as young consumers and
+                  producers.
+                </p>
+                <div className="mt-8 space-y-4">
+                  <div className="flex items-center gap-3">
+                    <Users className="h-6 w-6 text-[#0097d1]" />
+                    <span>Targeting children aged 9-12 years</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <GraduationCap className="h-6 w-6 text-[#0097d1]" />
+                    <span>Certified MIL4KIDS Trainers</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <School className="h-6 w-6 text-[#0097d1]" />
+                    <span>Implementation in 15+ schools</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="relative h-[400px]">
-              <Image
-                src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022"
-                alt="Children learning media literacy"
-                fill
-                className="object-cover rounded-lg"
-              />
+              <div className="relative h-[400px]">
+                <Image
+                  src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022"
+                  alt="Children learning media literacy"
+                  fill
+                  className="object-cover rounded-lg"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Programs Section */}
-      <section className="bg-gray-50 py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Our Programs</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="p-6">
-              <BookOpen className="h-12 w-12 text-[#0097d1] mb-4" />
-              <h3 className="text-xl font-semibold mb-3">
-                MIL4KIDS Curriculum
-              </h3>
-              <p className="text-gray-600">
-                Comprehensive curriculum designed specifically for children to
-                understand and navigate media responsibly.
-              </p>
-            </Card>
-            <Card className="p-6">
-              <Radio className="h-12 w-12 text-[#0097d1] mb-4" />
-              <h3 className="text-xl font-semibold mb-3">Media Production</h3>
-              <p className="text-gray-600">
-                Hands-on experience with radio and TV production at our
-                state-of-the-art MCI Media Hub.
-              </p>
-            </Card>
-            <Card className="p-6">
-              <Calendar className="h-12 w-12 text-[#0097d1] mb-4" />
-              <h3 className="text-xl font-semibold mb-3">Boot Camps</h3>
-              <p className="text-gray-600">
-                Intensive weekend training sessions for children and parents to
-                learn media literacy together.
-              </p>
-            </Card>
+        {/* Programs Section */}
+        <section className="bg-gray-50 py-20 px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-12">
+              Our Programs
+            </h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              <Card className="p-6">
+                <BookOpen className="h-12 w-12 text-[#0097d1] mb-4" />
+                <h3 className="text-xl font-semibold mb-3">
+                  MIL4KIDS Curriculum
+                </h3>
+                <p className="text-gray-600">
+                  Comprehensive curriculum designed specifically for children to
+                  understand and navigate media responsibly.
+                </p>
+              </Card>
+              <Card className="p-6">
+                <Radio className="h-12 w-12 text-[#0097d1] mb-4" />
+                <h3 className="text-xl font-semibold mb-3">Media Production</h3>
+                <p className="text-gray-600">
+                  Hands-on experience with radio and TV production at our
+                  state-of-the-art MCI Media Hub.
+                </p>
+              </Card>
+              <Card className="p-6">
+                <Calendar className="h-12 w-12 text-[#0097d1] mb-4" />
+                <h3 className="text-xl font-semibold mb-3">Boot Camps</h3>
+                <p className="text-gray-600">
+                  Intensive weekend training sessions for children and parents
+                  to learn media literacy together.
+                </p>
+              </Card>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Timeline Section */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Project Timeline
-          </h2>
-          <Carousel className="w-full max-w-4xl mx-auto">
-            <CarouselContent>
-              {[
-                {
-                  date: "September 2021",
-                  title: "Training of Trainers",
-                  description:
-                    "Conducted training for trainers and curriculum testing"
-                },
-                {
-                  date: "October 2021",
-                  title: "Curriculum Launch",
-                  description:
-                    "Launched MIL4KIDS Curriculum with 45+ stakeholders"
-                },
-                {
-                  date: "January - April 2022",
-                  title: "MIL Goes to Schools",
-                  description: "Implementation in various schools across Uganda"
-                },
-                {
-                  date: "May - August 2022",
-                  title: "MIL Goes Rural",
-                  description: "Expanding the program to rural areas"
-                }
-              ].map((item, index) => (
-                <CarouselItem key={index} className="md:basis-1/2">
-                  <Card className="p-6">
-                    <p className="text-[#0097d1] font-semibold mb-2">
-                      {item.date}
-                    </p>
-                    <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                    <p className="text-gray-600">{item.description}</p>
-                  </Card>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="bg-[#0097d1] text-white py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Join the MIL4KIDS Program</h2>
-          <p className="text-lg mb-8">
-            Help your children navigate the digital world safely and
-            responsibly.
-          </p>
-          <button className="px-6 py-3 text-lg font-semibold text-sky-500 bg-white rounded-xl shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white">
-            Contact Us
-          </button>
-        </div>
-      </section>
-    </main>
+        {/* Timeline Section */}
+        <section className="py-20 px-4 bg-white">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-12">
+              Project Timeline
+            </h2>
+            <Carousel className="w-full max-w-4xl mx-auto">
+              <CarouselContent>
+                {[
+                  {
+                    date: "September 2021",
+                    title: "Training of Trainers",
+                    description:
+                      "Conducted training for trainers and curriculum testing"
+                  },
+                  {
+                    date: "October 2021",
+                    title: "Curriculum Launch",
+                    description:
+                      "Launched MIL4KIDS Curriculum with 45+ stakeholders"
+                  },
+                  {
+                    date: "January - April 2022",
+                    title: "MIL Goes to Schools",
+                    description:
+                      "Implementation in various schools across Uganda"
+                  },
+                  {
+                    date: "May - August 2022",
+                    title: "MIL Goes Rural",
+                    description: "Expanding the program to rural areas"
+                  }
+                ].map((item, index) => (
+                  <CarouselItem key={index} className="md:basis-1/2">
+                    <Card className="p-6">
+                      <p className="text-[#0097d1] font-semibold mb-2">
+                        {item.date}
+                      </p>
+                      <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                      <p className="text-gray-600">{item.description}</p>
+                    </Card>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
+          </div>
+        </section>
+      </main>
+    </Suspense>
   );
 }
+
+// "use client";
+
+// import {
+//   Calendar,
+//   GraduationCap,
+//   Users,
+//   BookOpen,
+//   Radio,
+//   School
+// } from "lucide-react";
+// import Image from "next/image";
+// import { Button } from "@/components/ui/button";
+// import { Card } from "@/components/ui/card";
+// import {
+//   Carousel,
+//   CarouselContent,
+//   CarouselItem,
+//   CarouselNext,
+//   CarouselPrevious
+// } from "@/components/ui/carousel";
+
+// export default function Page() {
+//   return (
+//     <main className="min-h-screen bg-gradient-to-b from-white to-gray-50">
+//       {/* Hero Section */}
+//       <section className="relative h-[600px] flex items-center justify-center text-white">
+//         <div className="absolute inset-0 bg-black/60 z-10" />
+//         <Image
+//           src="https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070"
+//           alt="Children learning"
+//           fill
+//           className="object-cover"
+//           priority
+//         />
+//         <div className="relative z-20 text-center max-w-4xl mx-auto px-4">
+//           <h1 className="text-5xl font-bold mb-6">
+//             Media and Information Literacy for Children
+//           </h1>
+//           <p className="text-xl mb-8">
+//             Supporting Children Understand, Produce and Consume Media
+//             Responsibly
+//           </p>
+//           <Button size="lg" className="bg-[#0097d1] hover:bg-[#0097d1]/90">
+//             Learn More
+//           </Button>
+//         </div>
+//       </section>
+
+//       {/* About Section */}
+//       <section className="py-20 px-4 bg-white">
+//         <div className="max-w-6xl mx-auto">
+//           <h2 className="text-3xl font-bold text-center mb-12">
+//             About MIL4KIDS
+//           </h2>
+//           <div className="grid md:grid-cols-2 gap-12 items-center">
+//             <div>
+//               <p className="text-lg leading-relaxed text-gray-700">
+//                 Media and information literacy (MIL) enables children to fully
+//                 use many types of media safely, wisely, and responsibly. Our
+//                 program strengthens children&apos;s knowledge, skills and attitude to
+//                 engage with media as young consumers and producers.
+//               </p>
+//               <div className="mt-8 space-y-4">
+//                 <div className="flex items-center gap-3">
+//                   <Users className="h-6 w-6 text-[#0097d1]" />
+//                   <span>Targeting children aged 9-12 years</span>
+//                 </div>
+//                 <div className="flex items-center gap-3">
+//                   <GraduationCap className="h-6 w-6 text-[#0097d1]" />
+//                   <span>Certified MIL4KIDS Trainers</span>
+//                 </div>
+//                 <div className="flex items-center gap-3">
+//                   <School className="h-6 w-6 text-[#0097d1]" />
+//                   <span>Implementation in 15+ schools</span>
+//                 </div>
+//               </div>
+//             </div>
+//             <div className="relative h-[400px]">
+//               <Image
+//                 src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022"
+//                 alt="Children learning media literacy"
+//                 fill
+//                 className="object-cover rounded-lg"
+//               />
+//             </div>
+//           </div>
+//         </div>
+//       </section>
+
+//       {/* Programs Section */}
+//       <section className="bg-gray-50 py-20 px-4">
+//         <div className="max-w-6xl mx-auto">
+//           <h2 className="text-3xl font-bold text-center mb-12">Our Programs</h2>
+//           <div className="grid md:grid-cols-3 gap-8">
+//             <Card className="p-6">
+//               <BookOpen className="h-12 w-12 text-[#0097d1] mb-4" />
+//               <h3 className="text-xl font-semibold mb-3">
+//                 MIL4KIDS Curriculum
+//               </h3>
+//               <p className="text-gray-600">
+//                 Comprehensive curriculum designed specifically for children to
+//                 understand and navigate media responsibly.
+//               </p>
+//             </Card>
+//             <Card className="p-6">
+//               <Radio className="h-12 w-12 text-[#0097d1] mb-4" />
+//               <h3 className="text-xl font-semibold mb-3">Media Production</h3>
+//               <p className="text-gray-600">
+//                 Hands-on experience with radio and TV production at our
+//                 state-of-the-art MCI Media Hub.
+//               </p>
+//             </Card>
+//             <Card className="p-6">
+//               <Calendar className="h-12 w-12 text-[#0097d1] mb-4" />
+//               <h3 className="text-xl font-semibold mb-3">Boot Camps</h3>
+//               <p className="text-gray-600">
+//                 Intensive weekend training sessions for children and parents to
+//                 learn media literacy together.
+//               </p>
+//             </Card>
+//           </div>
+//         </div>
+//       </section>
+
+//       {/* Timeline Section */}
+//       <section className="py-20 px-4 bg-white">
+//         <div className="max-w-6xl mx-auto">
+//           <h2 className="text-3xl font-bold text-center mb-12">
+//             Project Timeline
+//           </h2>
+//           <Carousel className="w-full max-w-4xl mx-auto">
+//             <CarouselContent>
+//               {[
+//                 {
+//                   date: "September 2021",
+//                   title: "Training of Trainers",
+//                   description:
+//                     "Conducted training for trainers and curriculum testing"
+//                 },
+//                 {
+//                   date: "October 2021",
+//                   title: "Curriculum Launch",
+//                   description:
+//                     "Launched MIL4KIDS Curriculum with 45+ stakeholders"
+//                 },
+//                 {
+//                   date: "January - April 2022",
+//                   title: "MIL Goes to Schools",
+//                   description: "Implementation in various schools across Uganda"
+//                 },
+//                 {
+//                   date: "May - August 2022",
+//                   title: "MIL Goes Rural",
+//                   description: "Expanding the program to rural areas"
+//                 }
+//               ].map((item, index) => (
+//                 <CarouselItem key={index} className="md:basis-1/2">
+//                   <Card className="p-6">
+//                     <p className="text-[#0097d1] font-semibold mb-2">
+//                       {item.date}
+//                     </p>
+//                     <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+//                     <p className="text-gray-600">{item.description}</p>
+//                   </Card>
+//                 </CarouselItem>
+//               ))}
+//             </CarouselContent>
+//             <CarouselPrevious />
+//             <CarouselNext />
+//           </Carousel>
+//         </div>
+//       </section>
+
+//       {/* CTA Section */}
+//       <section className="bg-[#0097d1] text-white py-20 px-4">
+//         <div className="max-w-4xl mx-auto text-center">
+//           <h2 className="text-3xl font-bold mb-6">Join the MIL4KIDS Program</h2>
+//           <p className="text-lg mb-8">
+//             Help your children navigate the digital world safely and
+//             responsibly.
+//           </p>
+//           <button className="px-6 py-3 text-lg font-semibold text-sky-500 bg-white rounded-xl shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white">
+//             Contact Us
+//           </button>
+//         </div>
+//       </section>
+//     </main>
+//   );
+// }
 
 // import React from 'react';
 // import { ArrowRight, Calendar, Book, Users, Target, PlayCircle } from 'lucide-react';

@@ -204,7 +204,7 @@ export default function ContactPage() {
     first_name: "",
     last_name: "",
     email: "",
-    subject: "", // Add this
+    subject: "",
     message: ""
   });
 
